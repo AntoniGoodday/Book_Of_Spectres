@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using EnumScript;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 public class PlayerScript : MonoBehaviour
 {
     public static PlayerScript Instance;
@@ -54,12 +56,18 @@ public class PlayerScript : MonoBehaviour
     [SerializeField]
     Animator anim;
     public Animator emotionAnim;
+    public Animator canvasAnim;
+    GameObject firstButton;
     TurnBarScript turnBarScript;
+    
     EntityStatus status;
     private GameObject previousRaycastTile;
     private string tileTag = "Tile";
     private Ray ray;
     private RaycastHit hit;
+    
+    
+    
     // Start is called before the first frame update
     void Awake()
     {
@@ -69,11 +77,15 @@ public class PlayerScript : MonoBehaviour
         anim = GetComponent<Animator>();
         status = GetComponent<EntityStatus>();
         emotionAnim = GameObject.Find("PlayerEmotionSprite").GetComponent<Animator>();
+        canvasAnim = GameObject.Find("Canvas").GetComponent<Animator>();
+        firstButton = GameObject.Find("Slot1");
         turnBarScript = GameObject.Find("TurnBar").GetComponent<TurnBarScript>();
         Instance = this;
+      
     }
     private void Start()
     {
+        
         objectPooler = ObjectPooler.Instance;
         bfs = BattlefieldScript.Instance;
         //objectPooler.allPooledObjects.Add(gameObject);
@@ -219,9 +231,14 @@ public class PlayerScript : MonoBehaviour
             if (isPaused == false)
             {
                 objectPooler.PauseAll();
+                EventSystem.current.SetSelectedGameObject(firstButton);
+               
+                canvasAnim.Play("MenuSlideIn");
             }
             else
             {
+                canvasAnim.Play("MenuSlideOut");
+                EventSystem.current.SetSelectedGameObject(null);
                 objectPooler.UnPauseAll();
             }
         }

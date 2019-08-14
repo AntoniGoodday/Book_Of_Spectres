@@ -30,8 +30,9 @@ public class TurnBarScript : MonoBehaviour
         {
             currentTurnTime += Time.deltaTime*speedModifier;
         }
-        else
+        else if(currentTurnTime >= maxTurnTime)
         {
+            
             turnBar.color = new Color(1, 1, 0);
         }
 
