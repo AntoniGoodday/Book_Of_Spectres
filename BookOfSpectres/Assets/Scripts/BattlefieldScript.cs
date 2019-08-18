@@ -141,6 +141,7 @@ public class BattlefieldScript : MonoBehaviour
     }
     void SetTileAlignment(List<GameObject> _alignmentList, int _standardColoursID, TileAlignment _tileAlignment, int _tileID )
     {
+        battleTiles[_tileID].GetComponent<TileClass>().initialMaterialColour = standardColours[_standardColoursID];
         battleTiles[_tileID].GetComponent<TileClass>().SetColour(standardColours[_standardColoursID], true);
         battleTiles[_tileID].GetComponent<TileClass>().tAlign = _tileAlignment;
         battleTiles[_tileID].GetComponent<TileClass>().SetVariables();

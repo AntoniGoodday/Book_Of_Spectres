@@ -43,13 +43,12 @@ public class EntityStatus : MonoBehaviour
         {
             hitParticles.emission.SetBurst(0, customBurst);
             hitLocation.transform.localPosition = new Vector3(0, 0, zPos);
-            hitParticles.Play();
-
             foreach (int h in hitLayers)
             {
                 anim.Play("Hit", h, 0f);
             }
-            
+            hitParticles.Emit(_clampedDamage);
+
         }
         if(hp <= 0)
         {

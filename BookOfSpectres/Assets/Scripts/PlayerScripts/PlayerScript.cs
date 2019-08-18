@@ -104,101 +104,103 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isLerping == false)
+        if (isPaused == false)
         {
-            if (Input.GetButtonDown("MoveUp"))
+            if (isLerping == false)
             {
-                if ((int)currentTileClass.gridLocation.y + movementRange < bfs.yMax && TileCheck(0, movementRange))
+                if (Input.GetButtonDown("MoveUp"))
                 {
-                    isLerping = true;
-                    ZeroOutTheDelays();
-                    UpdateBattlefield(0, movementRange);
-                    UpdatePlayer();
+                    if ((int)currentTileClass.gridLocation.y + movementRange < bfs.yMax && TileCheck(0, movementRange))
+                    {
+                        isLerping = true;
+                        ZeroOutTheDelays();
+                        UpdateBattlefield(0, movementRange);
+                        UpdatePlayer();
+                    }
+
+                }
+                else if (Input.GetButtonDown("MoveDown"))
+                {
+                    if ((int)currentTileClass.gridLocation.y - movementRange >= 0 && TileCheck(0, -movementRange))
+                    {
+                        isLerping = true;
+                        ZeroOutTheDelays();
+                        UpdateBattlefield(0, -movementRange);
+                        UpdatePlayer();
+                    }
+
+                }
+                else if (Input.GetButtonDown("MoveLeft"))
+                {
+                    if ((int)currentTileClass.gridLocation.x - 1 >= 0 && TileCheck(-movementRange, 0))
+                    {
+                        isLerping = true;
+                        ZeroOutTheDelays();
+                        UpdateBattlefield(-movementRange, 0);
+                        UpdatePlayer();
+                    }
+
+                }
+                else if (Input.GetButtonDown("MoveRight"))
+                {
+                    if ((int)currentTileClass.gridLocation.x + 1 < bfs.xMax && TileCheck(movementRange, 0))
+                    {
+                        isLerping = true;
+                        ZeroOutTheDelays();
+                        UpdateBattlefield(movementRange, 0);
+                        UpdatePlayer();
+                    }
+
                 }
 
             }
-            else if (Input.GetButtonDown("MoveDown"))
+            ContinuousMovement();
+            if (Input.GetButton("Shoot"))
             {
-                if ((int)currentTileClass.gridLocation.y - movementRange >= 0 && TileCheck(0, -movementRange))
+                shotChargeAmount += Time.deltaTime;
+                if (shotChargeAmount < maxShotChargeTime && shotChargeAmount > 0.05f)
                 {
-                    isLerping = true;
-                    ZeroOutTheDelays();
-                    UpdateBattlefield(0, -movementRange);
-                    UpdatePlayer();
+                    if (chargeParticles[0].isPlaying == false)
+                    {
+                        chargeParticles[0].Play();
+                    }
+                }
+                else if (shotChargeAmount >= maxShotChargeTime && shotFullyCharged == false)
+                {
+
+                    chargeParticles[0].Stop();
+                    chargeParticles[1].Play();
+                    shotFullyCharged = true;
+
+                }
+            }
+            if (Input.GetButtonUp("Shoot"))
+            {
+                foreach (ParticleSystem ps in chargeParticles)
+                {
+                    if (ps.isPlaying == true)
+                    {
+                        ps.Stop();
+                        ps.Clear();
+                    }
+                }
+                anim.Play("Attack");
+                if (shotFullyCharged == false)
+                {
+
+                    standardShot.Shoot(spellOrigin[0].transform, gameObject);
+                    //objectPooler.SpawnFromPool("PlayerBullet", spellOrigin.transform.position, Quaternion.Euler(0, 0, 90), gameObject.transform);
+                }
+                else
+                {
+                    //objectPooler.SpawnFromPool("ChargedPlayerBullet", spellOrigin.transform.position, Quaternion.Euler(0, 0, 90), gameObject.transform);
+                    chargedShot.ShootCharged(spellOrigin[0].transform, gameObject);
+                    shotFullyCharged = false;
                 }
 
+                shotChargeAmount = 0;
             }
-            else if (Input.GetButtonDown("MoveLeft"))
-            {
-                if ((int)currentTileClass.gridLocation.x - 1 >= 0 && TileCheck(-movementRange, 0))
-                {
-                    isLerping = true;
-                    ZeroOutTheDelays();
-                    UpdateBattlefield(-movementRange, 0);
-                    UpdatePlayer();
-                }
-
-            }
-            else if (Input.GetButtonDown("MoveRight"))
-            {
-                if ((int)currentTileClass.gridLocation.x + 1 < bfs.xMax && TileCheck(movementRange, 0))
-                {
-                    isLerping = true;
-                    ZeroOutTheDelays();
-                    UpdateBattlefield(movementRange, 0);
-                    UpdatePlayer();
-                }
-
-            }
-            
         }
-        ContinuousMovement();
-        if(Input.GetButton("Shoot"))
-        {
-            shotChargeAmount += Time.deltaTime;
-            if (shotChargeAmount < maxShotChargeTime && shotChargeAmount > 0.05f)
-            {
-                if (chargeParticles[0].isPlaying == false)
-                {
-                    chargeParticles[0].Play();
-                }
-            }
-            else if (shotChargeAmount >= maxShotChargeTime && shotFullyCharged == false)
-            {
-
-                chargeParticles[0].Stop();
-                chargeParticles[1].Play();
-                shotFullyCharged = true;
-                
-            }
-        }
-        if(Input.GetButtonUp("Shoot"))
-        {
-            foreach (ParticleSystem ps in chargeParticles)
-            {
-                if (ps.isPlaying == true)
-                {
-                    ps.Stop();
-                    ps.Clear();
-                }
-            }
-            anim.Play("Attack");
-            if (shotFullyCharged == false)
-            {
-
-                 standardShot.Shoot(spellOrigin[0].transform, gameObject);
-                //objectPooler.SpawnFromPool("PlayerBullet", spellOrigin.transform.position, Quaternion.Euler(0, 0, 90), gameObject.transform);
-            }
-            else
-            {
-                //objectPooler.SpawnFromPool("ChargedPlayerBullet", spellOrigin.transform.position, Quaternion.Euler(0, 0, 90), gameObject.transform);
-                chargedShot.ShootCharged(spellOrigin[0].transform, gameObject);
-                shotFullyCharged = false;
-            }
-            
-            shotChargeAmount = 0;
-        }
-
         ray = new Ray(transform.position, transform.forward);
 
         if (Physics.Raycast(ray, out hit, 10f))
@@ -422,13 +424,14 @@ public class PlayerScript : MonoBehaviour
 
     public void UnPaused()
     {
-        anim.enabled = true;
-        emotionAnim.enabled = true;
         ParticleSystem _pSys = status.hitParticles;
         if (_pSys.isPaused)
         {
             _pSys.Play();
         }
+        anim.enabled = true;
+        emotionAnim.enabled = true;
+        
         isPaused = false;
         
     }

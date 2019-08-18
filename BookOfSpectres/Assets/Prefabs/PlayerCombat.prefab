@@ -194,13 +194,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86a5280fa1632a1479a2715bf5c83c05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 9999
+  maxHp: 2000
+  hp: 2000
   statusEffects: 
   hitParticles: {fileID: 4725569015059873165}
   directionFacing: 0
   hitLocation: {fileID: 2327599565321676967}
   hitLayers: 0000000001000000
   anim: {fileID: 0}
+  hpText: {fileID: 0}
 --- !u!114 &5349219370302115508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -233,6 +235,8 @@ MonoBehaviour:
   spellOrigin:
   - {fileID: 1657479583731144488}
   anim: {fileID: 0}
+  emotionAnim: {fileID: 0}
+  canvasAnim: {fileID: 0}
 --- !u!114 &7459156764672707989
 MonoBehaviour:
   m_ObjectHideFlags: 0

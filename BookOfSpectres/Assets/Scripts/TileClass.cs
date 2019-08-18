@@ -41,17 +41,23 @@ public class TileClass : MonoBehaviour
         {
             color = c
         };
-        tempMaterial.SetFloat("_Glossiness", 0);
-        rend.sharedMaterial = tempMaterial;
+
+        if (setup == true)
+        {
+            rend.material.SetColor("_BaseColor", tempMaterial.color);
+        }
+        else if(setup == false)
+        {
+            rend.material.SetColor("_BaseColor", tempMaterial.color);
+        }
+        //tempMaterial.SetFloat("_Glossiness", 0);
+        //rend.material.SetColor("_BaseColor",tempMaterial.color);
         if (GetComponentInChildren<SpriteRenderer>() == true)
         {
             sRend = GetComponentInChildren<SpriteRenderer>();
             sRend.sharedMaterial = tempMaterial;
         }
-        if(setup == true)
-        {
-            initialMaterialColour = tempMaterial.color;
-        }
+        
         /*var tempSpriteMaterial = new Material(sRend.sharedMaterial)
         {
             color = c

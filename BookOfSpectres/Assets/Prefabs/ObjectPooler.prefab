@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6049951110725802972}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5, y: 2, z: -0.004999995}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a94204431edd274d8a5766fd2face03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previousEnemyTypes: []
+  enemyTypes: []
   waveNumber: 0
   pools:
   - tag: PlayerBullet
@@ -54,6 +54,10 @@ MonoBehaviour:
     prefab: {fileID: 3420883151847970981, guid: d342920bd7b6f7e4781404308ac96ec4,
       type: 3}
     size: 3
+  - tag: EnemyBullet
+    prefab: {fileID: 3420883151847970981, guid: d7c716c273855f64987f1e167558125c,
+      type: 3}
+    size: 5
   allPooledObjects: []
   eWaves: []
   BGM: {fileID: 0}

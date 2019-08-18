@@ -13,8 +13,11 @@ public class ObjectPooler : MonoBehaviour
         public GameObject prefab;
         public int size;
     }
+
+
+
     [SerializeField]
-    List<GameObject> previousEnemyTypes = new List<GameObject>();
+    List<GameObject> enemyTypes = new List<GameObject>();
 
     public int waveNumber = 0;
 
@@ -24,6 +27,9 @@ public class ObjectPooler : MonoBehaviour
     public List<GameObject> allPooledObjects = new List<GameObject>();
 
     public List<EnemyWave> eWaves = new List<EnemyWave>();
+
+    
+
     public static ObjectPooler Instance;
 
     [SerializeField]
@@ -38,6 +44,7 @@ public class ObjectPooler : MonoBehaviour
 
         Instance = this;
 
+        
         LevelStart();
 
     }
@@ -50,10 +57,12 @@ public class ObjectPooler : MonoBehaviour
             return null;
         }
 
+        
         GameObject objectToSpawn = poolDictionary[tag].Dequeue();
         IpooledObject pooledObj = objectToSpawn.GetComponent<IpooledObject>();
         if (objectToSpawn.activeSelf == true)
         {
+            
             pooledObj.Deactivate();
             objectToSpawn.SetActive(false);
         }
@@ -79,33 +88,65 @@ public class ObjectPooler : MonoBehaviour
     {
         poolDictionary = new Dictionary<string, Queue<GameObject>>();
 
-        /*bool canBeAdded = false;
+        bool canBeAdded = false;
 
-        int waveSize = 0;
+        for (int i = 0; i < eWaves.Count; i++)
+        {
 
-        foreach (GameObject enemy in eWaves[waveNumber].enemies)
-        {
-            previousEnemyTypes.Add(enemy);
-        }
-        previousEnemyTypes = previousEnemyTypes.Distinct().ToList();
-        foreach (GameObject eType in previousEnemyTypes)
-        {
-            Pool p = new Pool();
-            foreach (GameObject enemy in eWaves[waveNumber].enemies)
+
+            foreach (GameObject enemy in eWaves[i].enemies)
             {
-                if (eType == enemy)
+                enemyTypes.Add(enemy);
+            }
+        }
+        enemyTypes = enemyTypes.Distinct().ToList();
+
+
+        foreach(GameObject eType in enemyTypes)
+        {
+            int _typeCount = 0;
+            Pool p = new Pool();
+            for (int i = 0; i < eWaves.Count; i++)
+            {
+                foreach (GameObject enemy in eWaves[i].enemies)
                 {
-                    waveSize++;
+                    if(enemy == eType)
+                    {
+                        _typeCount++;
+
+                    }
                 }
             }
-
             p.prefab = eType;
-            p.tag = eType.name + waveNumber;
-            p.size = waveSize;
-            Debug.Log(p.tag);
+            p.tag = eType.name;
+            p.size = _typeCount; 
             pools.Add(p);
         }
-        */
+
+
+            /*foreach (GameObject enemy in eWaves[i].enemies)
+            {
+                previousEnemyTypes.Add(enemy);
+            }
+            previousEnemyTypes = previousEnemyTypes.Distinct().ToList()
+            foreach (GameObject eType in previousEnemyTypes)
+            {
+                
+                foreach (GameObject enemy in eWaves[i].enemies)
+                {
+                    if (eType == enemy)
+                    {
+                        waveSize++;
+                    }
+                }
+
+                p.prefab = eType;
+                p.tag = eType.name + i;
+                p.size = waveSize;
+
+                pools.Add(p);
+            }*/
+
 
 
         foreach (Pool pool in pools)
@@ -122,30 +163,34 @@ public class ObjectPooler : MonoBehaviour
 
             poolDictionary.Add(pool.tag, objectPool);
         }
+
+        StartWave();
+
         //previousEnemyTypes.Clear();
     }
-    public void SpawnWave()
-    {
-        //BOSS MUSIC
-        if (eWaves[waveNumber].name == "BossWave")
-        {
 
-            //BGM.GetComponent<BGMHandler>().PlaySongWithIntro(2);
-           
+    public void StartWave()
+    {
+        foreach(GameObject enemy in eWaves[waveNumber].enemies)
+        {
+            SpawnFromPool(enemy.name, new Vector3(eWaves[waveNumber].enemyPosition[waveNumber].x, eWaves[waveNumber].enemyPosition[waveNumber].y,-1.4f), Quaternion.identity, transform);
         }
 
+    }
+
+    /*public void SpawnWave()
+    {
+        
         bool canBeAdded = false;
 
         int waveSize = 0;
 
         foreach (GameObject enemy in eWaves[waveNumber].enemies)
         {
-            previousEnemyTypes.Add(enemy);
-
-
+            enemyTypes.Add(enemy);
         }
-        previousEnemyTypes = previousEnemyTypes.Distinct().ToList();
-        foreach (GameObject eType in previousEnemyTypes)
+        enemyTypes = enemyTypes.Distinct().ToList();
+        foreach (GameObject eType in enemyTypes)
         {
             Pool p = new Pool();
             foreach (GameObject enemy in eWaves[waveNumber].enemies)
@@ -158,8 +203,7 @@ public class ObjectPooler : MonoBehaviour
 
             p.prefab = eType;
             p.tag = eType.name + waveNumber;
-            p.size = waveSize;
-            Debug.Log(p.tag);
+            p.size = waveSize;;
             pools.Add(p);
 
             Queue<GameObject> objectPool = new Queue<GameObject>();
@@ -167,15 +211,18 @@ public class ObjectPooler : MonoBehaviour
             for (int i = 0; i < p.size; i++)
             {
                 GameObject obj = Instantiate(p.prefab);
+                obj.name = p.tag;
                 allPooledObjects.Add(obj);
-                obj.SetActive(false);
+
+                obj.SetActive(true);
+
                 objectPool.Enqueue(obj);
             }
-            Debug.Log(p.tag);
+            
             poolDictionary.Add(p.tag, objectPool);
         }
-        previousEnemyTypes.Clear();
-    }
+        enemyTypes.Clear();
+    }*/
 
     public void PauseAll()
     {

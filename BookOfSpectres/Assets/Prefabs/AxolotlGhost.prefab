@@ -48,8 +48,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7130270b8326934cb68e14199b6fcd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 1000
-  hp: 1000
+  maxHp: 1200
+  hp: 1200
   statusEffects: 
   hitParticles: {fileID: 1696991337270959556}
   directionFacing: 1
@@ -71,12 +71,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentTile: {fileID: 0}
   previousTile: {fileID: 0}
-  projectile: {fileID: 3420883151847970981, guid: cbd8c1de0d80db344a30b04568090a7f,
+  projectile: {fileID: 3420883151847970981, guid: d7c716c273855f64987f1e167558125c,
     type: 3}
   shotLocation: {fileID: 1696991337393591262}
   movmentSpeed: 0.5
   bfs: {fileID: 0}
-  enemyTileColour: {r: 0.49056602, g: 0, b: 0.47281405, a: 0}
+  enemyTileColour: {r: 0.13641821, g: 0, b: 0.49019608, a: 0}
   alignedTiles: 0000000002000000
   anim: {fileID: 0}
   currentGridPosition: {x: 0, y: 0}
@@ -4879,7 +4879,7 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 10758, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 41f49b2c8d4a9fa4284e3bc8915086ac, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5091,7 +5091,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5499024622663017670}
   m_LocalRotation: {x: -0.5, y: 0, z: 0, w: 0.8660254}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -1.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5999903675613962148}
@@ -5137,7 +5137,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 60a611ca590b5a14792e7fea7b166d85, type: 3}
-  m_Color: {r: 0.94337404, g: 0.6650944, b: 1, a: 0.67058825}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.24313726}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
