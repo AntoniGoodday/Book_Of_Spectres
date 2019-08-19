@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using EnumScript;
 using TMPro;
+using Cinemachine.Editor;
+using Cinemachine;
 public class EntityStatus : MonoBehaviour
 {
     ObjectPooler objectPooler;
@@ -20,45 +22,61 @@ public class EntityStatus : MonoBehaviour
     [SerializeField]
     List<int> hitLayers;
     [SerializeField]
-
     public Animator anim;
-    ParticleSystem.Burst customBurst;
 
+    CinemachineImpulseSource impulseSource;
+
+    
      public virtual void Start()
     {
+        
         objectPooler = ObjectPooler.Instance;
         objectPooler.allPooledObjects.Add(gameObject);
         anim = GetComponent<Animator>();
-        
+        impulseSource = GetComponent<CinemachineImpulseSource>();
         UpdateUI();
     }
 
-    public void DealDamage(int damage, float zPos)
+    public void DealDamage(int damage, float zPos, float amplitudeModifier = 0.05f)
     {
         hp -= damage;
         UpdateUI();
         int _clampedDamage = Mathf.Clamp(damage/10, 1, 10);
-        customBurst = new ParticleSystem.Burst(0, _clampedDamage);
+        
         if (hitParticles != null)
         {
-            hitParticles.emission.SetBurst(0, customBurst);
+            
             hitLocation.transform.localPosition = new Vector3(0, 0, zPos);
             foreach (int h in hitLayers)
             {
                 anim.Play("Hit", h, 0f);
             }
+            impulseSource.m_ImpulseDefinition.m_AmplitudeGain = damage * amplitudeModifier;
+            impulseSource.GenerateImpulse();
             hitParticles.Emit(_clampedDamage);
 
         }
         if(hp <= 0)
         {
-            gameObject.SetActive(false);
+            anim.Play("Die");
+            //gameObject.SetActive(false);
+            
         }
     }
 
     public virtual void UpdateUI()
     {
 
+    }
+
+    public virtual void ProgressWave()
+    {
+        objectPooler.EnemyDefeated();
+        gameObject.SetActive(false);
+    }
+    public virtual void StartDying()
+    {
+        anim.SetBool("isDying", true);
     }
 
 }

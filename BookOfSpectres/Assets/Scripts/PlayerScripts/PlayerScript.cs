@@ -36,7 +36,7 @@ public class PlayerScript : MonoBehaviour
     float heightAboveGround = -1.25f;
 
     bool isLerping = false;
-    bool isPaused = false;
+    public bool isPaused = false;
     [SerializeField]
     float contMovementDelay = 0.5f;
     float tempMovementDelayUp = 0;
@@ -74,6 +74,7 @@ public class PlayerScript : MonoBehaviour
         //objectPooler = ObjectPooler.Instance;
         //bfs = GameObject.Find("BattlefieldMaster").GetComponent<BattlefieldScript>();
         //bfs.playerPosition = new Vector2(transform.position.x, transform.position.y);
+
         anim = GetComponent<Animator>();
         status = GetComponent<EntityStatus>();
         emotionAnim = GameObject.Find("PlayerEmotionSprite").GetComponent<Animator>();

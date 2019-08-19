@@ -52,6 +52,7 @@ MonoBehaviour:
   speed: 50
   defaultParent: {fileID: 0}
   damageDealt: 10
+  amplitudeModifier: 0.05
   expirationTime: 3
   bulletTrail: {fileID: 7887658855362848774, guid: 829d7da31e1c003498801215a8da4f35,
     type: 3}

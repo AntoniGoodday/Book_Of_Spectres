@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using EnumScript;
+using Cinemachine.Editor;
+using Cinemachine;
 public class ProjectileScript : MonoBehaviour, IpooledObject
 {
     public string owner;
@@ -15,6 +17,9 @@ public class ProjectileScript : MonoBehaviour, IpooledObject
     Transform defaultParent;
     [SerializeField]
     int damageDealt;
+    int initialDamageDealt;
+    [SerializeField]
+    float amplitudeModifier = 0.05f;
     [SerializeField]
     float expirationTime;
     [SerializeField]
@@ -23,6 +28,9 @@ public class ProjectileScript : MonoBehaviour, IpooledObject
     float trailTime;
     ParticleSystem pSystem;
     BoxCollider boxCollider;
+
+
+    
 
     private GameObject previousTile;
     private string tileTag = "Tile";
@@ -38,6 +46,8 @@ public class ProjectileScript : MonoBehaviour, IpooledObject
         tr = GetComponentInChildren<TrailRenderer>();
         rb = GetComponent<Rigidbody>();
         boxCollider = GetComponent<BoxCollider>();
+       
+        initialDamageDealt = damageDealt;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -49,7 +59,8 @@ public class ProjectileScript : MonoBehaviour, IpooledObject
             tr.gameObject.transform.parent = null;
             if (other.gameObject.GetComponent<EntityStatus>())
             {
-                other.gameObject.GetComponent<EntityStatus>().DealDamage(damageDealt, transform.position.z);
+                
+                other.gameObject.GetComponent<EntityStatus>().DealDamage(damageDealt, transform.position.z,amplitudeModifier);
             }
             if (previousTile != null)
             {

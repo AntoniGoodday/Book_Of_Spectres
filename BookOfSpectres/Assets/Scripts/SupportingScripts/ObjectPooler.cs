@@ -21,6 +21,9 @@ public class ObjectPooler : MonoBehaviour
 
     public int waveNumber = 0;
 
+    public int enemiesLeft;
+
+
     public List<Pool> pools;
     public Dictionary<string, Queue<GameObject>> poolDictionary;
 
@@ -171,9 +174,14 @@ public class ObjectPooler : MonoBehaviour
 
     public void StartWave()
     {
+
         foreach(GameObject enemy in eWaves[waveNumber].enemies)
         {
-            SpawnFromPool(enemy.name, new Vector3(eWaves[waveNumber].enemyPosition[waveNumber].x, eWaves[waveNumber].enemyPosition[waveNumber].y,-1.4f), Quaternion.identity, transform);
+            
+            GameObject _spawnedEnemy;
+            _spawnedEnemy = SpawnFromPool(enemy.name, new Vector3(eWaves[waveNumber].enemyPosition[enemiesLeft].x, eWaves[waveNumber].enemyPosition[enemiesLeft].y,-1.4f), Quaternion.identity, transform);
+
+            enemiesLeft++;
         }
 
     }
@@ -242,6 +250,20 @@ public class ObjectPooler : MonoBehaviour
             {
                 g.SendMessage("UnPaused", SendMessageOptions.RequireReceiver);
             }
+        }
+    }
+    public void EnemyDefeated()
+    {
+        StartCoroutine("WaitTillDie");
+    }
+    IEnumerator WaitTillDie()
+    {
+        yield return new WaitForSeconds(0);
+        enemiesLeft--;
+        if (enemiesLeft <= 0)
+        {
+            waveNumber++;
+            StartWave();
         }
     }
 }

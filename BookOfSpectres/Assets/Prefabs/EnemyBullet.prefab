@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 4808928623997918314}
   - component: {fileID: 216255683533230125}
   - component: {fileID: 6506405056830102018}
-  - component: {fileID: 8895033965789192552}
   m_Layer: 0
   m_Name: EnemyBullet
   m_TagString: Projectile
@@ -53,6 +52,7 @@ MonoBehaviour:
   speed: 10
   defaultParent: {fileID: 0}
   damageDealt: 40
+  amplitudeModifier: 0.05
   expirationTime: 10
   bulletTrail: {fileID: 4724596154532220645, guid: 903eb38e725a5ee40bc5fdf9ad60711d,
     type: 3}
@@ -86,47 +86,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.2, y: 0.2, z: 0.2}
   m_Center: {x: 0, y: -0.2, z: 0}
---- !u!114 &8895033965789192552
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3420883151847970981}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 180ecf9b41d478f468eb3e9083753217, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ImpulseDefinition:
-    m_ImpulseChannel: 1
-    m_RawSignal: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
-    m_AmplitudeGain: 1
-    m_FrequencyGain: 1
-    m_RepeatMode: 0
-    m_Randomize: 1
-    m_TimeEnvelope:
-      m_AttackShape:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      m_DecayShape:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      m_AttackTime: 0
-      m_SustainTime: 0.2
-      m_DecayTime: 0.7
-      m_ScaleWithImpact: 1
-      m_HoldForever: 0
-    m_ImpactRadius: 100
-    m_DirectionMode: 0
-    m_DissipationMode: 2
-    m_DissipationDistance: 1000
 --- !u!1001 &7991716917048848419
 PrefabInstance:
   m_ObjectHideFlags: 0

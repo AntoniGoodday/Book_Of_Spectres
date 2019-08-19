@@ -7,9 +7,11 @@ public class PlayerStatus : EntityStatus
     [SerializeField]
     TextMeshProUGUI hpText;
 
+    PlayerScript playerScript;
+
     public override void Start()
     {
-        
+        playerScript = PlayerScript.Instance;
         hpText = GameObject.Find("PlayerHp").GetComponent<TextMeshProUGUI>();
         base.Start();
     }
@@ -25,6 +27,11 @@ public class PlayerStatus : EntityStatus
         {
             hpText.color = Color.red;
         }
+    }
+    public override void ProgressWave()
+    {
+        //playerScript.Paused();
+        playerScript.isPaused = true;
     }
 
 }
