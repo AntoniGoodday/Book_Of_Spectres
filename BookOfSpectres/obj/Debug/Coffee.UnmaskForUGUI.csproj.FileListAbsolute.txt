@@ -541,8 +541,8 @@ D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityE
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.WindModule.xml
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.XRModule.xml
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEditor.VR.xml
-D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\obj\Debug\Coffee.UnmaskForUGUI.csprojAssemblyReference.cache
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\obj\Debug\Coffee.UnmaskForUGUI.csproj.CoreCompileInputs.cache
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\obj\Debug\Coffee.UnmaskForUGUI.csproj.CopyComplete
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\obj\Debug\Coffee.UnmaskForUGUI.dll
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\obj\Debug\Coffee.UnmaskForUGUI.pdb
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\obj\Debug\Coffee.UnmaskForUGUI.csprojAssemblyReference.cache
