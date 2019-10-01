@@ -4,6 +4,7 @@ using UnityEngine;
 using EnumScript;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.Events;
 public class PlayerScript : MonoBehaviour
 {
     public static PlayerScript Instance;
@@ -55,21 +56,24 @@ public class PlayerScript : MonoBehaviour
     List<GameObject> spellOrigin;
     [SerializeField]
     Animator anim;
+    public UnityEvent OnSpellUsed;
+
     public Animator emotionAnim;
     public Animator canvasAnim;
     public Canvas playerCanvas;
     GameObject firstButton;
     TurnBarScript turnBarScript;
     SpriteRenderer playerSprite;
-    
+    CardHolder cardHolder;
+
     EntityStatus status;
     private GameObject previousRaycastTile;
     private string tileTag = "Tile";
     private Ray ray;
     private RaycastHit hit;
-    
-    
-    
+
+
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -83,13 +87,14 @@ public class PlayerScript : MonoBehaviour
         canvasAnim = GameObject.Find("Canvas").GetComponent<Animator>();
         firstButton = GameObject.Find("Slot1");
         turnBarScript = GameObject.Find("TurnBar").GetComponent<TurnBarScript>();
+        cardHolder = GameObject.Find("PlayerCanvas").GetComponent<CardHolder>();
         playerSprite = GetComponentInChildren<SpriteRenderer>();
         Instance = this;
-      
+
     }
     private void Start()
     {
-        
+
         objectPooler = ObjectPooler.Instance;
         bfs = BattlefieldScript.Instance;
         //objectPooler.allPooledObjects.Add(gameObject);
@@ -97,7 +102,7 @@ public class PlayerScript : MonoBehaviour
         currentTileClass = currentTile.GetComponent<TileClass>();
 
         currentTileClass.SetColour(playerTileColour);
-        transform.position = new Vector3 (currentTile.transform.position.x, currentTile.transform.position.y, heightAboveGround);
+        transform.position = new Vector3(currentTile.transform.position.x, currentTile.transform.position.y, heightAboveGround);
         bfs.playerPosition = new Vector2((int)currentTileClass.gridLocation.x, (int)currentTileClass.gridLocation.y);
         previousTile = currentTile;
 
@@ -204,6 +209,15 @@ public class PlayerScript : MonoBehaviour
 
                 shotChargeAmount = 0;
             }
+
+            if (Input.GetButtonDown("Use"))
+            {
+                if (cardHolder.spellMiniatures.Count > 0)
+                {
+                    OnSpellUsed.Invoke();
+                }
+            }
+
         }
         ray = new Ray(transform.position, transform.forward);
 
@@ -232,19 +246,39 @@ public class PlayerScript : MonoBehaviour
             }
         }
 
-        if(Input.GetButtonUp("StartTurn") && turnBarScript.currentTurnTime >= turnBarScript.maxTurnTime)
+        if (Input.GetButtonUp("StartTurn") && turnBarScript.currentTurnTime >= turnBarScript.maxTurnTime)
         {
             if (isPaused == false)
             {
                 //objectPooler.PauseAll();
-                EventSystem.current.SetSelectedGameObject(firstButton);
-               
+                
+
+                CombatMenu _tempCombatMenu = canvasAnim.gameObject.GetComponent<CombatMenu>();
+
+                List<SpellCard> _tempSpellList = new List<SpellCard>();
+
+                foreach (SpellCard s in _tempCombatMenu.playerCombatInUse)
+                {
+                    _tempSpellList.Add(s);
+                }
+
+                foreach (SpellCard s in _tempSpellList)
+                {
+                    _tempCombatMenu.MoveCardToDestination(s, CardDestination.Combat, CardDestination.Graveyard);
+                }
+
+                cardHolder.Purge();
+
                 canvasAnim.Play("MenuSlideIn");
+
+                //EventSystem.current.SetSelectedGameObject(null);
+                //EventSystem.current.SetSelectedGameObject(firstButton);
             }
             else
             {
-                canvasAnim.Play("MenuSlideOut");
-                EventSystem.current.SetSelectedGameObject(null);
+                //canvasAnim.Play("MenuSlideOut");
+
+                //EventSystem.current.SetSelectedGameObject(null);
                 //objectPooler.UnPauseAll();
             }
         }
@@ -264,7 +298,7 @@ public class PlayerScript : MonoBehaviour
                         ZeroOutTheDelays();
                         UpdateBattlefield(0, movementRange);
                         UpdatePlayer();
-                        
+
                     }
                 }
 
@@ -313,11 +347,11 @@ public class PlayerScript : MonoBehaviour
             }
 
         }
-        if(Input.GetButtonUp("MoveUp"))
+        if (Input.GetButtonUp("MoveUp"))
         {
             tempMovementDelayUp = 0;
         }
-        if(Input.GetButtonUp("MoveDown"))
+        if (Input.GetButtonUp("MoveDown"))
         {
             tempMovementDelayDown = 0;
         }
@@ -341,16 +375,16 @@ public class PlayerScript : MonoBehaviour
 
     public void UpdateBattlefield(int x = 0, int y = 0)
     {
-        
+
         //currentTileClass.SetColour(currentTileClass.initialMaterialColour);
         previousTile = currentTile;
-        SetTileInfo(x,y);
+        SetTileInfo(x, y);
         bfs.playerPosition = new Vector2((int)currentTileClass.gridLocation.x, (int)currentTileClass.gridLocation.y);
     }
 
     public void UpdatePlayer()
     {
-        
+
         //Teleport player to new position
         //transform.position = new Vector3(currentTile.transform.position.x, currentTile.transform.position.y, -1.4f);
         StartCoroutine(LerpPlayer(movementSpeed));
@@ -368,14 +402,14 @@ public class PlayerScript : MonoBehaviour
         foreach (TileAlignment aligned in alignedTiles)
         {
             if (bfs.battleTilesGrid[(int)currentTileClass.gridLocation.x + movementRangeX, (int)currentTileClass.gridLocation.y + movementRangeY].GetComponent<TileClass>().tAlign == aligned)
-            { 
-               //if (battleTiles[currentTile + movementRange].GetComponent<TileClass>().occupied == false)
-               //{
+            {
+                //if (battleTiles[currentTile + movementRange].GetComponent<TileClass>().occupied == false)
+                //{
 
-               return true;
-               //}
+                return true;
+                //}
             }
-            
+
         }
         return false;
     }
@@ -398,7 +432,7 @@ public class PlayerScript : MonoBehaviour
             if (isPaused == false)
             {
                 transform.position = Vector3.Lerp(pT, cT, (_elapsedTime / time));
-                _elapsedTime += Time.deltaTime;   
+                _elapsedTime += Time.deltaTime;
             }
             yield return new WaitForEndOfFrame();
         }
@@ -406,7 +440,7 @@ public class PlayerScript : MonoBehaviour
         playerSprite.sortingOrder = -(int)currentTileClass.gridLocation.y;
         //For continuous movement, resetting the delay
         isLerping = false;
-        
+
 
         yield return new WaitForSeconds(0);
     }
@@ -418,12 +452,12 @@ public class PlayerScript : MonoBehaviour
         anim.enabled = false;
         emotionAnim.enabled = false;
         ParticleSystem _pSys = status.hitParticles;
-        if(_pSys.isPlaying)
+        if (_pSys.isPlaying)
         {
             _pSys.Pause();
         }
         isPaused = true;
-        
+
     }
 
     public void UnPaused()
@@ -435,9 +469,9 @@ public class PlayerScript : MonoBehaviour
         }
         anim.enabled = true;
         emotionAnim.enabled = true;
-        
+
         isPaused = false;
-        
+
     }
     #endregion
 

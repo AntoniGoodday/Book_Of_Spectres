@@ -111,8 +111,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: Spell Name
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -217,6 +215,7 @@ GameObject:
   - component: {fileID: 8461580891377616442}
   - component: {fileID: 6267431969721015305}
   - component: {fileID: 1691179509178570175}
+  - component: {fileID: 4220338374060421535}
   m_Layer: 5
   m_Name: CombatMiniature
   m_TagString: Untagged
@@ -327,3 +326,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &4220338374060421535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4448421516366509479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69b549e100f63ef48b65c14ce374a3a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spellLogic: {fileID: 0}
+  power: 0
+  statusEffects: 

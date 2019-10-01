@@ -21,5 +21,7 @@ namespace EnumScript
     public enum SpellColour { Colourless, Cyan, Magenta, Yellow, Silver, Bronze}
 
     public enum SpellTags { Projectile, Melee, DoubleEdged}
+
+    public enum CardDestination { Deck, Hand, Combat, Graveyard, Exile}
 }
 

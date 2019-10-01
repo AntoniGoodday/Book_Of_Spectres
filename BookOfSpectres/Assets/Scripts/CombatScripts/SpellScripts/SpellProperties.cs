@@ -9,4 +9,5 @@ public class SpellProperties
     public int intValue;
     public SpellElement spellElement;
     public Sprite sprite;
+    
 }

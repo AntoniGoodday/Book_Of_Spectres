@@ -17,12 +17,14 @@ public class SpellAdvance : MonoBehaviour
 
     public Animator canvasAnim;
     public Animator advanceAnim;
+    CardHolder cardHolder;
     int currentSpell = 0;
 
     
     private void Start()
     {
         objectPooler = ObjectPooler.Instance;
+        cardHolder = GameObject.Find("PlayerCanvas").GetComponent<CardHolder>();
         canvasAnim = GameObject.Find("Canvas").GetComponent<Animator>();
         if (advanceAnim == null)
         {
@@ -79,12 +81,15 @@ public class SpellAdvance : MonoBehaviour
             spellNames[j].text = _separatedNames[j];
         }
 
+        beforeMerge = "";
+        afterMerge = "";
+
         StartCoroutine("StartRound");
     }
 
     IEnumerator ExpandList()
     {
-
+         
         
         foreach(int num in whichFlashing)
         {
@@ -125,7 +130,10 @@ public class SpellAdvance : MonoBehaviour
             text.gameObject.SetActive(false);
         }
 
+        cardHolder.SetSpellName();
+
         canvasAnim.Play("SpellAdvanceEnd");
+        
         //objectPooler.UnPauseAll();
     }
 
