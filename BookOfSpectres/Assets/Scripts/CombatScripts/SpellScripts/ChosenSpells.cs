@@ -189,6 +189,7 @@ public class ChosenSpells : MonoBehaviour
         }
         else
         {
+            TurnBarScript.Instance.UnPause();
             cardHolder.SetSpellName();
             objectPooler.UnPauseAll();
         }

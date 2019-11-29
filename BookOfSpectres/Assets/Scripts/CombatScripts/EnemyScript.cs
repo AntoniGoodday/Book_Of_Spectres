@@ -64,7 +64,9 @@ public class EnemyScript : MonoBehaviour
 
         currentGridPosition = new Vector2(currentTileClass.gridLocation.x, currentTileClass.gridLocation.y);
 
-        enemySprite.sortingOrder = -(int)currentTileClass.gridLocation.y;
+        enemySprite.sortingOrder = -(int)currentTileClass.gridLocation.y + 5;
+        
+        
     }
 
     // Update is called once per frame
@@ -137,7 +139,7 @@ public class EnemyScript : MonoBehaviour
         }
         //For continuous movement, resetting the delay
         anim.SetBool("isMoving", false);
-        enemySprite.sortingOrder = -(int)currentTileClass.gridLocation.y;
+        enemySprite.sortingOrder = -(int)currentTileClass.gridLocation.y + 5;
 
         yield return new WaitForSeconds(0);
     }

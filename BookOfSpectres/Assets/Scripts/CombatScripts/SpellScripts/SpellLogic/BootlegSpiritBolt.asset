@@ -13,13 +13,14 @@ MonoBehaviour:
   m_Name: BootlegSpiritBolt
   m_EditorClassIdentifier: 
   spellLogic: {fileID: 11400000, guid: 738e8cbf301624b4b87a2585d4d4a3bc, type: 2}
-  spellType: {fileID: 11400000, guid: 6fc20cbdf2d1c98439d51841fcb4a69e, type: 2}
+  spellType: {fileID: 11400000, guid: b74681b7b04644f4c8be99c6b2763e16, type: 2}
+  exileOnUse: 0
   properties:
   - stringValue: Bootleg Spirit Bolt
     intValue: 0
     spellElement: {fileID: 11400000, guid: 7cd46e79ac7317c4b83987fe868ed55b, type: 2}
     sprite: {fileID: 0}
-  - stringValue: 7 grand bolt lol
+  - stringValue: Fake spirit bolt, weaker than its counterpart.
     intValue: 0
     spellElement: {fileID: 11400000, guid: 70a6e16dfb918d24881337f4623a1bf7, type: 2}
     sprite: {fileID: 0}

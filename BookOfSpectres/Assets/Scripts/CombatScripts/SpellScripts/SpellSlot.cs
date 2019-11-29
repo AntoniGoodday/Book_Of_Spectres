@@ -13,6 +13,8 @@ public class SpellSlot : MonoBehaviour, ISelectHandler
     GameObject miniature;
     [SerializeField]
     ChosenSpells chosenSpells;
+    [SerializeField]
+    ManaManager manaManager;
 
     Button slotButton;
 
@@ -22,6 +24,7 @@ public class SpellSlot : MonoBehaviour, ISelectHandler
     {
         slotButton = GetComponent<Button>();
         chosenSpells = GameObject.Find("ChosenSpells").GetComponent<ChosenSpells>();
+        manaManager = GameObject.Find("ManaManager").GetComponent<ManaManager>();
     }
 
     public void OnSelect(BaseEventData eventData)
@@ -33,10 +36,15 @@ public class SpellSlot : MonoBehaviour, ISelectHandler
     {
         if (isClicked == false)
         {
-            StartCoroutine("LerpMovement", _movementGoal);
+            if (manaManager.CheckMana(currentCard.spellLogic.mana))
+            {
+                manaManager.UseMana(currentCard.spellLogic.mana);
+                StartCoroutine("LerpMovement", _movementGoal);
+            }
         }
         else
         {
+            manaManager.UseMana(-currentCard.spellLogic.mana);
             StartCoroutine("LerpMovementBack");
         }
     }

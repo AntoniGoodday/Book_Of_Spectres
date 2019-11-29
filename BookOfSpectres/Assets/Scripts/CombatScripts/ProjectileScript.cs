@@ -18,7 +18,7 @@ public class ProjectileScript : MonoBehaviour, IpooledObject
     [SerializeField]
     Transform defaultParent;
     [SerializeField]
-    int damageDealt;
+    public int damageDealt;
     int initialDamageDealt;
     [SerializeField]
     float amplitudeModifier = 0.05f;
@@ -30,8 +30,8 @@ public class ProjectileScript : MonoBehaviour, IpooledObject
     float trailTime;
     ParticleSystem pSystem;
     BoxCollider boxCollider;
-
-
+    float pauseTime;
+    float resumeTime;
     
 
     private GameObject previousTile;
@@ -211,6 +211,7 @@ public class ProjectileScript : MonoBehaviour, IpooledObject
 
             
             tr.time = Mathf.Infinity;
+            pauseTime = Time.time;
             //tr.emitting = false;
             //rb.isKinematic = true;
             
@@ -224,7 +225,9 @@ public class ProjectileScript : MonoBehaviour, IpooledObject
     {
         if (gameObject.activeSelf == true)
         {
-            tr.time = trailTime;
+            resumeTime = Time.time;
+            tr.time = (resumeTime - pauseTime) + trailTime;
+            Invoke("SetTrailTime", trailTime);
             rb.velocity = new Vector3(speed, 0, 0);
             isPaused = false;
             
@@ -237,5 +240,10 @@ public class ProjectileScript : MonoBehaviour, IpooledObject
             }
             
         }
+    }
+
+    void SetTrailTime()
+    {
+        tr.time = trailTime;
     }
 }

@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 980c17387de0c5049bd8daacb5983bf0, type: 3}
+  m_Name: SpiritBoltLogic3
+  m_EditorClassIdentifier: 
+  mana: 3
+  power: 160
+  projectile: {fileID: 3420883151847970981, guid: 6cb1ec0ab14a4d2409f20afa3ec36858,
+    type: 3}

@@ -34,8 +34,10 @@ public class PlayerStatus : EntityStatus
         base.Die();
         vCamAnim.Play("PlayerDie");
         canvasAnim.Play("FadeOut", 2);
+        playerScript.playerSprite.sortingOrder = 10;
         vCamAnim.gameObject.transform.GetComponentInChildren<Renderer>().sortingOrder = 9;
         zoomInCam.SetActive(true);
+        StartCoroutine("RestartGame");
     }
 
     public override void UpdateUI()
@@ -60,6 +62,13 @@ public class PlayerStatus : EntityStatus
     {
         //playerScript.Paused();
         playerScript.isPaused = true;
+    }
+
+    ////DELETE LATER
+    IEnumerator RestartGame()
+    {
+        yield return new WaitForSeconds(10);
+        Application.LoadLevel(0);
     }
 
 }

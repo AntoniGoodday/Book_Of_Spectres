@@ -52,18 +52,31 @@ public class ObjectPooler : MonoBehaviour
         LevelStart();
 
     }
-    public GameObject SpawnFromPool(string tag, Vector3 position, Quaternion rotation, Transform parent)
+    public GameObject SpawnFromPool(string tag, Vector3 position, Quaternion rotation, Transform parent, GameObject _prefab = null)
 
     {
         if (!poolDictionary.ContainsKey(tag))
         {
-            Debug.LogWarning("Pool with tag " + tag + " doesn't exist.");
-            return null;
+
+            Pool _tempPool = new Pool();
+            _tempPool.tag = tag;
+            _tempPool.prefab = _prefab;
+            _tempPool.size = 1;
+            pools.Add(_tempPool);
+            GameObject _tempObj = Instantiate(_tempPool.prefab);
+            allPooledObjects.Add(_tempObj);
+            Queue<GameObject> _objQueue = new Queue<GameObject>();
+            _objQueue.Enqueue(_tempObj);
+            poolDictionary.Add(tag, _objQueue);
+            _tempObj.SetActive(false);
+            //return null;
         }
 
 
         //GameObject objectToSpawn = poolDictionary[tag].Dequeue();
         GameObject peekObjectToSpawn = poolDictionary[tag].Peek();
+
+
         GameObject objectToSpawn = null;
 
         IpooledObject pooledObj = null;
@@ -288,7 +301,14 @@ public class ObjectPooler : MonoBehaviour
         if (enemiesLeft <= 0)
         {
             waveNumber++;
-            StartWave();
+            if (waveNumber < eWaves.Count)
+            {
+                StartWave();
+            }
+            else
+            {
+                Application.LoadLevel(0);
+            }
         }
     }
 }
