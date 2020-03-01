@@ -1059,7 +1059,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spell: {fileID: 11400000, guid: 039f182c4236ec54d9f2b99ef29761e9, type: 2}
   properties:
-  - textUI: {fileID: 1102930907646410751}
+  - textUI: {fileID: 1102930908287597351}
     text: {fileID: 0}
     img: {fileID: 0}
     spr: {fileID: 0}
@@ -1217,8 +1217,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294924288
-  m_fontColor: {r: 0, g: 0.3482437, b: 1, a: 1}
+    rgba: 4290623879
+  m_fontColor: {r: 0.5294118, g: 0.7254902, b: 0.7411765, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

@@ -7,6 +7,13 @@ using UnityEngine.EventSystems;
 
 public class PlayerScript : MonoBehaviour
 {
+    #region delegates
+    public delegate void ShootDelegate();
+    public event ShootDelegate shootEvent;
+    public delegate void ChargedShootDelegate();
+    public event ShootDelegate chargedShootEvent;
+    #endregion
+
     public static PlayerScript Instance;
     ObjectPooler objectPooler;
     [SerializeField]
@@ -264,6 +271,9 @@ public class PlayerScript : MonoBehaviour
                     {
 
                         standardShot.Shoot(spellOrigin[0].transform, gameObject);
+
+                        
+
                         //objectPooler.SpawnFromPool("PlayerBullet", spellOrigin.transform.position, Quaternion.Euler(0, 0, 90), gameObject.transform);
                     }
                     else
@@ -271,9 +281,14 @@ public class PlayerScript : MonoBehaviour
                         //objectPooler.SpawnFromPool("ChargedPlayerBullet", spellOrigin.transform.position, Quaternion.Euler(0, 0, 90), gameObject.transform);
                         chargedShot.ShootCharged(spellOrigin[0].transform, gameObject);
                         shotFullyCharged = false;
+
+                        chargedShootEvent?.Invoke();
                     }
+                    shootEvent?.Invoke();
 
                     shotChargeAmount = 0;
+                    
+
                 }
 
                 if (Input.GetButtonDown("Use"))

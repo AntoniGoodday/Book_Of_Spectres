@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: SpiritBoltLogic
   m_EditorClassIdentifier: 
   mana: 1
-  power: 40
+  power: 28000000
+  showPower: 1
   projectile: {fileID: 3420883151847970981, guid: 6cb1ec0ab14a4d2409f20afa3ec36858,
     type: 3}

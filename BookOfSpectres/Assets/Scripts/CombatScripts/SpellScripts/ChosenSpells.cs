@@ -206,8 +206,12 @@ public class ChosenSpells : MonoBehaviour
 
         CombatMiniatureProperties _miniatureProperties = _spawnedMiniature.GetComponent<CombatMiniatureProperties>();
 
+        _spawnedMiniature.GetComponent<SpriteRenderer>().sprite = null;
+
+        //Load combat spell visuals and logic
         if (_loadAdvancedSpell == false)
         {
+            
             _spawnedMiniatureSpell.spell = _spellCard;
             _spawnedMiniatureSpell.LoadSpell(_spellCard);
 

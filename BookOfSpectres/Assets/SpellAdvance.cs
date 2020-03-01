@@ -33,6 +33,8 @@ public class SpellAdvance : MonoBehaviour
     }
     public void InitialSetup(SpellCard s)
     {
+        beforeMerge = "";
+        afterMerge = "";
         spellRecipes.Add(s);
         
     }

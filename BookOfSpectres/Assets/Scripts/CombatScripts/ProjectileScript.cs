@@ -129,7 +129,7 @@ public class ProjectileScript : MonoBehaviour, IpooledObject
                     previousTile = hit.transform.gameObject;
                     previousTileClass = previousTile.GetComponent<TileClass>();
                     previousTileClass.SetColour(Color.yellow);
-                    tr.sortingOrder = -(int)previousTileClass.gridLocation.y;
+                    tr.sortingOrder = -(int)previousTileClass.gridLocation.y + 5;
                     
                 }
                 else if(previousTile != _hitTile)
@@ -139,7 +139,7 @@ public class ProjectileScript : MonoBehaviour, IpooledObject
                     previousTile = _hitTile;
                     previousTileClass = previousTile.GetComponent<TileClass>();
                     previousTileClass.SetColour(Color.yellow);
-                    tr.sortingOrder = -(int)previousTileClass.gridLocation.y;
+                    tr.sortingOrder = -(int)previousTileClass.gridLocation.y + 5;
                 }
 
             }

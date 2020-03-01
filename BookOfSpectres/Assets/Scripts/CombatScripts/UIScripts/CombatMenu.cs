@@ -16,9 +16,11 @@ public class CombatMenu : MonoBehaviour
 
     public List<SpellCard> playerCombatHand = new List<SpellCard>();
 
-    public List<SpellCard> playerCombatInUse = new List<SpellCard>();
+    public List<SpellCard> playerCombatInUse = new List<SpellCard>(); 
 
     public List<SpellCard> playerCombatGraveyard = new List<SpellCard>();
+
+    public bool recycleGraveyard = false;
 
     public List<SpellCard> playerCombatExile = new List<SpellCard>();
 
@@ -30,6 +32,8 @@ public class CombatMenu : MonoBehaviour
     public ChosenSpells chosenSpells;
 
     GameObject firstButton;
+
+    
 
     [SerializeField]
     ManaManager manaManager;
@@ -60,6 +64,10 @@ public class CombatMenu : MonoBehaviour
 
     public void MenuPause()
     {
+        //WIP MANA< CHANGE LATER
+        manaManager.manaType[0].currentAmount = playerAttributes.maxMana;
+        manaManager.manaType[0].SetText();
+
         if (objectPooler.isPaused == false)
         {
             objectPooler.PauseAll();
@@ -67,7 +75,7 @@ public class CombatMenu : MonoBehaviour
         
         RefillHand();
 
-        PopulateSlots();
+        PopulateSlots(playerCombatHand.Count);
 
         EventSystem.current.SetSelectedGameObject(firstButton);
     }
@@ -79,9 +87,8 @@ public class CombatMenu : MonoBehaviour
 
     public void MenuUnPause()
     {
-        //WIP MANA< CHANGE LATER
-        manaManager.manaType[0].currentAmount = playerAttributes.maxMana;
-        manaManager.manaType[0].SetText();
+        
+        
 
         TurnBarScript.Instance.UnPause();
         EventSystem.current.SetSelectedGameObject(null);
@@ -93,8 +100,9 @@ public class CombatMenu : MonoBehaviour
 
     void RefillHand()
     {
+        
 
-        for (int i = playerCombatHand.Count; i < playerAttributes.handSize; i++)
+        for (int i = playerAttributes.handSize - playerCombatHand.Count; i > 0; i--)
         {
             if (playerCombatDeck.Count > 0)
             {
@@ -103,14 +111,28 @@ public class CombatMenu : MonoBehaviour
             }
             else
             {
-                break;
+                if (recycleGraveyard == true)
+                {
+                    if(playerCombatGraveyard.Count <= 0)
+                    {
+                        break;
+                    }
+
+                    Recycle(CardDestination.Graveyard, CardDestination.Deck);
+                    i++;
+                }
+                else
+                {
+                    //PopulateSlots()
+                    break;
+                }
             }
         }
     }
 
-    void PopulateSlots()
+    void PopulateSlots(int combatHandLimit)
     {
-        int _handSize = playerAttributes.handSize;
+        int _handSize = playerCombatHand.Count;
 
         for(int j = _handSize; j < spellSlots.Count; j++)
         {
@@ -229,6 +251,63 @@ public class CombatMenu : MonoBehaviour
             case CardDestination.Exile:
                 {
                     playerCombatExile.Add(s);
+                    break;
+                }
+        }
+    }
+
+    public void Recycle(CardDestination from, CardDestination to)
+    {
+        switch(from)
+        {
+            case CardDestination.Hand:
+                {
+                    int _count = playerCombatHand.Count;
+                    for(int i = 0; i < _count; i++)
+                    {
+                        SpellCard _s = playerCombatHand[0];
+                        MoveCardToDestination(_s, from, to);
+                    }
+                    break;
+                }
+            case CardDestination.Deck:
+                {
+                    int _count = playerCombatDeck.Count;
+                    for (int i = 0; i < _count; i++)
+                    {
+                        SpellCard _s = playerCombatDeck[0];
+                        MoveCardToDestination(_s, from, to);
+                    }
+                    break;
+                }
+            case CardDestination.Combat:
+                {
+                    int _count = playerCombatInUse.Count;
+                    for (int i = 0; i < _count; i++)
+                    {
+                        SpellCard _s = playerCombatInUse[0];
+                        MoveCardToDestination(_s, from, to);
+                    }
+                    break;
+                }
+            case CardDestination.Graveyard:
+                {
+                    int _count = playerCombatGraveyard.Count;
+                    for (int i = 0; i < _count; i++)
+                    {
+                        SpellCard _s = playerCombatGraveyard[0];
+                        MoveCardToDestination(_s, from, to);
+                    }
+                    break;
+                }
+            case CardDestination.Exile:
+                {
+                    int _count = playerCombatExile.Count;
+                    for (int i = 0; i < _count; i++)
+                    {
+                        SpellCard _s = playerCombatExile[0];
+                        MoveCardToDestination(_s, from, to);
+                    }
                     break;
                 }
         }

@@ -23,5 +23,7 @@ namespace EnumScript
     public enum SpellTags { Projectile, Melee, DoubleEdged}
 
     public enum CardDestination { Deck, Hand, Combat, Graveyard, Exile}
+
+    public enum BuffType { Health, MaxHealth, Mana, MaxMana, Distance }
 }
 

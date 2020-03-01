@@ -26,22 +26,26 @@ public class EntityStatus : MonoBehaviour
 
     CinemachineImpulseSource impulseSource;
 
-    
+    public AiMastermind aiMastermind;
      public virtual void Start()
     {
-        
         objectPooler = ObjectPooler.Instance;
+        aiMastermind = AiMastermind.Instance;
+
         objectPooler.allPooledObjects.Add(gameObject);
+        EnemyStart();
+
         anim = GetComponent<Animator>();
         impulseSource = GetComponent<CinemachineImpulseSource>();
         UpdateUI();
+        
     }
 
-    public void DealDamage(int damage, float zPos, float amplitudeModifier = 0.05f)
+    public void DealDamage(int damage, float zPos = -1.4f, float amplitudeModifier = 0.05f, BulletAlignement damageSource = BulletAlignement.Enemy)
     {
         hp -= damage;
         UpdateUI();
-        int _clampedDamage = Mathf.Clamp(damage/10, 1, 10);
+        int _clampedDamage = Mathf.Clamp(damage/10, 0, 10);
         
         if (hitParticles != null)
         {
@@ -55,10 +59,15 @@ public class EntityStatus : MonoBehaviour
             impulseSource.GenerateImpulse();
             hitParticles.Emit(_clampedDamage);
 
+            Debug.Log("emit " + _clampedDamage);
+
+            StartCoroutine("PauseGame", damage);
+
         }
         if(hp <= 0)
         {
             Die();
+            
             //gameObject.SetActive(false);
             
         }
@@ -81,7 +90,29 @@ public class EntityStatus : MonoBehaviour
 
     public virtual void Die()
     {
-        anim.Play("Die");
+        aiMastermind.enemies.Remove(gameObject);
+        anim.Play("Die");    
     }
 
+    IEnumerator PauseGame(float damage)
+    {
+        Time.timeScale = 0f;
+        float _t;
+        if (damage > 30 && damage < 50)
+        {
+            _t = 0.016f;
+            yield return new WaitForSecondsRealtime(_t);
+        }
+        else if(damage >= 50)
+        {
+            _t = 0.016f*(damage/50);
+            yield return new WaitForSecondsRealtime(_t);
+        }
+        Time.timeScale = 1;
+    }
+
+    public virtual void EnemyStart()
+    {
+        aiMastermind.enemies.Add(this.gameObject);
+    }
 }

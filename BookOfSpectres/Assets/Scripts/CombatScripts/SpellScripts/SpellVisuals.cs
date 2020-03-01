@@ -32,7 +32,14 @@ public class SpellVisuals : MonoBehaviour
 
         if(damageHolder != null)
         {
-            damageHolder.GetComponent<TextMeshProUGUI>().text = s.spellLogic.power.ToString();
+            if (s.spellLogic.showPower == true)
+            {
+                damageHolder.GetComponent<TextMeshProUGUI>().text = s.spellLogic.power[0].ToString();
+            }
+            else
+            {
+                damageHolder.GetComponent<TextMeshProUGUI>().text = "";
+            }
         }
 
         if (manaHolder != null)

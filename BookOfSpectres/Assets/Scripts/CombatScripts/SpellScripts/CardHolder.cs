@@ -28,10 +28,19 @@ public class CardHolder : MonoBehaviour
     {
         if (spellMiniatures.Count > 0)
         {
+            
             SpellCard _tempSpell = spellMiniatures[0].GetComponent<SpellVisuals>().spell;
-            spellName.text = _tempSpell.name + " " + spellMiniatures[0].GetComponent<CombatMiniatureProperties>().power.ToString();
-            spellMiniatures[0].transform.Translate(new Vector3(0.025f, -0.025f, -0.1f));
-            //spellMiniatures[0].GetComponent<SpellVisuals>().LoadSpell(_tempSpell);
+            if (_tempSpell.spellLogic.showPower == true)
+            {
+                spellName.text = _tempSpell.name + " " + spellMiniatures[0].GetComponent<CombatMiniatureProperties>().power.ToString();
+            }
+            else
+            {
+                spellName.text = _tempSpell.name + " ";
+            }
+            //spellMiniatures[0].transform.Translate(new Vector3(0.025f, -0.025f, -0.1f));
+            spellMiniatures[0].GetComponent<SpellVisuals>().LoadSpell(_tempSpell);
+            
         }
         else
         {

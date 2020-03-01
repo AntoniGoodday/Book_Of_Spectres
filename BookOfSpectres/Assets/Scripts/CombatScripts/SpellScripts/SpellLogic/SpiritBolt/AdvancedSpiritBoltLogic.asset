@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 980c17387de0c5049bd8daacb5983bf0, type: 3}
   m_Name: AdvancedSpiritBoltLogic
   m_EditorClassIdentifier: 
-  power: 400
+  mana: 0
+  power: 2c010000
+  showPower: 1
   projectile: {fileID: 3420883151847970981, guid: 6cb1ec0ab14a4d2409f20afa3ec36858,
     type: 3}

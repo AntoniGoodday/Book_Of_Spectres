@@ -27,11 +27,13 @@ public class PlayerStatus : EntityStatus
         }
         canvasAnim = GameObject.Find("Canvas").GetComponent<Animator>();
         base.Start();
+        aiMastermind.player = gameObject;
     }
 
     public override void Die()
     {
-        base.Die();
+        
+        anim.Play("Die");
         vCamAnim.Play("PlayerDie");
         canvasAnim.Play("FadeOut", 2);
         playerScript.playerSprite.sortingOrder = 10;
@@ -71,4 +73,8 @@ public class PlayerStatus : EntityStatus
         Application.LoadLevel(0);
     }
 
+    public override void EnemyStart()
+    {
+        
+    }
 }
