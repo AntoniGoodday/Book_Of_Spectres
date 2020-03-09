@@ -874,7 +874,6 @@ G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Boo.
 G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Boo.Lang.Parser.dll
 G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Boo.Lang.Useful.dll
 G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.CecilTools.dll
-G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Assembly-CSharp.pdb
 G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.xml
 G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEditor.xml
 G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEditor.TestRunner.pdb
@@ -973,3 +972,4 @@ G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\obj\Debug\Assembly-
 G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\obj\Debug\Assembly-CSharp-Editor.csproj.CopyComplete
 G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\obj\Debug\Assembly-CSharp-Editor.dll
 G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\obj\Debug\Assembly-CSharp-Editor.pdb
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Assembly-CSharp.pdb

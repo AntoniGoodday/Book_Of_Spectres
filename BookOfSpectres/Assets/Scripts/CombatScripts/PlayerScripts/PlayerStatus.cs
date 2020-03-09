@@ -27,7 +27,7 @@ public class PlayerStatus : EntityStatus
         }
         canvasAnim = GameObject.Find("Canvas").GetComponent<Animator>();
         base.Start();
-        aiMastermind.player = gameObject;
+        
     }
 
     public override void Die()
@@ -75,6 +75,6 @@ public class PlayerStatus : EntityStatus
 
     public override void EnemyStart()
     {
-        
+        aiMastermind.player = gameObject;
     }
 }

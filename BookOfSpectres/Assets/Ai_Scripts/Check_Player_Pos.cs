@@ -22,6 +22,7 @@ public class Check_Player_Pos : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        if(animator.GetBool("AttackToken") == true)
         if (enemyScript.currentGridPosition.y != bfs.playerPosition.y)
         {
             animator.SetBool("isShooting", false);

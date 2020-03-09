@@ -23,7 +23,7 @@ public class EntityStatus : MonoBehaviour
     List<int> hitLayers;
     [SerializeField]
     public Animator anim;
-
+    [SerializeField]
     CinemachineImpulseSource impulseSource;
 
     public AiMastermind aiMastermind;
@@ -59,7 +59,7 @@ public class EntityStatus : MonoBehaviour
             impulseSource.GenerateImpulse();
             hitParticles.Emit(_clampedDamage);
 
-            Debug.Log("emit " + _clampedDamage);
+
 
             StartCoroutine("PauseGame", damage);
 
@@ -91,6 +91,19 @@ public class EntityStatus : MonoBehaviour
     public virtual void Die()
     {
         aiMastermind.enemies.Remove(gameObject);
+        if(anim.GetBool("AttackToken") == true)
+        {
+            for (int i = 0; i < aiMastermind.attackTokens.Count; i++)
+            {
+                if (aiMastermind.attackTokens[i] == false)
+                {
+                    aiMastermind.attackTokens[i] = true;
+                    aiMastermind.StartCoroutine("GiveToken");
+                    break;
+                }
+            }
+            anim.SetBool("AttackToken", false);
+        }
         anim.Play("Die");    
     }
 

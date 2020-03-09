@@ -33,8 +33,8 @@ public class SpellAdvance : MonoBehaviour
     }
     public void InitialSetup(SpellCard s)
     {
-        beforeMerge = "";
-        afterMerge = "";
+        //beforeMerge = "";
+        //afterMerge = "";
         spellRecipes.Add(s);
         
     }
@@ -104,7 +104,7 @@ public class SpellAdvance : MonoBehaviour
         //string _names = spellRecipes[currentSpell].advancedSpellComponents[0].advancedRecipe;
         string _names = beforeMerge;
         string[] _separatedNames = _names.Split(new string[] { " " }, System.StringSplitOptions.None);
-        Debug.Log(_separatedNames.Length);
+        
         for (int j = 0; j < _separatedNames.Length - 1; j++)
         {
             spellNames[j].gameObject.SetActive(true);

@@ -4,10 +4,21 @@ using UnityEngine;
 
 public class Shoot : StateMachineBehaviour
 {
+    AiMastermind aiMastermind;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        
+        aiMastermind = AiMastermind.Instance;
+        for(int i = 0; i < aiMastermind.attackTokens.Count; i++)
+        {
+            if(aiMastermind.attackTokens[i] == false)
+            {
+                aiMastermind.attackTokens[i] = true;
+                aiMastermind.StartCoroutine("GiveToken");
+                break;
+            }
+        }
+        animator.SetBool("AttackToken", false);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
