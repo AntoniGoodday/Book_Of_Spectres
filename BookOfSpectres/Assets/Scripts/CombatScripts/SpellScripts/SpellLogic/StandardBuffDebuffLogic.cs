@@ -38,7 +38,7 @@ public class StandardBuffDebuffLogic : SpellLogic
                         }
                         
                     }
-                    if(_userStatus.hp > _userStatus.maxHp)
+                    if(_userStatus.hp + power[_currentBuffNumber] > _userStatus.maxHp)
                     {
                         _userStatus.hp = _userStatus.maxHp;
                     }

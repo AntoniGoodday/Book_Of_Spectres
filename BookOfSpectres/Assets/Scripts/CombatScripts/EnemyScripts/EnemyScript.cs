@@ -65,8 +65,9 @@ public class EnemyScript : MonoBehaviour
         currentGridPosition = new Vector2(currentTileClass.gridLocation.x, currentTileClass.gridLocation.y);
 
         enemySprite.sortingOrder = -(int)currentTileClass.gridLocation.y + 5;
-        
-        
+
+        currentTileClass.occupied = true;
+
     }
 
     // Update is called once per frame
@@ -117,10 +118,15 @@ public class EnemyScript : MonoBehaviour
 
     public IEnumerator LerpMovement(float time)
     {
+        bool _occupied = false;
         if (coroutineIsOn == false)
         {
             coroutineIsOn = true;
             float _elapsedTime = 0f;
+
+            //Set which tile the entity is on before it moves, so that it won't clip into another entity
+            previousTile.GetComponent<TileClass>().occupied = false;
+            currentTileClass.occupied = true;
 
             Vector3 pT = new Vector3(previousTile.transform.position.x, previousTile.transform.position.y, -1.4f);
             Vector3 cT = new Vector3(currentTile.transform.position.x, currentTile.transform.position.y, -1.4f);
@@ -130,13 +136,15 @@ public class EnemyScript : MonoBehaviour
                 if (isPaused == false)
                 {
                     transform.position = Vector3.Lerp(pT, cT, (_elapsedTime / time));
-                    _elapsedTime += Time.deltaTime;  
+                    _elapsedTime += Time.deltaTime;
                 }
                 yield return new WaitForEndOfFrame();
             }
             transform.position = cT;
             coroutineIsOn = false;
         }
+
+        
         //For continuous movement, resetting the delay
         anim.SetBool("isMoving", false);
         enemySprite.sortingOrder = -(int)currentTileClass.gridLocation.y + 5;
@@ -187,5 +195,27 @@ public class EnemyScript : MonoBehaviour
             _pSys.Play();
         }
         isPaused = false;
+    }
+
+    public bool TileCheck(int movementRangeX = 0, int movementRangeY = 0)
+    {
+        foreach (TileAlignment aligned in alignedTiles)
+        {
+            TileClass _tileClass = bfs.battleTilesGrid[(int)currentTileClass.gridLocation.x + movementRangeX, (int)currentTileClass.gridLocation.y + movementRangeY].GetComponent<TileClass>();
+
+            if (_tileClass.tileAlignment == aligned)
+            {
+                if (_tileClass.occupied == false)
+                {
+                    if (_tileClass.tileEffect != TileEffect.Broken)
+                    {
+                        return true;
+                    }
+
+                }
+            }
+
+        }
+        return false;
     }
 }

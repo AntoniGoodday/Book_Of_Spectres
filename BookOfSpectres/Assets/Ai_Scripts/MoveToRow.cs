@@ -16,13 +16,29 @@ public class MoveToRow : StateMachineBehaviour
 
         if (enemyScript.currentGridPosition.y < bfs.playerPosition.y)
         {
-            enemyScript.SetTileInfo(0, 1);
-            enemyScript.StartCoroutine("LerpMovement", enemyScript.movmentSpeed);
+            if (enemyScript.TileCheck(0, 1))
+            {
+                enemyScript.SetTileInfo(0, 1);
+                enemyScript.StartCoroutine("LerpMovement", enemyScript.movmentSpeed);
+            }
+            else
+            {
+                animator.SetBool("isMoving", false);
+                animator.Play("Shoot");
+            }
         }
         else if (enemyScript.currentGridPosition.y > bfs.playerPosition.y)
         {
-            enemyScript.SetTileInfo(0, -1);
-            enemyScript.StartCoroutine("LerpMovement", enemyScript.movmentSpeed);
+            if (enemyScript.TileCheck(0, -1))
+            {
+                enemyScript.SetTileInfo(0, -1);
+                enemyScript.StartCoroutine("LerpMovement", enemyScript.movmentSpeed);
+            }
+            else
+            {
+                animator.SetBool("isMoving", false);
+                animator.Play("Shoot");
+            }
         }
         else if(enemyScript.currentGridPosition.y == bfs.playerPosition.y)
         {

@@ -10,7 +10,6 @@ public class AiMastermind : MonoBehaviour
     [SerializeField]
     public List<GameObject> enemies;
 
-    
 
     [SerializeField]
     public List<bool> attackTokens;
@@ -22,13 +21,13 @@ public class AiMastermind : MonoBehaviour
     }
     private void Start()
     {
-        StartCoroutine("GiveToken");
+        StartCoroutine("GiveToken", 1);
     }
 
 
-    IEnumerator GiveToken()
+    IEnumerator GiveToken(int delay)
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(delay);
         if (enemies.Count > 0)
         {
             for (int i = 0; i < attackTokens.Count; i++)
@@ -56,12 +55,12 @@ public class AiMastermind : MonoBehaviour
             }
             else
             {
-                StartCoroutine("GiveToken");
+                StartCoroutine("GiveToken",1);
             }
         }
         else
         {
-            StartCoroutine("GiveToken");
+            StartCoroutine("GiveToken",1);
         }
     }
 }

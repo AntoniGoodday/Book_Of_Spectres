@@ -14,22 +14,23 @@ public class IdleMove : StateMachineBehaviour
         playerScript = PlayerScript.Instance;
         enemyScript = animator.GetComponent<EnemyScript>();
         int i = Random.Range(0, 100);
-        if (i < 50 && enemyScript.currentGridPosition.y + 1 < bfs.yMax )
+        if (i < 50 && enemyScript.currentGridPosition.y + 1 < bfs.yMax && enemyScript.TileCheck(0,1))
         {
+            
             enemyScript.SetTileInfo(0, 1);
             enemyScript.StartCoroutine("LerpMovement", enemyScript.movmentSpeed);
         }
-        else if (i < 50 && enemyScript.currentGridPosition.y + 1 >= bfs.yMax)
+        else if (i < 50 && enemyScript.currentGridPosition.y + 1 >= bfs.yMax && enemyScript.TileCheck(0, -1))
         {
             enemyScript.SetTileInfo(0, -1);
             enemyScript.StartCoroutine("LerpMovement", enemyScript.movmentSpeed);
         }
-        else if (i >= 50 && enemyScript.currentGridPosition.y - 1 >= 0)
+        else if (i >= 50 && enemyScript.currentGridPosition.y - 1 >= 0 && enemyScript.TileCheck(0, -1))
         {
             enemyScript.SetTileInfo(0, -1);
             enemyScript.StartCoroutine("LerpMovement", enemyScript.movmentSpeed);
         }
-        else if (i >= 50 && enemyScript.currentGridPosition.y - 1 < 0)
+        else if (i >= 50 && enemyScript.currentGridPosition.y - 1 < 0 && enemyScript.TileCheck(0, 1))
         {
             enemyScript.SetTileInfo(0, 1);
             enemyScript.StartCoroutine("LerpMovement", enemyScript.movmentSpeed);

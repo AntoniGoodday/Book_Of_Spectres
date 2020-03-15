@@ -45,7 +45,12 @@ public class PlayerStatus : EntityStatus
     public override void UpdateUI()
     {
         hpText.text = hp.ToString();
-        if(hp <= maxHp/2 && hp > maxHp/4)
+        if(hp >= maxHp/2)
+        {
+            hpText.color = new Color(0, 0, 0, 1);
+            vCamAnim.SetBool("isLowHp", false);
+        }
+        else if(hp <= maxHp/2 && hp > maxHp/4)
         {
             hpText.color = new Color(1,0.5f,0,1);
             vCamAnim.SetBool("isLowHp", false);

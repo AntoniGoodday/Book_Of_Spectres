@@ -40,7 +40,7 @@ public class ProjectileScript : MonoBehaviour, IpooledObject
     private Ray ray;
     private RaycastHit hit;
     public bool isPaused = false;
-    
+
 
     // Start is called before the first frame update
     void Awake()
@@ -128,7 +128,7 @@ public class ProjectileScript : MonoBehaviour, IpooledObject
                 {
                     previousTile = hit.transform.gameObject;
                     previousTileClass = previousTile.GetComponent<TileClass>();
-                    previousTileClass.SetColour(Color.yellow);
+                    previousTileClass.SetColour(Color.yellow, false, true);
                     tr.sortingOrder = -(int)previousTileClass.gridLocation.y + 5;
                     
                 }
@@ -138,7 +138,7 @@ public class ProjectileScript : MonoBehaviour, IpooledObject
                     previousTile.GetComponent<TileClass>().SetColour(previousTileClass.initialMaterialColour);
                     previousTile = _hitTile;
                     previousTileClass = previousTile.GetComponent<TileClass>();
-                    previousTileClass.SetColour(Color.yellow);
+                    previousTileClass.SetColour(Color.yellow,false, true);
                     tr.sortingOrder = -(int)previousTileClass.gridLocation.y + 5;
                 }
 

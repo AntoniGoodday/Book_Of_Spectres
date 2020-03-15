@@ -916,3 +916,7 @@ G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\obj\Debug\Assembly-
 G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\obj\Debug\Assembly-CSharp.csproj.CopyComplete
 G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\obj\Debug\Assembly-CSharp.dll
 G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\obj\Debug\Assembly-CSharp.pdb
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.Recorder.dll
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.Recorder.Editor.dll
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.Recorder.Editor.pdb
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.Recorder.pdb

@@ -111,7 +111,7 @@ public class PlayerScript : MonoBehaviour
         currentTile = bfs.battleTilesGrid[(int)bfs.playerSpawn.x, (int)bfs.playerSpawn.y];
         currentTileClass = currentTile.GetComponent<TileClass>();
 
-        currentTileClass.SetColour(playerTileColour);
+        
         transform.position = new Vector3(currentTile.transform.position.x, currentTile.transform.position.y, heightAboveGround);
         bfs.playerPosition = new Vector2((int)currentTileClass.gridLocation.x, (int)currentTileClass.gridLocation.y);
         previousTile = currentTile;
@@ -119,7 +119,9 @@ public class PlayerScript : MonoBehaviour
         standardShot = GetComponent<StandardPlayerShot>();
         chargedShot = GetComponent<ChargedPlayerShot>();
 
-        
+        //currentTileClass.SetColour(playerTileColour);
+        currentTileClass.occupied = true;
+
     }
 
     // Update is called once per frame
@@ -318,7 +320,8 @@ public class PlayerScript : MonoBehaviour
                 if (previousRaycastTile == null)
                 {
                     previousRaycastTile = hit.transform.gameObject;
-                    previousRaycastTile.GetComponent<TileClass>().SetColour(playerTileColour);
+                    TileClass _previousRaycastTileClass = previousRaycastTile.GetComponent<TileClass>();
+                    _previousRaycastTileClass.SetColour(playerTileColour);
                 }
                 else
                 {
@@ -493,13 +496,18 @@ public class PlayerScript : MonoBehaviour
         {
             foreach (TileAlignment aligned in alignedTiles)
             {
-                if (bfs.battleTilesGrid[(int)currentTileClass.gridLocation.x + movementRangeX, (int)currentTileClass.gridLocation.y + movementRangeY].GetComponent<TileClass>().tAlign == aligned)
-                {
-                    //if (battleTiles[currentTile + movementRange].GetComponent<TileClass>().occupied == false)
-                    //{
+            TileClass _tileClass = bfs.battleTilesGrid[(int)currentTileClass.gridLocation.x + movementRangeX, (int)currentTileClass.gridLocation.y + movementRangeY].GetComponent<TileClass>();
 
-                    return true;
-                    //}
+                if (_tileClass.tileAlignment == aligned)
+                {
+                    if (_tileClass.occupied == false)
+                    {
+                        if (_tileClass.tileEffect != TileEffect.Broken)
+                        {
+                            return true;
+                        }
+
+                    }
                 }
 
             }
@@ -515,6 +523,11 @@ public class PlayerScript : MonoBehaviour
         IEnumerator LerpPlayer(float time)
         {
             float _elapsedTime = 0f;
+
+            //Set which tile the entity is on before it moves, so that it won't clip into another entity
+            previousTile.GetComponent<TileClass>().occupied = false;
+            currentTileClass.occupied = true;
+
             isLerping = true;
             Vector3 pT = new Vector3(previousTile.transform.position.x, previousTile.transform.position.y, heightAboveGround);
             Vector3 cT = new Vector3(currentTile.transform.position.x, currentTile.transform.position.y, heightAboveGround);
@@ -530,6 +543,8 @@ public class PlayerScript : MonoBehaviour
             }
             transform.position = cT;
             playerSprite.sortingOrder = -(int)currentTileClass.gridLocation.y + 5;
+
+            
             //For continuous movement, resetting the delay
             isLerping = false;
 

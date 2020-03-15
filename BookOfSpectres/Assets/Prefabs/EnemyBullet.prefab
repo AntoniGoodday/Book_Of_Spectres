@@ -57,6 +57,7 @@ MonoBehaviour:
   bulletTrail: {fileID: 4724596154532220645, guid: 903eb38e725a5ee40bc5fdf9ad60711d,
     type: 3}
   isPaused: 0
+  groundColour: {r: 0.5, g: 0.5, b: 0.5, a: 1}
 --- !u!54 &216255683533230125
 Rigidbody:
   m_ObjectHideFlags: 0

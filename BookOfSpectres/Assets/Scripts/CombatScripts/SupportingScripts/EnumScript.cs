@@ -12,7 +12,7 @@ namespace EnumScript
 
     public enum TileColour { Standard, Epic }
 
-    public enum TileNeighbourDirection { DownLeft, Down, DownRight, Left, Right, UpLeft, Up, UpRight }
+    public enum Direction { DownLeft, Down, DownRight, Left, Right, UpLeft, Up, UpRight, Reset }
 
     public enum StatusEffect { SoulSap, Rejuvenation}
 
@@ -25,5 +25,11 @@ namespace EnumScript
     public enum CardDestination { Deck, Hand, Combat, Graveyard, Exile}
 
     public enum BuffType { Health, MaxHealth, Mana, MaxMana, Distance }
+
+    public enum TileEffect { Standard, Broken, Empower, Sanctuary, Poison, Steal }
+
+    public enum AffectShape { Spot, Row, Column}
+    //Origin independent = spell always hits specific tiles, regardless of where the player stands
+    public enum PatternType { Standard, Origin, Continuous, OriginIndependent }
 }
 

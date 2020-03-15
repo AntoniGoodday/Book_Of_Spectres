@@ -57,6 +57,8 @@ MonoBehaviour:
   hitLocation: {fileID: 1696991337463353992}
   hitLayers: 01000000
   anim: {fileID: 0}
+  impulseSource: {fileID: 0}
+  aiMastermind: {fileID: 0}
   hpText: {fileID: 0}
 --- !u!114 &1696991335855640304
 MonoBehaviour:
@@ -77,7 +79,7 @@ MonoBehaviour:
   shotLocation: {fileID: 1696991337393591262}
   movmentSpeed: 0.5
   bfs: {fileID: 0}
-  enemyTileColour: {r: 0.13641821, g: 0, b: 0.49019608, a: 0}
+  enemyTileColour: {r: 0.5, g: 0, b: 0.5, a: 0}
   alignedTiles: 0000000002000000
   anim: {fileID: 0}
   currentGridPosition: {x: 0, y: 0}

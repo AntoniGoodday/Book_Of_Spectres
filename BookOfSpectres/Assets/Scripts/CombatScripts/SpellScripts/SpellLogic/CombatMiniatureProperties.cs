@@ -19,8 +19,11 @@ public class CombatMiniatureProperties : MonoBehaviour
     [SerializeField]
     SpriteRenderer sr;
 
+    public BattlefieldScript bfs;
+
     private void Awake()
     {
+        bfs = BattlefieldScript.Instance;
         //sr = gameObject.GetComponent<SpriteRenderer>();
         //sr.sprite = null;
         

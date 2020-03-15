@@ -98,7 +98,7 @@ public class EntityStatus : MonoBehaviour
                 if (aiMastermind.attackTokens[i] == false)
                 {
                     aiMastermind.attackTokens[i] = true;
-                    aiMastermind.StartCoroutine("GiveToken");
+                    aiMastermind.StartCoroutine("GiveToken",1);
                     break;
                 }
             }
