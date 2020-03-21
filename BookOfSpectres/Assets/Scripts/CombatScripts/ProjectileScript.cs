@@ -35,7 +35,10 @@ public class ProjectileScript : MonoBehaviour, IpooledObject
     
 
     private GameObject previousTile;
+    private GameObject currentTile;
+
     private TileClass previousTileClass;
+    private TileClass currentTileClass;
     private string tileTag = "Tile";
     private Ray ray;
     private RaycastHit hit;
@@ -70,7 +73,8 @@ public class ProjectileScript : MonoBehaviour, IpooledObject
             }
             if (previousTile != null)
             {
-                previousTile.GetComponent<TileClass>().SetColour(previousTile.GetComponent<TileClass>().initialMaterialColour);
+                previousTile = currentTile;
+                previousTile.GetComponent<TileClass>().SetColour(previousTile.GetComponent<TileClass>().initialMaterialColour, false, false, false , 5);
                 previousTile = null;
             }
             StopAllCoroutines();
@@ -80,15 +84,6 @@ public class ProjectileScript : MonoBehaviour, IpooledObject
         
     }
 
-    
-
-    void Start()
-    {
-        
-        
-    }
-
-    
 
     public void OnObjectSpawn()
     {
@@ -114,7 +109,7 @@ public class ProjectileScript : MonoBehaviour, IpooledObject
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         if (isPaused == false )
         {
@@ -126,20 +121,33 @@ public class ProjectileScript : MonoBehaviour, IpooledObject
                 GameObject _hitTile = hit.transform.gameObject;
                 if (previousTile == null)
                 {
-                    previousTile = hit.transform.gameObject;
-                    previousTileClass = previousTile.GetComponent<TileClass>();
-                    previousTileClass.SetColour(Color.yellow, false, true);
-                    tr.sortingOrder = -(int)previousTileClass.gridLocation.y + 5;
+                    previousTile = _hitTile;
+                    currentTile = previousTile;
+                    currentTileClass = currentTile.GetComponent<TileClass>();
+                    if (_hitTile.GetComponent<TileClass>().occupied != true)
+                    {
+                        currentTileClass.SetColour(Color.yellow, false, true);
+                    }
+                    tr.sortingOrder = -(int)currentTileClass.gridLocation.y + 5;
                     
                 }
-                else if(previousTile != _hitTile)
+                else if(currentTile != _hitTile | currentTileClass.currentColour != Color.yellow)
                 {
+                    if (_hitTile.GetComponent<TileClass>().occupied != true)
+                    {
+                        if (currentTile.GetComponent<TileClass>().occupied != true)
+                        {
+                            previousTile = currentTile;
+                            previousTileClass = previousTile.GetComponent<TileClass>();
+                            previousTileClass.SetColour(previousTileClass.initialMaterialColour);
+                        }
+                        currentTile = _hitTile;
+                    
+                        currentTileClass = currentTile.GetComponent<TileClass>();
 
-                    previousTile.GetComponent<TileClass>().SetColour(previousTileClass.initialMaterialColour);
-                    previousTile = _hitTile;
-                    previousTileClass = previousTile.GetComponent<TileClass>();
-                    previousTileClass.SetColour(Color.yellow,false, true);
-                    tr.sortingOrder = -(int)previousTileClass.gridLocation.y + 5;
+                        currentTileClass.SetColour(Color.yellow, false, true, false, 5);
+                        tr.sortingOrder = -(int)currentTileClass.gridLocation.y + 5;
+                    }
                 }
 
             }
@@ -147,10 +155,13 @@ public class ProjectileScript : MonoBehaviour, IpooledObject
             {
                 if (previousTile != null)
                 {
+                    previousTile = currentTile;
                     previousTileClass = previousTile.GetComponent<TileClass>();
                     previousTileClass.SetColour(previousTileClass.initialMaterialColour);
                     previousTile = null;
                     previousTileClass = null;
+                    currentTile = null;
+                    currentTileClass = null;
                 }
             }
             

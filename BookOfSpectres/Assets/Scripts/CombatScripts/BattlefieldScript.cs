@@ -19,9 +19,9 @@ public class BattlefieldScript : MonoBehaviour
     [SerializeField]
     public float distanceModifier;
     [SerializeField]
-    public Vector2 playerSpawn;
+    public Vector2Int playerSpawn;
     [SerializeField]
-    public Vector2 playerPosition;
+    public Vector2Int playerPosition;
     [SerializeField]
     TileColour t;
     [SerializeField]
@@ -97,7 +97,7 @@ public class BattlefieldScript : MonoBehaviour
                 battleTiles.Add(Instantiate(bTile, new Vector3(x*distanceModifier, y*distanceModifier, 0), Quaternion.Euler(0,0,0), gameObject.transform));
                 battleTiles[_tileID].name = "BattleTile #" + _tileID + ": " + x + "x || " + y + "y";
                 battleTiles[_tileID].GetComponent<TileClass>().tileID = _tileID;
-                battleTiles[_tileID].GetComponent<TileClass>().gridLocation = new Vector2(x, y);
+                battleTiles[_tileID].GetComponent<TileClass>().gridLocation = new Vector2Int(x, y);
                 TileColour(_tileID);
                 
                 _tileID++;
@@ -217,12 +217,12 @@ public class BattlefieldScript : MonoBehaviour
                             }
                             _currentDirection++;
                             
-                        //}
-                        //else
-                        //{
-                            //_currentDirection++;
-                        //}
-                    }
+                        }
+                        else
+                        {
+                            _currentDirection++;
+                        }
+                   
                 }
             }
         }

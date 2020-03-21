@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b40767abb5c7b84293871b33337c0ea, type: 3}
+  m_Name: CrackTile
+  m_EditorClassIdentifier: 
+  spellLogic: {fileID: 11400000, guid: 62d1ecbee07317c4e8c398252718bae7, type: 2}
+  spellType: {fileID: 11400000, guid: b74681b7b04644f4c8be99c6b2763e16, type: 2}
+  exileOnUse: 0
+  properties:
+  - stringValue: Crack Tiles
+    intValue: 0
+    spellElement: {fileID: 11400000, guid: 7cd46e79ac7317c4b83987fe868ed55b, type: 2}
+    sprite: {fileID: 0}
+  - stringValue: Crack tiles in a pattern!
+    intValue: 0
+    spellElement: {fileID: 11400000, guid: 70a6e16dfb918d24881337f4623a1bf7, type: 2}
+    sprite: {fileID: 0}
+  - stringValue: 
+    intValue: 0
+    spellElement: {fileID: 11400000, guid: 480ee5d52f082ea4990c33284efe10f3, type: 2}
+    sprite: {fileID: 21300000, guid: 174f9208ac065b6418699a90454df48b, type: 3}
+  - stringValue: 
+    intValue: 0
+    spellElement: {fileID: 11400000, guid: a05b31b977a6aaf488e79928ec2b47d4, type: 2}
+    sprite: {fileID: 21300000, guid: 174f9208ac065b6418699a90454df48b, type: 3}
+  - stringValue: Utility
+    intValue: 0
+    spellElement: {fileID: 11400000, guid: 982914cd3e943f343aee46be3472458e, type: 2}
+    sprite: {fileID: 0}
+  advancedSpellComponents: []

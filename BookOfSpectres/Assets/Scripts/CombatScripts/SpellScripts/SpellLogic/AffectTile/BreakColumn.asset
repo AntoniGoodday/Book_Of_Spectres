@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0b40767abb5c7b84293871b33337c0ea, type: 3}
-  m_Name: BreakTile
+  m_Name: BreakColumn
   m_EditorClassIdentifier: 
-  spellLogic: {fileID: 11400000, guid: 62d1ecbee07317c4e8c398252718bae7, type: 2}
-  spellType: {fileID: 11400000, guid: b74681b7b04644f4c8be99c6b2763e16, type: 2}
+  spellLogic: {fileID: 11400000, guid: 044a1bbc76cc9d34cbc744aaa6847803, type: 2}
+  spellType: {fileID: 11400000, guid: 6fc20cbdf2d1c98439d51841fcb4a69e, type: 2}
   exileOnUse: 0
   properties:
-  - stringValue: Break Tile
+  - stringValue: Break Column
     intValue: 0
     spellElement: {fileID: 11400000, guid: 7cd46e79ac7317c4b83987fe868ed55b, type: 2}
     sprite: {fileID: 0}
-  - stringValue: Break a tile one square ahead!
+  - stringValue: Break a column of tiles in front of you!
     intValue: 0
     spellElement: {fileID: 11400000, guid: 70a6e16dfb918d24881337f4623a1bf7, type: 2}
     sprite: {fileID: 0}

@@ -76,6 +76,7 @@ public class PlayerScript : MonoBehaviour
 
     public EntityStatus status;
     private GameObject previousRaycastTile;
+    private GameObject currentRaycastTile;
     private string tileTag = "Tile";
     private Ray ray;
     private RaycastHit hit;
@@ -89,7 +90,7 @@ public class PlayerScript : MonoBehaviour
         //objectPooler = ObjectPooler.Instance;
         //bfs = GameObject.Find("BattlefieldMaster").GetComponent<BattlefieldScript>();
         //bfs.playerPosition = new Vector2(transform.position.x, transform.position.y);
-        
+
         anim = GetComponent<Animator>();
         status = GetComponent<EntityStatus>();
         emotionAnim = GameObject.Find("PlayerEmotionSprite").GetComponent<Animator>();
@@ -98,7 +99,7 @@ public class PlayerScript : MonoBehaviour
         turnBarScript = GameObject.Find("TurnBar").GetComponent<TurnBarScript>();
         cardHolder = GameObject.Find("PlayerCanvas").GetComponent<CardHolder>();
         playerSprite = GetComponentInChildren<SpriteRenderer>();
-        
+
         Instance = this;
 
     }
@@ -111,9 +112,9 @@ public class PlayerScript : MonoBehaviour
         currentTile = bfs.battleTilesGrid[(int)bfs.playerSpawn.x, (int)bfs.playerSpawn.y];
         currentTileClass = currentTile.GetComponent<TileClass>();
 
-        
+
         transform.position = new Vector3(currentTile.transform.position.x, currentTile.transform.position.y, heightAboveGround);
-        bfs.playerPosition = new Vector2((int)currentTileClass.gridLocation.x, (int)currentTileClass.gridLocation.y);
+        bfs.playerPosition = new Vector2Int((int)currentTileClass.gridLocation.x, (int)currentTileClass.gridLocation.y);
         previousTile = currentTile;
 
         standardShot = GetComponent<StandardPlayerShot>();
@@ -122,12 +123,13 @@ public class PlayerScript : MonoBehaviour
         //currentTileClass.SetColour(playerTileColour);
         currentTileClass.occupied = true;
 
+        playerSprite.sortingOrder = -(int)currentTileClass.gridLocation.y + 5;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
         if (isPaused == false)
         {
             if (isLerping == false)
@@ -177,7 +179,7 @@ public class PlayerScript : MonoBehaviour
 
                 }
 
-               
+
                 #region consoleInput
                 else if (Input.GetAxisRaw("MoveVertical") != 0)
                 {
@@ -274,7 +276,7 @@ public class PlayerScript : MonoBehaviour
 
                         standardShot.Shoot(spellOrigin[0].transform, gameObject);
 
-                        
+
 
                         //objectPooler.SpawnFromPool("PlayerBullet", spellOrigin.transform.position, Quaternion.Euler(0, 0, 90), gameObject.transform);
                     }
@@ -289,7 +291,7 @@ public class PlayerScript : MonoBehaviour
                     shootEvent?.Invoke();
 
                     shotChargeAmount = 0;
-                    
+
 
                 }
 
@@ -312,33 +314,7 @@ public class PlayerScript : MonoBehaviour
                 horizontalAxisInUse = false;
             }
 
-            ray = new Ray(transform.position, transform.forward);
-
-            if (Physics.Raycast(ray, out hit, 10f))
-            {
-                Debug.DrawRay(transform.position, -transform.up);
-                if (previousRaycastTile == null)
-                {
-                    previousRaycastTile = hit.transform.gameObject;
-                    TileClass _previousRaycastTileClass = previousRaycastTile.GetComponent<TileClass>();
-                    _previousRaycastTileClass.SetColour(playerTileColour);
-                }
-                else
-                {
-                    previousRaycastTile.GetComponent<TileClass>().SetColour(previousRaycastTile.GetComponent<TileClass>().initialMaterialColour);
-                    previousRaycastTile = hit.transform.gameObject;
-                    previousRaycastTile.GetComponent<TileClass>().SetColour(playerTileColour);
-                }
-
-            }
-            else
-            {
-                if (previousRaycastTile != null)
-                {
-                    previousRaycastTile.GetComponent<TileClass>().SetColour(previousRaycastTile.GetComponent<TileClass>().initialMaterialColour);
-                    previousRaycastTile = null;
-                }
-            }
+            
 
             if (Input.GetButtonUp("StartTurn") && turnBarScript.currentTurnTime >= turnBarScript.maxTurnTime)
             {
@@ -378,209 +354,264 @@ public class PlayerScript : MonoBehaviour
                 }
             }
         }
+
+       
     }
-        void ContinuousMovement()
+
+    private void FixedUpdate()
+    {
+        //Raycast downwards
+        ray = new Ray(transform.position, transform.forward);
+
+        RayCheck(ray);
+    }
+
+   
+    void ContinuousMovement()
+    {
+        if (isLerping == false)
         {
-            if (isLerping == false)
+            if (Input.GetButton("MoveUp"))
             {
-                if (Input.GetButton("MoveUp"))
+                if ((int)currentTileClass.gridLocation.y + movementRange < bfs.yMax && TileCheck(0, movementRange))
                 {
-                    if ((int)currentTileClass.gridLocation.y + movementRange < bfs.yMax && TileCheck(0, movementRange))
+                    tempMovementDelayUp += Time.deltaTime;
+                    if (tempMovementDelayUp > contMovementDelay)
                     {
-                        tempMovementDelayUp += Time.deltaTime;
-                        if (tempMovementDelayUp > contMovementDelay)
-                        {
-                            ZeroOutTheDelays();
-                            UpdateBattlefield(0, movementRange);
-                            UpdatePlayer();
+                        ZeroOutTheDelays();
+                        UpdateBattlefield(0, movementRange);
+                        UpdatePlayer();
 
-                        }
                     }
-
-                }
-                if (Input.GetButton("MoveDown"))
-                {
-                    if ((int)currentTileClass.gridLocation.y - movementRange >= 0 && TileCheck(0, -movementRange))
-                    {
-                        tempMovementDelayDown += Time.deltaTime;
-                        if (tempMovementDelayDown > contMovementDelay)
-                        {
-                            ZeroOutTheDelays();
-                            UpdateBattlefield(0, -movementRange);
-                            UpdatePlayer();
-                        }
-                    }
-
-                }
-                if (Input.GetButton("MoveLeft"))
-                {
-                    if ((int)currentTileClass.gridLocation.x - 1 >= 0 && TileCheck(-movementRange, 0))
-                    {
-                        tempMovementDelayLeft += Time.deltaTime;
-                        if (tempMovementDelayLeft > contMovementDelay)
-                        {
-                            ZeroOutTheDelays();
-                            UpdateBattlefield(-movementRange, 0);
-                            UpdatePlayer();
-                        }
-                    }
-
-                }
-                if (Input.GetButton("MoveRight"))
-                {
-                    if ((int)currentTileClass.gridLocation.x + 1 < bfs.xMax && TileCheck(movementRange, 0))
-                    {
-                        tempMovementDelayRight += Time.deltaTime;
-                        if (tempMovementDelayRight > contMovementDelay)
-                        {
-                            ZeroOutTheDelays();
-                            UpdateBattlefield(movementRange, 0);
-                            UpdatePlayer();
-                        }
-                    }
-
                 }
 
             }
-            if (Input.GetButtonUp("MoveUp"))
+            if (Input.GetButton("MoveDown"))
             {
-                tempMovementDelayUp = 0;
+                if ((int)currentTileClass.gridLocation.y - movementRange >= 0 && TileCheck(0, -movementRange))
+                {
+                    tempMovementDelayDown += Time.deltaTime;
+                    if (tempMovementDelayDown > contMovementDelay)
+                    {
+                        ZeroOutTheDelays();
+                        UpdateBattlefield(0, -movementRange);
+                        UpdatePlayer();
+                    }
+                }
+
             }
-            if (Input.GetButtonUp("MoveDown"))
+            if (Input.GetButton("MoveLeft"))
             {
-                tempMovementDelayDown = 0;
+                if ((int)currentTileClass.gridLocation.x - 1 >= 0 && TileCheck(-movementRange, 0))
+                {
+                    tempMovementDelayLeft += Time.deltaTime;
+                    if (tempMovementDelayLeft > contMovementDelay)
+                    {
+                        ZeroOutTheDelays();
+                        UpdateBattlefield(-movementRange, 0);
+                        UpdatePlayer();
+                    }
+                }
+
             }
-            if (Input.GetButtonUp("MoveLeft"))
+            if (Input.GetButton("MoveRight"))
             {
-                tempMovementDelayLeft = 0;
+                if ((int)currentTileClass.gridLocation.x + 1 < bfs.xMax && TileCheck(movementRange, 0))
+                {
+                    tempMovementDelayRight += Time.deltaTime;
+                    if (tempMovementDelayRight > contMovementDelay)
+                    {
+                        ZeroOutTheDelays();
+                        UpdateBattlefield(movementRange, 0);
+                        UpdatePlayer();
+                    }
+                }
+
             }
-            if (Input.GetButtonUp("MoveRight"))
-            {
-                tempMovementDelayRight = 0;
-            }
+
         }
-    
-        void ZeroOutTheDelays()
+        if (Input.GetButtonUp("MoveUp"))
         {
             tempMovementDelayUp = 0;
+        }
+        if (Input.GetButtonUp("MoveDown"))
+        {
             tempMovementDelayDown = 0;
+        }
+        if (Input.GetButtonUp("MoveLeft"))
+        {
             tempMovementDelayLeft = 0;
+        }
+        if (Input.GetButtonUp("MoveRight"))
+        {
             tempMovementDelayRight = 0;
         }
+    }
 
-        public void UpdateBattlefield(int x = 0, int y = 0)
+    void ZeroOutTheDelays()
+    {
+        tempMovementDelayUp = 0;
+        tempMovementDelayDown = 0;
+        tempMovementDelayLeft = 0;
+        tempMovementDelayRight = 0;
+    }
+
+    public void UpdateBattlefield(int x = 0, int y = 0)
+    {
+
+        //currentTileClass.SetColour(currentTileClass.initialMaterialColour);
+        previousTile = currentTile;
+        SetTileInfo(x, y);
+        bfs.playerPosition = new Vector2Int((int)currentTileClass.gridLocation.x, (int)currentTileClass.gridLocation.y);
+    }
+
+    public void UpdatePlayer()
+    {
+
+        //Teleport player to new position
+        //transform.position = new Vector3(currentTile.transform.position.x, currentTile.transform.position.y, -1.4f);
+        StartCoroutine(LerpPlayer(movementSpeed));
+        //currentTileClass.SetColour(playerTileColour);
+        //transform.position = new Vector3(bfs.battleTilesGrid[(int)bfs.playerPosition.x,(int)bfs.playerPosition.y].transform.position.x, bfs.battleTilesGrid[(int)bfs.playerPosition.x, (int)bfs.playerPosition.y].transform.position.y,-1.4f);
+
+        //bfs.battleTilesGrid[(int)transform.position.x, (int)transform.position.y].GetComponent<TileClass>().SetColour(playerTileColour);
+        //tileColour = bfs.battleTiles[bfs.currentTile].GetComponent<Renderer>().material.color;
+        //bfs.battleTiles[bfs.currentTile].GetComponent<Renderer>().material.color = playerTileColour;
+        //bfs.battleTiles[bfs.currentTile].transform.localPosition += new Vector3(0, Mathf.Lerp(0, -0.1f, 60), 0);
+        //bfs.battleTiles[bfs.currentTile].GetComponent<TileClass>().occupied = true;
+    }
+
+    bool TileCheck(int movementRangeX = 0, int movementRangeY = 0)
+    {
+        foreach (TileAlignment aligned in alignedTiles)
         {
-
-            //currentTileClass.SetColour(currentTileClass.initialMaterialColour);
-            previousTile = currentTile;
-            SetTileInfo(x, y);
-            bfs.playerPosition = new Vector2((int)currentTileClass.gridLocation.x, (int)currentTileClass.gridLocation.y);
-        }
-
-        public void UpdatePlayer()
-        {
-
-            //Teleport player to new position
-            //transform.position = new Vector3(currentTile.transform.position.x, currentTile.transform.position.y, -1.4f);
-            StartCoroutine(LerpPlayer(movementSpeed));
-            //currentTileClass.SetColour(playerTileColour);
-            //transform.position = new Vector3(bfs.battleTilesGrid[(int)bfs.playerPosition.x,(int)bfs.playerPosition.y].transform.position.x, bfs.battleTilesGrid[(int)bfs.playerPosition.x, (int)bfs.playerPosition.y].transform.position.y,-1.4f);
-
-            //bfs.battleTilesGrid[(int)transform.position.x, (int)transform.position.y].GetComponent<TileClass>().SetColour(playerTileColour);
-            //tileColour = bfs.battleTiles[bfs.currentTile].GetComponent<Renderer>().material.color;
-            //bfs.battleTiles[bfs.currentTile].GetComponent<Renderer>().material.color = playerTileColour;
-            //bfs.battleTiles[bfs.currentTile].transform.localPosition += new Vector3(0, Mathf.Lerp(0, -0.1f, 60), 0);
-            //bfs.battleTiles[bfs.currentTile].GetComponent<TileClass>().occupied = true;
-        }
-        bool TileCheck(int movementRangeX = 0, int movementRangeY = 0)
-        {
-            foreach (TileAlignment aligned in alignedTiles)
-            {
             TileClass _tileClass = bfs.battleTilesGrid[(int)currentTileClass.gridLocation.x + movementRangeX, (int)currentTileClass.gridLocation.y + movementRangeY].GetComponent<TileClass>();
 
-                if (_tileClass.tileAlignment == aligned)
+            if (_tileClass.tileAlignment == aligned)
+            {
+                if (_tileClass.occupied == false)
                 {
-                    if (_tileClass.occupied == false)
+                    if (_tileClass.tileEffect != TileEffect.Broken)
                     {
-                        if (_tileClass.tileEffect != TileEffect.Broken)
-                        {
-                            return true;
-                        }
-
+                        return true;
                     }
+
                 }
+            }
+
+        }
+        return false;
+    }
+
+    void SetTileInfo(int x, int y)
+    {
+        currentTile = bfs.battleTilesGrid[(int)currentTileClass.gridLocation.x + x, (int)currentTileClass.gridLocation.y + y];
+        currentTileClass = currentTile.GetComponent<TileClass>();
+        //currentTileClass.DebugCurrentTile();
+    }
+
+    IEnumerator LerpPlayer(float time)
+    {
+        float _elapsedTime = 0f;
+
+        //Set which tile the entity is on before it moves, so that it won't clip into another entity
+        previousTile.GetComponent<TileClass>().occupied = false;
+
+
+        currentTileClass.occupied = true;
+
+        isLerping = true;
+        Vector3 pT = new Vector3(previousTile.transform.position.x, previousTile.transform.position.y, heightAboveGround);
+        Vector3 cT = new Vector3(currentTile.transform.position.x, currentTile.transform.position.y, heightAboveGround);
+
+        while (_elapsedTime <= time)
+        {
+            if (isPaused == false)
+            {
+                transform.position = Vector3.Lerp(pT, cT, (_elapsedTime / time));
+                _elapsedTime += Time.deltaTime;
 
             }
-            return false;
+            yield return new WaitForEndOfFrame();
         }
-        void SetTileInfo(int x, int y)
+        transform.position = cT;
+        playerSprite.sortingOrder = -(int)currentTileClass.gridLocation.y + 5;
+
+
+        //For continuous movement, resetting the delay
+        isLerping = false;
+
+
+
+        yield return new WaitForSeconds(0);
+    }
+
+    #region Pausing/Unpausing
+
+    public void Paused()
+    {
+        anim.enabled = false;
+        emotionAnim.enabled = false;
+        ParticleSystem _pSys = status.hitParticles;
+        if (_pSys.isPlaying)
         {
-            currentTile = bfs.battleTilesGrid[(int)currentTileClass.gridLocation.x + x, (int)currentTileClass.gridLocation.y + y];
-            currentTileClass = currentTile.GetComponent<TileClass>();
-            //currentTileClass.DebugCurrentTile();
+            _pSys.Pause();
         }
+        isPaused = true;
 
-        IEnumerator LerpPlayer(float time)
+    }
+
+    public void UnPaused()
+    {
+        ParticleSystem _pSys = status.hitParticles;
+        if (_pSys.isPaused)
         {
-            float _elapsedTime = 0f;
+            _pSys.Play();
+        }
+        anim.enabled = true;
+        emotionAnim.enabled = true;
 
-            //Set which tile the entity is on before it moves, so that it won't clip into another entity
-            previousTile.GetComponent<TileClass>().occupied = false;
-            currentTileClass.occupied = true;
+        isPaused = false;
 
-            isLerping = true;
-            Vector3 pT = new Vector3(previousTile.transform.position.x, previousTile.transform.position.y, heightAboveGround);
-            Vector3 cT = new Vector3(currentTile.transform.position.x, currentTile.transform.position.y, heightAboveGround);
+    }
 
-            while (_elapsedTime <= time)
+    void RayCheck(Ray ray)
+    {
+        if (Physics.Raycast(ray, out hit, 10f))
+        {
+            Debug.DrawRay(transform.position, -transform.up);
+            if (previousRaycastTile == null)
             {
-                if (isPaused == false)
+                previousRaycastTile = hit.transform.gameObject;
+                currentRaycastTile = hit.transform.gameObject;
+
+                TileClass _previousRaycastTileClass = previousRaycastTile.GetComponent<TileClass>();
+                _previousRaycastTileClass.SetColour(playerTileColour);
+            }
+            else
+            {
+                if (hit.transform.gameObject != currentRaycastTile | currentRaycastTile.GetComponent<TileClass>().currentColour != playerTileColour)
                 {
-                    transform.position = Vector3.Lerp(pT, cT, (_elapsedTime / time));
-                    _elapsedTime += Time.deltaTime;
+                    
+                    previousRaycastTile.GetComponent<TileClass>().SetColour(previousRaycastTile.GetComponent<TileClass>().initialMaterialColour, false, false, true);
+
+                    currentRaycastTile = hit.transform.gameObject;
+                    currentRaycastTile.GetComponent<TileClass>().SetColour(playerTileColour);
+                    previousRaycastTile = currentRaycastTile;
                 }
-                yield return new WaitForEndOfFrame();
             }
-            transform.position = cT;
-            playerSprite.sortingOrder = -(int)currentTileClass.gridLocation.y + 5;
 
-            
-            //For continuous movement, resetting the delay
-            isLerping = false;
-
-
-            yield return new WaitForSeconds(0);
         }
-
-        #region Pausing/Unpausing
-
-        public void Paused()
+        else
         {
-            anim.enabled = false;
-            emotionAnim.enabled = false;
-            ParticleSystem _pSys = status.hitParticles;
-            if (_pSys.isPlaying)
+            if (previousRaycastTile != null)
             {
-                _pSys.Pause();
+                previousRaycastTile.GetComponent<TileClass>().SetColour(previousRaycastTile.GetComponent<TileClass>().initialMaterialColour);
+                previousRaycastTile = null;
             }
-            isPaused = true;
-
         }
+    }
+    #endregion
 
-        public void UnPaused()
-        {
-            ParticleSystem _pSys = status.hitParticles;
-            if (_pSys.isPaused)
-            {
-                _pSys.Play();
-            }
-            anim.enabled = true;
-            emotionAnim.enabled = true;
 
-            isPaused = false;
-
-        }
-        #endregion
-
-    
 }

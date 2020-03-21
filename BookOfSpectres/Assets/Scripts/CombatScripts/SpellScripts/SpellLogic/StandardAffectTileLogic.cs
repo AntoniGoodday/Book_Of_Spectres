@@ -19,8 +19,8 @@ public class StandardAffectTileLogic : SpellLogic
     public Texture2D patternImage;
     public Texture2D directionImage;
     List<TileClass> tilePattern;
-    Vector2 patternOrigin;
-    Vector2 offsetOrigin;
+    Vector2Int patternOrigin;
+    Vector2Int offsetOrigin;
     List<TilePatternBehaviour> patternBehaviours;
 
     CoroutineScript coroutineScript;
@@ -55,10 +55,7 @@ public class StandardAffectTileLogic : SpellLogic
         var sortedOrderList = patternBehaviours.OrderBy(o => o.order);
         List<TilePatternBehaviour> _tempList = sortedOrderList.ToList();
         _tempList.Reverse();
-        foreach(TilePatternBehaviour tpb in _tempList)
-        {
-            Debug.Log(tpb.tileClass);
-        }
+        
         coroutineScript = CoroutineScript.Instance;
 
         coroutineScript.StartRemoteCoroutine(AdvancedTileEffect(_properties, _user, _userStatus, _tempList, _bfs));
@@ -72,9 +69,9 @@ public class StandardAffectTileLogic : SpellLogic
 
             case (TileEffect.Broken):
                 {
-                        _currentTile.tileEffect = tileEffect;
+                        //_currentTile.tileEffect = tileEffect;
 
-                        _currentTile.CheckEffect();
+                        _currentTile.CheckEffect(tileEffect);
 
                         //_properties.cardHolder.RemoveFirst();
                     
@@ -116,6 +113,32 @@ public class StandardAffectTileLogic : SpellLogic
     {
         TilePatternBehaviour _tpb = new TilePatternBehaviour();
 
+        
+        #region direction
+        if (directionImage != null)
+        {
+            Color directionColor = directionImage.GetPixel(x, y);
+
+            Color directionColorFullAlpha = new Color(directionColor.r, directionColor.g, directionColor.b, 1);
+
+            if (directionColor.a == 0)
+            {
+                return;
+            }
+
+            _tpb.order = directionColor.a;
+
+
+
+            foreach (ColourToDirection directionMapping in colourToDirection)
+            {
+                if (directionMapping.color.Equals(directionColorFullAlpha))
+                {
+                    _tpb.direction = directionMapping.direction;
+                }
+            }
+        }
+        #endregion 
         Color pixelColor = patternImage.GetPixel(x,y);
 
         if(pixelColor.a == 0)
@@ -130,15 +153,16 @@ public class StandardAffectTileLogic : SpellLogic
                 {
                     case (PatternType.Standard):
                         {
-
-                            if (IsValidTile(x + (int)offsetOrigin.x, y + (int)offsetOrigin.y, _bfs))
+                            Vector2Int _offsetVector = new Vector2Int(x, y) + offsetOrigin;
+                            
+                            if (IsValidTile(_offsetVector.x, _offsetVector.y, _bfs))
                             {
                                 _tpb.type = PatternType.Standard;
-                                _tpb.tileClass = _bfs.battleTilesGrid[x + (int)offsetOrigin.x, y + (int)offsetOrigin.y].GetComponent<TileClass>();
+                                _tpb.tileClass = _bfs.battleTilesGrid[_offsetVector.x, _offsetVector.y].GetComponent<TileClass>();
 
 
-                                tilePattern.Add(_bfs.battleTilesGrid[x + (int)offsetOrigin.x, y + (int)offsetOrigin.y].GetComponent<TileClass>());
-                                
+                                tilePattern.Add(_bfs.battleTilesGrid[_offsetVector.x, _offsetVector.y].GetComponent<TileClass>());
+
                                 break;
                             }
                             else
@@ -155,6 +179,89 @@ public class StandardAffectTileLogic : SpellLogic
                             tilePattern.Add(_bfs.battleTilesGrid[x, y].GetComponent<TileClass>());
                             break;
                         }
+                    case (PatternType.Continuous):
+                        {
+                            
+
+                            bool canContinue = true;
+                            
+                            Vector2Int _directionalOffset = new Vector2Int(x,y);
+                            Vector2Int _offsetVector = _directionalOffset + offsetOrigin;
+
+                            if (IsValidTile(_offsetVector.x, _offsetVector.y, _bfs))
+                            {
+                                _tpb.type = PatternType.Continuous;
+                                _tpb.tileClass = _bfs.battleTilesGrid[_offsetVector.x, _offsetVector.y].GetComponent<TileClass>();
+
+
+                                tilePattern.Add(_bfs.battleTilesGrid[_offsetVector.x, _offsetVector.y].GetComponent<TileClass>());
+
+                                int i = 0;
+                                float _orderOffset = 0;
+                                TilePatternBehaviour _previousTPB = new TilePatternBehaviour();
+                                _previousTPB.order = 2;
+                                while (canContinue == true)
+                                {
+                                    TilePatternBehaviour _continuousTPB = new TilePatternBehaviour();
+                                    _orderOffset += 0.01f;
+                                    if (_previousTPB.order > 1)
+                                    {
+                                        _previousTPB.tileClass = _tpb.tileClass;
+                                        _previousTPB.direction = _tpb.direction;
+                                        _previousTPB.type = _tpb.type;
+                                        _previousTPB.order = _tpb.order;
+                                    }
+
+                                    if (_previousTPB.tileClass.tileNeighbours[_previousTPB.direction].GetComponent<TileClass>() != null)
+                                    {
+                                        
+
+                                        _continuousTPB.tileClass = _previousTPB.tileClass.tileNeighbours[_previousTPB.direction].GetComponent<TileClass>();
+                                        _continuousTPB.direction = _previousTPB.direction;
+                                        _continuousTPB.type = _previousTPB.type;
+                                        _continuousTPB.order = _previousTPB.order - _orderOffset;
+
+                                        _directionalOffset = (EnumScript.EnumMethods.DirectionToCoords(_continuousTPB.direction));
+                                        _offsetVector = _continuousTPB.tileClass.gridLocation + _directionalOffset;
+
+                                        if (IsValidTile(_continuousTPB.tileClass.gridLocation.x, _continuousTPB.tileClass.gridLocation.y, _bfs))
+                                        {
+                                            tilePattern.Add(_bfs.battleTilesGrid[_continuousTPB.tileClass.gridLocation.x, _continuousTPB.tileClass.gridLocation.y].GetComponent<TileClass>());
+                                            patternBehaviours.Add(_continuousTPB);
+
+                                            
+                                            _previousTPB = _continuousTPB;
+
+                                            
+                                        }
+                                        else
+                                        {
+                                            canContinue = false;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        canContinue = false;
+                                    }
+
+                                    if(i > 20)
+                                    {
+                                        canContinue = false;
+                                    }
+                                    
+                                    i++;
+
+                                    if(_offsetVector.x >= _bfs.xMax | _offsetVector.y >= _bfs.yMax | _offsetVector.x < 0 | _offsetVector.y < 0)
+                                    {
+                                        canContinue = false;
+                                    }
+                                }
+
+                            }
+                            
+                            
+                            break;
+                        }
                     default:
                         {
                             break;
@@ -163,32 +270,12 @@ public class StandardAffectTileLogic : SpellLogic
             }
         }
 
-        if (directionImage != null)
-        {
-            Color directionColor = directionImage.GetPixel(x, y);
-
-            Color directionColorFullAlpha = new Color(directionColor.r, directionColor.g, directionColor.b, 1);
-
-            if (directionColor.a == 0)
-            {
-                return;
-            }
-            
-            _tpb.order = directionColor.a;
-            
-
-
-            foreach (ColourToDirection directionMapping in colourToDirection)
-            {
-                if (directionMapping.color.Equals(directionColorFullAlpha))
-                {
-                    _tpb.direction = directionMapping.direction;
-                }
-            }
-        }
+        
 
         patternBehaviours.Add(_tpb);
     }
+
+    
 
     void FindOrigin(CombatMiniatureProperties _properties, GameObject _user, int x, int y)
     {  
@@ -207,7 +294,7 @@ public class StandardAffectTileLogic : SpellLogic
                         {
                             case (PatternType.Origin):
                                 {
-                                    patternOrigin = new Vector2(x, y);
+                                    patternOrigin = new Vector2Int(x, y);
                                     x = patternImage.width;
                                     y = patternImage.height;
                                     break;
@@ -242,26 +329,39 @@ public class StandardAffectTileLogic : SpellLogic
                 _nextOrderNumber = _tiles[_currentListItem + 1].order;
             }
 
-            switch (tileEffect)
+            if (tpb.tileClass != null)
             {
+                switch (tileEffect)
+                {
 
-                case (TileEffect.Broken):
-                    {
-                        tpb.tileClass.tileEffect = tileEffect;
+                    case (TileEffect.Broken):
+                        {
+                            //tpb.tileClass.tileEffect = tileEffect;
 
-                        tpb.tileClass.CheckEffect();
+                            tpb.tileClass.CheckEffect(tileEffect);
 
-                        break;
-                    }
-                case (TileEffect.Steal):
-                    {
-                        tpb.tileClass.ChangeAlignment(_bfs.standardColours[0], TileAlignment.Friendly);
+                            break;
+                        }
+                    case (TileEffect.Steal):
+                        {
+                            tpb.tileClass.ChangeAlignment(_bfs.standardColours[0], TileAlignment.Friendly);
 
-                        break;
-                    }
+                            break;
+                        }
+                    case (TileEffect.Cracked):
+                        {
+                            tpb.tileClass.CheckEffect(tileEffect);
+                            break;
+                        }
+                    default:
+                        {
+                            Debug.Log("Something wrong with tile effect spell");
+                            break;
+                        }
+                }
             }
 
-            if(tpb.type == PatternType.Continuous)
+            /*if(tpb.type == PatternType.Continuous)
             {
                 TilePatternBehaviour _tpb = new TilePatternBehaviour();
                 _tpb.direction = tpb.direction;
@@ -273,7 +373,7 @@ public class StandardAffectTileLogic : SpellLogic
                 }
 
                 _tiles.Insert(_currentListItem + 1, _tpb);
-            }
+            }*/
 
             
 

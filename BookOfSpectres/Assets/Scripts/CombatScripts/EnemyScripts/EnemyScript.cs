@@ -31,6 +31,7 @@ public class EnemyScript : MonoBehaviour
     public Vector2 currentGridPosition;
 
     private GameObject previousRaycastTile;
+    private GameObject currentRaycastTile;
     private TileClass previousRaycastTileClass;
     private string tileTag = "Tile";
     private Ray ray;
@@ -71,7 +72,7 @@ public class EnemyScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         if (isRaycasting == true)
         {
@@ -83,15 +84,27 @@ public class EnemyScript : MonoBehaviour
                 if (previousRaycastTile == null)
                 {
                     previousRaycastTile = hit.transform.gameObject;
+                    currentRaycastTile = previousRaycastTile;
                     previousRaycastTileClass = previousRaycastTile.GetComponent<TileClass>();
                     previousRaycastTileClass.SetColour(enemyTileColour);
                 }
                 else
                 {
-                    previousRaycastTileClass.SetColour(previousRaycastTileClass.initialMaterialColour);
-                    previousRaycastTile = hit.transform.gameObject;
-                    previousRaycastTileClass = previousRaycastTile.GetComponent<TileClass>();
-                    previousRaycastTileClass.SetColour(enemyTileColour);
+                    if (hit.transform.gameObject != currentRaycastTile || currentRaycastTile.GetComponent<TileClass>().currentColour != enemyTileColour)
+                    {
+                        
+                        previousRaycastTileClass.SetColour(previousRaycastTileClass.initialMaterialColour, false, false, true);
+                        
+                        
+
+                        currentRaycastTile = hit.transform.gameObject;
+                        currentRaycastTile.GetComponent<TileClass>().SetColour(enemyTileColour);
+
+                        previousRaycastTile = currentRaycastTile;
+                        previousRaycastTileClass = previousRaycastTile.GetComponent<TileClass>();
+                    }
+
+                    
                 }
 
             }

@@ -10,19 +10,24 @@ public class TileClass : MonoBehaviour
     public TileAlignment tileAlignment = TileAlignment.Friendly;
     [SerializeField]
     TileAlignment initialAlignment;
-    
     [SerializeField]
     TileEffect initialTileEffect = TileEffect.Standard;
     [SerializeField]
+    bool returnToStandard = true;
+    [SerializeField]
     public bool occupied = false;
     [SerializeField]
+    public int occupierPriority = 0;
+    [SerializeField]
     public Color initialMaterialColour;
+    [SerializeField]
+    public Color currentColour;
     [SerializeField]
     public int column;
     [SerializeField]
     public int row;
     [SerializeField]
-    public Vector2 gridLocation;
+    public Vector2Int gridLocation;
     [SerializeField]
     public Dictionary<Direction, GameObject> tileNeighbours = new Dictionary<Direction, GameObject>();
     public Renderer rend;
@@ -38,57 +43,66 @@ public class TileClass : MonoBehaviour
     {
         tileEffect = initialTileEffect;
         initialPosition = transform.localPosition;
+        CheckEffect(tileEffect,true);
+        sRend = GetComponentInChildren<SpriteRenderer>(true);
         //rend = gameObject.GetComponent<Renderer>();
     }
     void Start()
     {
         
     }
-    public void SetColour(Color c, bool setup = false, bool overrideColour = false)
+    public void SetColour(Color c, bool setup = false, bool overrideColour = false, bool affectsCracked = false, int priority = 10)
     {
-        rend = gameObject.GetComponent<Renderer>();
-        
-        var tempMaterial = new Material(rend.sharedMaterial)
+        if(priority >= occupierPriority)
         {
-            color = c
-        };
+            occupierPriority = priority;
+            rend = gameObject.GetComponent<Renderer>();
+            currentColour = c;
 
-        if (setup == true)
-        {
-            
-            rend.material.SetColor("_BaseColor", initialMaterialColour);
-        }
-        else if(setup == false)
-        {
+            var tempMaterial = new Material(rend.sharedMaterial)
+            {
+                color = c
+            };
 
-            if(c == initialMaterialColour)
+            if (setup == true)
             {
                 rend.material.SetColor("_BaseColor", initialMaterialColour);
-                UnOccupy();
             }
-            else
+            else if (setup == false)
             {
-                if (overrideColour == false)
+
+                if (c == initialMaterialColour)
                 {
-                    rend.material.SetColor("_BaseColor", initialMaterialColour - tempMaterial.color);
+                    rend.material.SetColor("_BaseColor", initialMaterialColour);
+                    UnOccupy(affectsCracked);
                 }
                 else
                 {
-                    rend.material.SetColor("_BaseColor", tempMaterial.color);
+                    if (overrideColour == false)
+                    {
+                        rend.material.SetColor("_BaseColor", initialMaterialColour - tempMaterial.color);
+                    }
+                    else
+                    {
+                        rend.material.SetColor("_BaseColor", tempMaterial.color);
+                    }
+                    Occupy();
                 }
-                Occupy();
+
             }
-            
+
+            if (GetComponentInChildren<SpriteRenderer>() == true)
+            {
+                //sRend = GetComponentInChildren<SpriteRenderer>();
+                //sRend.sharedMaterial = tempMaterial;
+            }
+
         }
-       
-        if (GetComponentInChildren<SpriteRenderer>() == true)
-        {
-            sRend = GetComponentInChildren<SpriteRenderer>();
-            sRend.sharedMaterial = tempMaterial;
-        }
-        
-       
+
+
     }
+
+    
    
     
 
@@ -99,8 +113,13 @@ public class TileClass : MonoBehaviour
     }
 
     //Make tile not occupied
-    public void UnOccupy()
+    public void UnOccupy(bool affectsCracked)
     {
+        if(affectsCracked == true && tileEffect == TileEffect.Cracked)
+        {
+            CheckEffect(TileEffect.Cracked);
+        }
+        occupierPriority = 0;
         transform.localPosition = initialPosition;
     }
 
@@ -113,11 +132,13 @@ public class TileClass : MonoBehaviour
 
     public void DebugCurrentTile()
     {
+        Debug.Log("Current tile is: " + gameObject.name);
         foreach(KeyValuePair<Direction, GameObject> d in tileNeighbours)
         {
             Debug.Log(d.Key);
             Debug.Log(d.Value);
         }
+        Debug.Log("End of: " + gameObject.name);
     }
 
     public void ChangeAlignment(Color c, TileAlignment _t)
@@ -128,29 +149,100 @@ public class TileClass : MonoBehaviour
         StartCoroutine("ReturnToInitialAlignment");
     }
 
-    public void CheckEffect()
+    public void CheckEffect(TileEffect _tEffect, bool setup = false)
     {
         StopCoroutine("ReturnToInitialEffect");
-        if (tileEffect == TileEffect.Broken)
+        switch (_tEffect)
         {
-            rend.enabled = false;
-            
-        }
-        StartCoroutine("ReturnToInitialEffect");
-    }
+            case (TileEffect.Broken):
+                {
+                    if (occupied == false)
+                    {
+                        sRend.enabled = false;
+                        rend.enabled = false;
+                    }
+                    else
+                    {
+                        CheckEffect(TileEffect.Cracked);
+                        return;
+                    }
+                    break;
+                }
+            case (TileEffect.Cracked):
+                {
+                    if (tileEffect != TileEffect.Cracked)
+                    {
+                        sRend.gameObject.SetActive(true);
+                        tileEffect = _tEffect;
+                        return;
+                    }
+                    else
+                    {
+                        if(setup == true)
+                        {
+                            sRend.gameObject.SetActive(true);
+                            tileEffect = _tEffect;
+                            return;
+                        }
+                        CheckEffect(TileEffect.Broken);    
+                        return;
+                    }
+                }
 
-    
+
+        }
+        tileEffect = _tEffect;
+        if (setup == false)
+        {
+            StartCoroutine("ReturnToInitialEffect");
+        }
+
+
+    }
 
     IEnumerator ReturnToInitialEffect()
     {
 
         yield return new WaitForSeconds(10);
-        if(rend.enabled == false)
+        if(returnToStandard == false)
+        {
+            InitialEffect();
+        }
+        else
+        {
+            Standard();
+        }
+        
+    }
+
+    void InitialEffect()
+    {
+        if (rend.enabled == false)
         {
             rend.enabled = true;
         }
+        if (initialTileEffect == TileEffect.Cracked)
+        {
+            if (sRend.sprite != null)
+            {
+                sRend.gameObject.SetActive(true);
+            }
+        }
         tileEffect = initialTileEffect;
-        
+    }
+
+    void Standard()
+    {
+        if (rend.enabled == false)
+        {
+            rend.enabled = true;
+        }
+
+        if (sRend.sprite != null)
+        {
+            sRend.gameObject.SetActive(false);
+        }
+        tileEffect = TileEffect.Standard;
     }
 
     IEnumerator ReturnToInitialAlignment()
