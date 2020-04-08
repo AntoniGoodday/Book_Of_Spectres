@@ -32,6 +32,12 @@ namespace EnumScript
     //Origin independent = spell always hits specific tiles, regardless of where the player stands
     public enum PatternType { Standard, Origin, Continuous, OriginIndependent }
 
+    public enum DialogueBoxPosition { Left, Right }
+
+    public enum Expression { Neutral = 0, Angry = 1, Smug = 2, Think = 3, Annoyed = 4, Surprised = 5, Flustered = 6 }
+
+    public enum ValueType { Int = 0, String = 1}
+
     public class EnumMethods
     {
         public static Vector2Int DirectionToCoords(Direction d)
