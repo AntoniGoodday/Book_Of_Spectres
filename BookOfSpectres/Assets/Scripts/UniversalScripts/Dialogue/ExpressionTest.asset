@@ -25,9 +25,9 @@ MonoBehaviour:
     setExpression: 0000000001000000020000000300000004000000050000000600000000000000
     holdExpression: 
     speakerDialogue:
-    - Neutral
+    - <speaker=Axolotl>Neutral
     - <expression=Angry>Angry
-    - <expression=Smug>Smug
+    - <speaker=Phoebe><expression=Smug>Smug
     - <expression=Think>Think
     - <expression=Annoyed>Annoyed
     - <expression=Surprised>Surprised

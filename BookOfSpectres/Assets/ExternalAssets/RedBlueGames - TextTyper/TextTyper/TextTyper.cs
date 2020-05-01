@@ -60,7 +60,17 @@
         private int defaultExpression = 0;
         private List<int> characterExpressionTriggers;
 
-        AdvancedTypewriterText advancedTypewriterText;
+        private int defaultSpeaker = 0;
+        private List<int> speakerAssetTriggers;
+
+        private int defaultAlignment = 0;
+        private List<int> alignmentTriggers;
+
+        private List<bool> refreshTriggers;
+
+        string currentText = "";
+        //Replace with AdvancedTypewriterText if InkTypewriterText messes up
+        InkTypewriterText advancedTypewriterText;
         /// <summary>
         /// Gets the PrintCompleted callback event.
         /// </summary>
@@ -115,10 +125,10 @@
         /// </summary>
         /// <param name="text">Text to type.</param>
         /// <param name="printDelay">Print delay (in seconds) per character.</param>
-        public void TypeText(string text, AdvancedTypewriterText typewriterText, float printDelay = -1)
+        public void TypeText(string text, InkTypewriterText typewriterText, float printDelay = -1)
         {
             advancedTypewriterText = typewriterText;
-            
+            currentText = text;
 
             this.CleanupCoroutine();
 
@@ -144,6 +154,9 @@
             this.CleanupCoroutine();
 
             this.TextComponent.maxVisibleCharacters = int.MaxValue;
+
+            this.GetLastCharData(advancedTypewriterText);
+
             this.UpdateMeshAndAnims();
 
             this.OnTypewritingComplete();
@@ -168,7 +181,7 @@
             }
         }
 
-        private IEnumerator TypeTextCharByChar(string text, AdvancedTypewriterText typewriterText)
+        private IEnumerator TypeTextCharByChar(string text, InkTypewriterText typewriterText)
         {
             string taglessText = TextTagParser.RemoveAllTags(text);
             int totalPrintedChars = taglessText.Length;
@@ -176,7 +189,10 @@
             int currPrintedChars = 1;
             this.TextComponent.text = TextTagParser.RemoveCustomTags(text);
 
+            typewriterText.TagSetSpeaker(this.speakerAssetTriggers[currPrintedChars]);
             typewriterText.TagSetExpression(this.characterExpressionTriggers[currPrintedChars]);
+            typewriterText.TagSetAlignment(this.alignmentTriggers[currPrintedChars]);
+            typewriterText.RefreshSpeaker();
 
             do {
                 this.TextComponent.maxVisibleCharacters = currPrintedChars;
@@ -184,10 +200,26 @@
 
                 this.OnCharacterPrinted(taglessText[currPrintedChars - 1].ToString());
 
+                if (this.speakerAssetTriggers[currPrintedChars - 1] != typewriterText.changeSpeaker)
+                {
+                    typewriterText.TagSetSpeaker(this.speakerAssetTriggers[currPrintedChars - 1]);
+                }
+
                 if (this.characterExpressionTriggers[currPrintedChars - 1] != typewriterText.changeExpression)
                 {
                     typewriterText.TagSetExpression(this.characterExpressionTriggers[currPrintedChars - 1]);
                 }
+
+                if (this.characterExpressionTriggers[currPrintedChars - 1] != (int)typewriterText.dialogueBoxPosition)
+                {
+                    typewriterText.TagSetAlignment(this.alignmentTriggers[currPrintedChars - 1]);
+                }
+
+                if (this.refreshTriggers[currPrintedChars - 1] != false)
+                {
+                    typewriterText.RefreshSpeaker();
+                }
+
 
                 yield return new WaitForSeconds(this.characterPrintDelays[currPrintedChars - 1]);
                 ++currPrintedChars;
@@ -196,6 +228,41 @@
 
             this.typeTextCoroutine = null;
             this.OnTypewritingComplete();
+        }
+
+        void GetLastCharData(InkTypewriterText typewriterText)
+        {
+            string taglessText = TextTagParser.RemoveAllTags(currentText);
+            int totalPrintedChars = taglessText.Length;
+            int lastChar = totalPrintedChars - 1;
+
+            //typewriterText.TagSetSpeaker(this.speakerAssetTriggers[totalPrintedChars - 1]);
+            //typewriterText.TagSetExpression(this.characterExpressionTriggers[totalPrintedChars - 1]);
+            //typewriterText.TagSetAlignment(this.alignmentTriggers[totalPrintedChars - 1]);
+
+            this.UpdateMeshAndAnims();
+
+            this.OnCharacterPrinted(taglessText[totalPrintedChars - 1].ToString());
+
+            if (this.speakerAssetTriggers[totalPrintedChars - 1] != typewriterText.changeSpeaker)
+            {
+                typewriterText.TagSetSpeaker(this.speakerAssetTriggers[totalPrintedChars - 1]);
+            }
+
+            if (this.characterExpressionTriggers[totalPrintedChars - 1] != typewriterText.changeExpression)
+            {
+                typewriterText.TagSetExpression(this.characterExpressionTriggers[totalPrintedChars - 1]);
+            }
+
+            if (this.characterExpressionTriggers[totalPrintedChars - 1] != (int)typewriterText.dialogueBoxPosition)
+            {
+                typewriterText.TagSetAlignment(this.alignmentTriggers[totalPrintedChars - 1]);
+            }
+
+            if (this.refreshTriggers[totalPrintedChars - 1] != false)
+            {
+                typewriterText.RefreshSpeaker();
+            }
         }
 
         private void UpdateMeshAndAnims() 
@@ -224,7 +291,11 @@
         private void ProcessCustomTags(string text) 
         {
             this.characterPrintDelays = new List<float>(text.Length);
+            this.speakerAssetTriggers = new List<int>(text.Length);
             this.characterExpressionTriggers = new List<int>(text.Length);
+            this.alignmentTriggers = new List<int>(text.Length);
+            this.refreshTriggers = new List<bool>(text.Length);
+
 
             this.animations = new List<TextAnimation>();
 
@@ -236,6 +307,9 @@
             float nextDelay = this.defaultPrintDelay;
 
             int nextExpression = this.defaultExpression;
+            int nextSpeaker = this.defaultSpeaker;
+            int nextAlignment = this.defaultAlignment;
+            bool nextTrigger = false;
 
             foreach (var symbol in textAsSymbolList) 
             {
@@ -286,8 +360,18 @@
                     }
                     else if(symbol.Tag.TagType == TextTagParser.CustomTags.Expression)
                     {
-                        
                         nextExpression = symbol.GetIntParameter(this.defaultExpression);
+                        nextTrigger = true;
+                    }
+                    else if (symbol.Tag.TagType == TextTagParser.CustomTags.Speaker)
+                    {
+                        nextSpeaker = symbol.GetIntParameter(this.defaultSpeaker);
+                        nextTrigger = true;
+                    }
+                    else if (symbol.Tag.TagType == TextTagParser.CustomTags.Alignment)
+                    {
+                        nextAlignment = symbol.GetIntParameter(this.defaultAlignment);
+                        nextTrigger = true;
                     }
 
                     else
@@ -310,7 +394,11 @@
                         this.characterPrintDelays.Add(nextDelay);
                     }
 
+                    this.speakerAssetTriggers.Add(nextSpeaker);
                     this.characterExpressionTriggers.Add(nextExpression);
+                    this.alignmentTriggers.Add(nextAlignment);
+
+                    this.refreshTriggers.Add(nextTrigger);
                 }
             }
         }
@@ -337,8 +425,16 @@
         {
             if (this.PrintCompleted != null)
             {
+                UpdateDefaults();
                 this.PrintCompleted.Invoke();
             }
+        }
+
+        void UpdateDefaults()
+        {
+            defaultExpression = advancedTypewriterText.changeExpression;
+            defaultSpeaker = advancedTypewriterText.changeSpeaker;
+            defaultAlignment = (int)advancedTypewriterText.dialogueBoxPosition;
         }
 
         /// <summary>

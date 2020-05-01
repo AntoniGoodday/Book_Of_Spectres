@@ -131,7 +131,7 @@ public class AdvancedTypewriterText : MonoBehaviour
         }
 
         OnNext();
-        this.textTyper.TypeText(dialogueLines.Dequeue(), this);
+        //this.textTyper.TypeText(dialogueLines.Dequeue(), this);
     }
 
     private void LogTag(RichTextTag tag)

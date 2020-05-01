@@ -11,6 +11,8 @@
     /// </summary>
     public sealed class TextTagParser
     {
+        
+
         /// <summary>
         /// Define custom tags here. These should also be added to the CustomTagTypes List below
         /// </summary>
@@ -21,6 +23,8 @@
             public const string Animation = "animation";
 
             public const string Expression = "expression";
+            public const string Speaker = "speaker";
+            public const string Alignment = "alignment";
         }
 
         //private static readonly string[] UnityTagTypes = new string[] { "b", "i", "size", "color", "style" };
@@ -66,6 +70,8 @@
             CustomTags.Anim,
             CustomTags.Animation,
             CustomTags.Expression,
+            CustomTags.Speaker,
+            CustomTags.Alignment
         };
 
         public static List<TextSymbol> CreateSymbolListFromText(string text)
@@ -205,8 +211,19 @@
 
                 int paramValue;
 
-
-                if (!int.TryParse(this.Tag.Parameter, out paramValue))
+                if(Enum.TryParse(this.Tag.Parameter, out Expression _expression))
+                {
+                    paramValue = (int)_expression;
+                }
+                else if (Enum.TryParse(this.Tag.Parameter, out Speaker _speaker))
+                {
+                    paramValue = (int)_speaker;
+                }
+                else if (Enum.TryParse(this.Tag.Parameter, out DialogueBoxPosition _align))
+                {
+                    paramValue = (int)_align;
+                }
+                else if (!int.TryParse(this.Tag.Parameter, out paramValue))
                 {
                     var warning = string.Format(
                                   "Found Invalid parameter format in tag [{0}]. " +
@@ -217,16 +234,9 @@
                     paramValue = defaultValue;
                 }
 
-                if(Enum.TryParse(this.Tag.Parameter, out Expression _expression))
-                {
-                    paramValue = (int)_expression;
-                }
-                
 
                 return paramValue;
             }
-
-            
         }
     }
 }
