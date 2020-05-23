@@ -38,18 +38,29 @@ public class TileClass : MonoBehaviour
     bool effectResetIsRunning = false;
     bool alignmentResetIsRunning = false;
     Vector3 initialPosition;
+
+    ObjectPooler objectPooler;
+
+    float initialWait = 10;
+    float bonusWait = 0;
+
+    float timeSinceStart = 0;
+
     // Use this for initialization
     private void Awake()
     {
+        objectPooler = ObjectPooler.Instance;
         tileEffect = initialTileEffect;
         initialPosition = transform.localPosition;
         CheckEffect(tileEffect,true);
         sRend = GetComponentInChildren<SpriteRenderer>(true);
+        sRend.enabled = false;
+        sRend.gameObject.SetActive(true);
         //rend = gameObject.GetComponent<Renderer>();
     }
     void Start()
     {
-        
+        StartCoroutine(UpdateRealTime());
     }
     public void SetColour(Color c, bool setup = false, bool overrideColour = false, bool affectsCracked = false, int priority = 10)
     {
@@ -108,8 +119,7 @@ public class TileClass : MonoBehaviour
 
     public void Occupy()
     {
-
-        transform.localPosition = initialPosition + new Vector3(0, Mathf.Lerp(0, 0.1f, 1), 0);
+        transform.localPosition = initialPosition + new Vector3(0, 0, Mathf.Lerp(0, -0.1f, 1));
     }
 
     //Make tile not occupied
@@ -143,15 +153,16 @@ public class TileClass : MonoBehaviour
 
     public void ChangeAlignment(Color c, TileAlignment _t)
     {
-        StopCoroutine("ReturnToInitialAlignment");
+        StopCoroutine(ReturnToInitialAlignment());
         SetColour(c,false);
         tileAlignment = _t;
-        StartCoroutine("ReturnToInitialAlignment");
+        StartCoroutine(ReturnToInitialAlignment());
     }
 
     public void CheckEffect(TileEffect _tEffect, bool setup = false)
     {
-        StopCoroutine("ReturnToInitialEffect");
+        
+        //StopCoroutine(ReturnToInitialEffect());
         switch (_tEffect)
         {
             case (TileEffect.Broken):
@@ -160,6 +171,11 @@ public class TileClass : MonoBehaviour
                     {
                         sRend.enabled = false;
                         rend.enabled = false;
+                        if (Resources.Load("Particles/TileBreakParticles") != null)
+                        {
+                            objectPooler.SpawnFromPool("TileBreakParticles", this.gameObject.transform.position - new Vector3(0, 0, 0), Quaternion.Euler(180, 0, 0), objectPooler.transform, (Resources.Load("Particles/TileBreakParticles") as GameObject));
+                        }
+                        gameObject.layer = 9;
                     }
                     else
                     {
@@ -170,17 +186,21 @@ public class TileClass : MonoBehaviour
                 }
             case (TileEffect.Cracked):
                 {
-                    if (tileEffect != TileEffect.Cracked)
+                    if (tileEffect != TileEffect.Cracked && tileEffect != TileEffect.Broken)
                     {
-                        sRend.gameObject.SetActive(true);
+                        sRend.enabled = true;
                         tileEffect = _tEffect;
+                        if (Resources.Load("Particles/TileCrackParticles") != null)
+                        {
+                            objectPooler.SpawnFromPool("TileCrackParticles", this.gameObject.transform.position - new Vector3(0, 0, 0.75f), Quaternion.Euler(180, 0, 0), objectPooler.transform, (Resources.Load("Particles/TileCrackParticles") as GameObject));
+                        }
                         return;
                     }
                     else
                     {
                         if(setup == true)
                         {
-                            sRend.gameObject.SetActive(true);
+                            sRend.enabled = true;
                             tileEffect = _tEffect;
                             return;
                         }
@@ -194,7 +214,14 @@ public class TileClass : MonoBehaviour
         tileEffect = _tEffect;
         if (setup == false)
         {
-            StartCoroutine("ReturnToInitialEffect");
+            if (effectResetIsRunning == true)
+            {
+                bonusWait += initialWait;
+            }
+            else
+            {
+                StartCoroutine(ReturnToInitialEffect());
+            }
         }
 
 
@@ -202,8 +229,8 @@ public class TileClass : MonoBehaviour
 
     IEnumerator ReturnToInitialEffect()
     {
-
-        yield return new WaitForSeconds(10);
+        effectResetIsRunning = true;
+        yield return new WaitForSeconds(initialWait + bonusWait);
         if(returnToStandard == false)
         {
             InitialEffect();
@@ -212,6 +239,8 @@ public class TileClass : MonoBehaviour
         {
             Standard();
         }
+        effectResetIsRunning = false;
+        bonusWait = 0;
         
     }
 
@@ -225,10 +254,12 @@ public class TileClass : MonoBehaviour
         {
             if (sRend.sprite != null)
             {
-                sRend.gameObject.SetActive(true);
+                sRend.enabled = true;
             }
         }
         tileEffect = initialTileEffect;
+
+        gameObject.layer = 0;
     }
 
     void Standard()
@@ -240,9 +271,11 @@ public class TileClass : MonoBehaviour
 
         if (sRend.sprite != null)
         {
-            sRend.gameObject.SetActive(false);
+            sRend.enabled = false; ;
         }
         tileEffect = TileEffect.Standard;
+
+        gameObject.layer = 0;
     }
 
     IEnumerator ReturnToInitialAlignment()
@@ -252,5 +285,15 @@ public class TileClass : MonoBehaviour
 
         tileAlignment = initialAlignment;
         SetColour(initialMaterialColour);
+    }
+
+    IEnumerator UpdateRealTime()
+    {
+        while (true)
+        {
+            rend.material.SetFloat("_UnscaledTime", timeSinceStart);
+            timeSinceStart += Time.unscaledDeltaTime;
+            yield return new WaitForSecondsRealtime(0);
+        }
     }
 }

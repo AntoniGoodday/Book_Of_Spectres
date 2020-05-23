@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using EnumScript;
-using Cinemachine.Editor;
 using Cinemachine;
 public class ProjectileScript : MonoBehaviour, IpooledObject
 {
@@ -44,6 +43,15 @@ public class ProjectileScript : MonoBehaviour, IpooledObject
     private RaycastHit hit;
     public bool isPaused = false;
 
+    public delegate void ProjectileDodgedDelegate();
+    public event ProjectileDodgedDelegate dodgeEvent;
+
+
+    private void Start()
+    {
+        
+        GameObject.Find("PlayerStats").GetComponent<PlayerAchievements>().AddProjectileToTrack(this);
+    }
 
     // Start is called before the first frame update
     void Awake()
@@ -55,13 +63,26 @@ public class ProjectileScript : MonoBehaviour, IpooledObject
         tr = GetComponentInChildren<TrailRenderer>();
         rb = GetComponent<Rigidbody>();
         boxCollider = GetComponent<BoxCollider>();
+
+        
        
         initialDamageDealt = damageDealt;
     }
 
+    
+
     private void OnTriggerEnter(Collider other)
     {
-        
+        if (other.transform.tag == "DodgeVolume")
+        {
+            if (bAlign != BulletAlignement.Friendly)
+            {
+                dodgeEvent?.Invoke();
+                return;
+            }
+        }
+
+
         if (other.transform.tag != owner && other.transform.tag != transform.tag)
         {
             tr.autodestruct = true;
@@ -84,6 +105,7 @@ public class ProjectileScript : MonoBehaviour, IpooledObject
         
     }
 
+    
 
     public void OnObjectSpawn()
     {
@@ -218,7 +240,7 @@ public class ProjectileScript : MonoBehaviour, IpooledObject
         {
             
             isPaused = true;
-            rb.velocity = new Vector3(0, 0, 0);
+            /*rb.velocity = new Vector3(0, 0, 0);
 
             
             tr.time = Mathf.Infinity;
@@ -229,18 +251,19 @@ public class ProjectileScript : MonoBehaviour, IpooledObject
             if (pSystem != null)
             {
                 pSystem.Pause();
-            }
+            }*/
         }
     }
     public void UnPaused()
     {
         if (gameObject.activeSelf == true)
         {
-            resumeTime = Time.time;
+            isPaused = false;
+            /*resumeTime = Time.time;
             tr.time = (resumeTime - pauseTime) + trailTime;
             Invoke("SetTrailTime", trailTime);
             rb.velocity = new Vector3(speed, 0, 0);
-            isPaused = false;
+            
             
             //tr.emitting = true;
             //rb.isKinematic = false;
@@ -249,7 +272,8 @@ public class ProjectileScript : MonoBehaviour, IpooledObject
             {
                 pSystem.Play();
             }
-            
+            */
+
         }
     }
 

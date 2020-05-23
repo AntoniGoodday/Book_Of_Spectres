@@ -82,7 +82,7 @@ public class ChosenSpells : MonoBehaviour
             if (_spellCard.advancedSpellComponents.Count == 0)
             {
 
-                Debug.Log(_spellCard.advancedSpellComponents.Count);
+                //Debug.Log(_spellCard.advancedSpellComponents.Count);
 
                 spellAdvance.beforeMerge += _spellCard.name + " ";
 
@@ -215,7 +215,7 @@ public class ChosenSpells : MonoBehaviour
         {
             TurnBarScript.Instance.UnPause();
             cardHolder.SetSpellName();
-            objectPooler.UnPauseAll();
+            combatMenu.MenuUnPause();
         }
 
         

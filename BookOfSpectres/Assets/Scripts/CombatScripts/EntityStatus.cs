@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using EnumScript;
 using TMPro;
-using Cinemachine.Editor;
 using Cinemachine;
 public class EntityStatus : MonoBehaviour
 {
@@ -18,6 +17,13 @@ public class EntityStatus : MonoBehaviour
     public Facing directionFacing;
 
     [SerializeField]
+    AudioClip hitSound;
+    [SerializeField]
+    AudioClip hitWeak;
+
+    AudioSource aSource;
+
+    [SerializeField]
     GameObject hitLocation;
     [SerializeField]
     List<int> hitLayers;
@@ -27,7 +33,10 @@ public class EntityStatus : MonoBehaviour
     CinemachineImpulseSource impulseSource;
 
     public AiMastermind aiMastermind;
-     public virtual void Start()
+
+    public List<StatusEffect> StatusEffects { get => statusEffects; set => statusEffects = value; }
+
+    public virtual void Start()
     {
         objectPooler = ObjectPooler.Instance;
         aiMastermind = AiMastermind.Instance;
@@ -37,15 +46,26 @@ public class EntityStatus : MonoBehaviour
 
         anim = GetComponent<Animator>();
         impulseSource = GetComponent<CinemachineImpulseSource>();
+
+        aSource = GetComponent<AudioSource>();
         UpdateUI();
         
     }
 
-    public void DealDamage(int damage, float zPos = -1.4f, float amplitudeModifier = 0.05f, BulletAlignement damageSource = BulletAlignement.Enemy)
+    public virtual void DealDamage(int damage, float zPos = -1.4f, float amplitudeModifier = 0.05f, BulletAlignement damageSource = BulletAlignement.Enemy)
     {
         hp -= damage;
         UpdateUI();
         int _clampedDamage = Mathf.Clamp(damage/10, 0, 10);
+        aSource.pitch = Random.Range(0.8f, 1.2f);
+        if (damage < 20)
+        {
+            aSource.PlayOneShot(hitWeak);
+        }
+        else
+        {
+            aSource.PlayOneShot(hitSound);
+        }
         
         if (hitParticles != null)
         {
@@ -64,12 +84,22 @@ public class EntityStatus : MonoBehaviour
             StartCoroutine("PauseGame", damage);
 
         }
-        if(hp <= 0)
+
+        if(hp <= 0 && !statusEffects.Contains(StatusEffect.Endure))
         {
             Die();
             
             //gameObject.SetActive(false);
             
+        }
+        else if(hp <= 0 && statusEffects.Contains(StatusEffect.Endure))
+        {
+            hp = 1;
+            if(maxHp <= 0)
+            {
+                maxHp = 1;
+            }
+            UpdateUI();
         }
     }
 

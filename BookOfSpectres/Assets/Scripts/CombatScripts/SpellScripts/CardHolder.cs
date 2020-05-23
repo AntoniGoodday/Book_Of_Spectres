@@ -2,11 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 public class CardHolder : MonoBehaviour
 {
     public List<GameObject> spellMiniatures;
 
     public TextMeshProUGUI spellName;
+
+    Image background;
+
+    private void Start()
+    {
+        background = GameObject.Find("SpellNameBackground").GetComponent<Image>();
+        spellName = GameObject.Find("CurrentSpellName").GetComponent<TextMeshProUGUI>();
+    }
 
     public void Purge()
     {
@@ -28,11 +37,13 @@ public class CardHolder : MonoBehaviour
     {
         if (spellMiniatures.Count > 0)
         {
-            
+            background.enabled = true;
             SpellCard _tempSpell = spellMiniatures[0].GetComponent<SpellVisuals>().spell;
             if (_tempSpell.spellLogic.showPower == true)
             {
+                
                 spellName.text = _tempSpell.name + " " + spellMiniatures[0].GetComponent<CombatMiniatureProperties>().power.ToString();
+
             }
             else
             {
@@ -44,6 +55,7 @@ public class CardHolder : MonoBehaviour
         }
         else
         {
+            background.enabled = false;
             spellName.text = "";
         }
     }

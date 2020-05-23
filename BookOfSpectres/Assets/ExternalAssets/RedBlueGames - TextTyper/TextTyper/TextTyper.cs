@@ -66,6 +66,9 @@
         private int defaultAlignment = 0;
         private List<int> alignmentTriggers;
 
+        private string defaultInvoke = null;
+        private List<string> invokeTriggers;
+
         private List<bool> refreshTriggers;
 
         string currentText = "";
@@ -129,6 +132,7 @@
         {
             advancedTypewriterText = typewriterText;
             currentText = text;
+            defaultSpeaker = typewriterText.changeSpeaker;
 
             this.CleanupCoroutine();
 
@@ -190,11 +194,20 @@
             this.TextComponent.text = TextTagParser.RemoveCustomTags(text);
 
             typewriterText.TagSetSpeaker(this.speakerAssetTriggers[currPrintedChars]);
+
             typewriterText.TagSetExpression(this.characterExpressionTriggers[currPrintedChars]);
+
+            if (this.invokeTriggers[currPrintedChars] != null)
+            {
+                typewriterText.Invoke(this.invokeTriggers[currPrintedChars], 0);
+            }
+
             typewriterText.TagSetAlignment(this.alignmentTriggers[currPrintedChars]);
             typewriterText.RefreshSpeaker();
 
             do {
+                
+
                 this.TextComponent.maxVisibleCharacters = currPrintedChars;
                 this.UpdateMeshAndAnims();
 
@@ -215,13 +228,19 @@
                     typewriterText.TagSetAlignment(this.alignmentTriggers[currPrintedChars - 1]);
                 }
 
+                if(this.invokeTriggers[currPrintedChars - 1] != null)
+                {
+                    typewriterText.Invoke(this.invokeTriggers[currPrintedChars - 1], 0);
+                    
+                }
+
                 if (this.refreshTriggers[currPrintedChars - 1] != false)
                 {
                     typewriterText.RefreshSpeaker();
                 }
 
 
-                yield return new WaitForSeconds(this.characterPrintDelays[currPrintedChars - 1]);
+                yield return new WaitForSecondsRealtime(this.characterPrintDelays[currPrintedChars - 1]);
                 ++currPrintedChars;
             }
             while (currPrintedChars <= totalPrintedChars);
@@ -244,6 +263,8 @@
 
             this.OnCharacterPrinted(taglessText[totalPrintedChars - 1].ToString());
 
+            
+
             if (this.speakerAssetTriggers[totalPrintedChars - 1] != typewriterText.changeSpeaker)
             {
                 typewriterText.TagSetSpeaker(this.speakerAssetTriggers[totalPrintedChars - 1]);
@@ -257,6 +278,11 @@
             if (this.characterExpressionTriggers[totalPrintedChars - 1] != (int)typewriterText.dialogueBoxPosition)
             {
                 typewriterText.TagSetAlignment(this.alignmentTriggers[totalPrintedChars - 1]);
+            }
+
+            if (this.invokeTriggers[totalPrintedChars - 1] != null)
+            {
+                typewriterText.Invoke(this.invokeTriggers[totalPrintedChars - 1], 0);
             }
 
             if (this.refreshTriggers[totalPrintedChars - 1] != false)
@@ -294,6 +320,7 @@
             this.speakerAssetTriggers = new List<int>(text.Length);
             this.characterExpressionTriggers = new List<int>(text.Length);
             this.alignmentTriggers = new List<int>(text.Length);
+            this.invokeTriggers = new List<string>(text.Length);
             this.refreshTriggers = new List<bool>(text.Length);
 
 
@@ -309,6 +336,7 @@
             int nextExpression = this.defaultExpression;
             int nextSpeaker = this.defaultSpeaker;
             int nextAlignment = this.defaultAlignment;
+            string nextInvoke = this.defaultInvoke;
             bool nextTrigger = false;
 
             foreach (var symbol in textAsSymbolList) 
@@ -373,6 +401,11 @@
                         nextAlignment = symbol.GetIntParameter(this.defaultAlignment);
                         nextTrigger = true;
                     }
+                    else if (symbol.Tag.TagType == TextTagParser.CustomTags.Invoke)
+                    {
+                        nextInvoke = symbol.GetStringParameter(this.defaultInvoke);
+                        nextTrigger = true;
+                    }
 
                     else
                     {
@@ -397,8 +430,11 @@
                     this.speakerAssetTriggers.Add(nextSpeaker);
                     this.characterExpressionTriggers.Add(nextExpression);
                     this.alignmentTriggers.Add(nextAlignment);
+                    this.invokeTriggers.Add(nextInvoke);
 
                     this.refreshTriggers.Add(nextTrigger);
+
+                    nextInvoke = null;
                 }
             }
         }

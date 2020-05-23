@@ -232,8 +232,6 @@ D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Boo.La
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Boo.Lang.Parser.dll
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Boo.Lang.Useful.dll
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.CecilTools.dll
-D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Assembly-CSharp-firstpass.pdb
-D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Ink-Libraries.pdb
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.xml
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEditor.xml
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEditor.TestRunner.pdb
@@ -332,3 +330,6 @@ D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\obj\Debug\Assembly-CS
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\obj\Debug\Assembly-CSharp-Editor-firstpass.csproj.CopyComplete
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\obj\Debug\Assembly-CSharp-Editor-firstpass.dll
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\obj\Debug\Assembly-CSharp-Editor-firstpass.pdb
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Assembly-CSharp-firstpass.pdb
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Ink-Libraries.pdb
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\XInputDotNetPure.dll

@@ -52,7 +52,10 @@ public class SpellAdvance : MonoBehaviour
         foreach(TextMeshProUGUI text in spellNames)
         {
             text.text = "";
-            text.gameObject.GetComponent<Animator>().SetBool("isFlashing", false);
+            if (text.gameObject.GetComponent<Animator>().isActiveAndEnabled)
+            {
+                text.gameObject.GetComponent<Animator>().SetBool("isFlashing", false);
+            }
             text.color = new Color(1, 1, 1, 1);
             text.gameObject.SetActive(false);
         }
@@ -112,15 +115,15 @@ public class SpellAdvance : MonoBehaviour
             spellNames[j].gameObject.GetComponent<Animator>().Play("Visible",1);
             
             spellNames[j].text = _separatedNames[j];
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSecondsRealtime(0.3f);
         }
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSecondsRealtime(1f);
         ShowAdvancedSpell();
     }
 
     IEnumerator StartRound()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSecondsRealtime(1);
 
         
 

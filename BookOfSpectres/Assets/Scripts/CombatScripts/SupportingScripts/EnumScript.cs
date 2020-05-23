@@ -14,7 +14,7 @@ namespace EnumScript
 
     public enum Direction { DownLeft, Down, DownRight, Left, Right, UpLeft, Up, UpRight, Reset }
 
-    public enum StatusEffect { SoulSap, Rejuvenation }
+    public enum StatusEffect { SoulSap, Rejuvenation, Endure }
 
     public enum Facing { Right, Left }
 

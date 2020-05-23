@@ -25,6 +25,7 @@
             public const string Expression = "expression";
             public const string Speaker = "speaker";
             public const string Alignment = "alignment";
+            public const string Invoke = "invoke";
         }
 
         //private static readonly string[] UnityTagTypes = new string[] { "b", "i", "size", "color", "style" };
@@ -71,7 +72,8 @@
             CustomTags.Animation,
             CustomTags.Expression,
             CustomTags.Speaker,
-            CustomTags.Alignment
+            CustomTags.Alignment,
+            CustomTags.Invoke
         };
 
         public static List<TextSymbol> CreateSymbolListFromText(string text)
@@ -233,6 +235,21 @@
                     Debug.LogWarning(warning);
                     paramValue = defaultValue;
                 }
+
+
+                return paramValue;
+            }
+
+            public string GetStringParameter(string defaultValue = "")
+            {
+                if (!this.IsTag)
+                {
+                    Debug.LogWarning("Attempted to retrieve parameter from symbol that is not a tag.");
+                    return defaultValue;
+                }
+
+                string paramValue = this.Tag.Parameter.ToString();
+
 
 
                 return paramValue;

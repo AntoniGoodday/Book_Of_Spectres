@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speakerName: Phoebe
   expressionSprites:
-  - {fileID: -5308480060525271378, guid: 0e78ca4103b852342b5c23f767f2ab89, type: 3}
-  - {fileID: 3826528111882699877, guid: 0e78ca4103b852342b5c23f767f2ab89, type: 3}
-  - {fileID: 2268063835247047100, guid: 0e78ca4103b852342b5c23f767f2ab89, type: 3}
-  - {fileID: -1161462237561347856, guid: 0e78ca4103b852342b5c23f767f2ab89, type: 3}
-  - {fileID: -5221167282874864315, guid: b43416c8ad36173488b1592cf4cb47f7, type: 3}
-  - {fileID: -3996528907960598977, guid: 0e78ca4103b852342b5c23f767f2ab89, type: 3}
-  - {fileID: -4666985041938262922, guid: b43416c8ad36173488b1592cf4cb47f7, type: 3}
+  - {fileID: 21300000, guid: d45a9e6468eb6d34fb5d3f5e976d9571, type: 3}
+  - {fileID: 21300000, guid: 0b1278f642179c741b4300df93bb2ea5, type: 3}
+  - {fileID: 21300000, guid: 110634e82a1f2cf4084c0fc2af0ff9db, type: 3}
+  - {fileID: 21300000, guid: c2efe82074089754d8ca317312f3c6f8, type: 3}
+  - {fileID: 21300000, guid: d0f878d0759bc40478739a9d8d9e186c, type: 3}
+  - {fileID: 21300000, guid: 0b2ffe1d5f7fd4a4691a8527b53a0ba1, type: 3}
+  - {fileID: 21300000, guid: ef7a18ccc25669c488addac849e39e39, type: 3}

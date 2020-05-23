@@ -18,6 +18,8 @@ public class SpellSlot : MonoBehaviour, ISelectHandler
 
     Button slotButton;
 
+    float lerpTime = 0.1f;
+
     bool isClicked = false;
 
     void Awake()
@@ -76,24 +78,28 @@ public class SpellSlot : MonoBehaviour, ISelectHandler
         isClicked = true;
         float _elapsedTime = 0;
         Vector3 _startingPos = gameObject.transform.position;
-        while (_elapsedTime <= 0.1f)
+
+       
+        while (_elapsedTime <= lerpTime)
         {
           
-                miniature.transform.position = Vector3.Lerp(_startingPos, _mGoal.position, (_elapsedTime / 0.1f));
-                _elapsedTime += Time.deltaTime;
+                miniature.transform.position = Vector3.Lerp(_startingPos, _mGoal.position, (_elapsedTime / lerpTime));
+                _elapsedTime += Time.unscaledDeltaTime;
             
-            yield return new WaitForEndOfFrame();
+            yield return null;
         }
+        miniature.transform.position = _mGoal.position;
         miniature.transform.SetParent(_mGoal.parent.transform);
         miniature.transform.SetSiblingIndex(miniature.transform.parent.childCount - 2);
-        
+        yield return null;   
     }
 
     IEnumerator LerpMovementBack()
     {
-        Vector3 _startingPos = gameObject.transform.position;
+
+        Vector3 _startingPos = miniature.transform.position;
         chosenSpells.RemoveFromList(miniature);
-        miniature.transform.SetParent(null);
+         
         ColorBlock _colors = slotButton.colors;
         _colors.normalColor = new Color(1f, 1f, 1f);
         _colors.selectedColor = new Color(0, 1, 1);
@@ -101,15 +107,16 @@ public class SpellSlot : MonoBehaviour, ISelectHandler
         isClicked = false;
         float _elapsedTime = 0;
         
-        while (_elapsedTime <= 0.1f)
+        while (_elapsedTime <= lerpTime)
         {
-            miniature.transform.position = Vector3.Lerp(_startingPos, transform.position, (_elapsedTime / 0.1f));
-            _elapsedTime += Time.deltaTime;
+            miniature.transform.position = Vector3.Lerp(_startingPos, transform.position, (_elapsedTime / lerpTime));
+            _elapsedTime += Time.unscaledDeltaTime;
 
-            yield return new WaitForEndOfFrame();
+            yield return null;
         }
+        miniature.transform.position = transform.position;
         miniature.transform.SetParent(transform);
         miniature.SetActive(false);
-
+        yield return null;
     }
 }

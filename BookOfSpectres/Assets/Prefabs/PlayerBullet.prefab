@@ -51,13 +51,12 @@ MonoBehaviour:
   rb: {fileID: 0}
   speed: 50
   defaultParent: {fileID: 0}
-  damageDealt: 10
+  damageDealt: 2
   amplitudeModifier: 0.05
   expirationTime: 3
   bulletTrail: {fileID: 7887658855362848774, guid: 829d7da31e1c003498801215a8da4f35,
     type: 3}
   isPaused: 0
-  groundColour: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 1}
 --- !u!54 &216255683533230125
 Rigidbody:
   m_ObjectHideFlags: 0

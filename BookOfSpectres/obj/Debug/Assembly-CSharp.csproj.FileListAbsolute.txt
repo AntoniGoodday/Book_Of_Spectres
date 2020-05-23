@@ -922,3 +922,4 @@ D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.Recorder.pdb
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Assembly-CSharp-firstpass.pdb
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Ink-Libraries.pdb
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\XInputDotNetPure.dll

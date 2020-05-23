@@ -18,10 +18,11 @@ public class StandardAffectTileLogic : SpellLogic
     public List<ColourToDirection> colourToDirection;
     public Texture2D patternImage;
     public Texture2D directionImage;
-    List<TileClass> tilePattern;
+    List<TileClass> tilePattern = new List<TileClass>();
     Vector2Int patternOrigin;
     Vector2Int offsetOrigin;
-    List<TilePatternBehaviour> patternBehaviours;
+    List<TilePatternBehaviour> patternBehaviours = new List<TilePatternBehaviour>();
+
 
     CoroutineScript coroutineScript;
     private void Awake()

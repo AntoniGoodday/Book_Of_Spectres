@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using EnumScript;
+using UnityEngine.SceneManagement;
 public class PlayerStatus : EntityStatus
 {
     [SerializeField]
@@ -16,6 +18,9 @@ public class PlayerStatus : EntityStatus
     [SerializeField]
     GameObject zoomInCam;
 
+    public delegate void HitDelegate();
+    public event HitDelegate hitEvent;
+
     public override void Start()
     {
         playerScript = PlayerScript.Instance;
@@ -28,6 +33,15 @@ public class PlayerStatus : EntityStatus
         canvasAnim = GameObject.Find("Canvas").GetComponent<Animator>();
         base.Start();
         
+    }
+
+    public override void DealDamage(int damage, float zPos = -1.4f, float amplitudeModifier = 0.05f, BulletAlignement damageSource = BulletAlignement.Enemy)
+    {
+        if (damage > 0)
+        {
+            hitEvent?.Invoke();
+        }
+        base.DealDamage(damage, zPos, amplitudeModifier, damageSource);
     }
 
     public override void Die()
@@ -75,7 +89,7 @@ public class PlayerStatus : EntityStatus
     IEnumerator RestartGame()
     {
         yield return new WaitForSeconds(10);
-        Application.LoadLevel(0);
+        SceneManager.LoadScene(0);
     }
 
     public override void EnemyStart()

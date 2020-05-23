@@ -27,11 +27,11 @@ MonoBehaviour:
   - stringValue: 
     intValue: 0
     spellElement: {fileID: 11400000, guid: 480ee5d52f082ea4990c33284efe10f3, type: 2}
-    sprite: {fileID: 21300000, guid: 174f9208ac065b6418699a90454df48b, type: 3}
+    sprite: {fileID: 21300000, guid: fb0f963b958decb448b55da10a2f3949, type: 3}
   - stringValue: 
     intValue: 0
     spellElement: {fileID: 11400000, guid: a05b31b977a6aaf488e79928ec2b47d4, type: 2}
-    sprite: {fileID: 21300000, guid: 174f9208ac065b6418699a90454df48b, type: 3}
+    sprite: {fileID: 21300000, guid: fb0f963b958decb448b55da10a2f3949, type: 3}
   - stringValue: Utility
     intValue: 0
     spellElement: {fileID: 11400000, guid: 982914cd3e943f343aee46be3472458e, type: 2}

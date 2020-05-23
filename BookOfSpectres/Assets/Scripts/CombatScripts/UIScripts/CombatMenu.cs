@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using EnumScript;
+
 public class CombatMenu : MonoBehaviour
 {
     public Animator canvasAnimator;
@@ -22,6 +23,8 @@ public class CombatMenu : MonoBehaviour
 
     public bool recycleGraveyard = false;
 
+    public bool shuffleDeck = false;
+
     public List<SpellCard> playerCombatExile = new List<SpellCard>();
 
 
@@ -37,8 +40,19 @@ public class CombatMenu : MonoBehaviour
 
     [SerializeField]
     ManaManager manaManager;
+
+    int minimumSpellsChosen = 0;
+
+    public int MinimumSpellsChosen { get => minimumSpellsChosen; set => minimumSpellsChosen = value; }
+
+    public delegate void MenuPauseDelegate();
+    public event MenuPauseDelegate menuPauseEvent;
+    public delegate void MenuUnPauseDelegate();
+    public event MenuUnPauseDelegate menuUnPauseEvent;
+
     private void Start()
     {
+        Random.seed = System.Environment.TickCount;
         objectPooler = ObjectPooler.Instance;
         playerDeck = PlayerDeck.Instance;
         playerAttributes = PlayerAttributes.Instance;
@@ -48,30 +62,45 @@ public class CombatMenu : MonoBehaviour
         canvasAnimator = gameObject.GetComponent<Animator>();
 
         foreach(SpellCard d in playerDeck.pDeck)
-        {
-            
-           playerCombatDeck.Add(d);
-            
+        { 
+           playerCombatDeck.Add(d);   
         }
+
+        if(shuffleDeck == true)
+        {
+            for(int i = 0; i < playerCombatDeck.Count; i++)
+            {
+                SpellCard temp = playerCombatDeck[i];
+                int randomIndex = Random.Range(i, playerCombatDeck.Count);
+                playerCombatDeck[i] = playerCombatDeck[randomIndex];
+                playerCombatDeck[randomIndex] = temp;
+            }
+        }
+
         manaManager = GameObject.Find("ManaManager").GetComponent<ManaManager>();
     }
 
     public void ReadyButton()
     {
-        EventSystem.current.SetSelectedGameObject(null);
-        canvasAnimator.Play("MenuSlideOut");
+        if (chosenSpells.spellMiniatures.Count >= minimumSpellsChosen)
+        {
+            EventSystem.current.SetSelectedGameObject(null);
+            canvasAnimator.Play("MenuSlideOut");
+        }
     }
 
     public void MenuPause()
     {
         //WIP MANA< CHANGE LATER
-        manaManager.manaType[0].currentAmount = playerAttributes.maxMana;
-        manaManager.manaType[0].SetText();
-
         if (objectPooler.isPaused == false)
         {
             objectPooler.PauseAll();
         }
+
+        manaManager.manaType[0].currentAmount = playerAttributes.maxMana;
+        manaManager.manaType[0].SetText();
+
+        
         
         RefillHand();
 
@@ -92,10 +121,15 @@ public class CombatMenu : MonoBehaviour
 
         TurnBarScript.Instance.UnPause();
         EventSystem.current.SetSelectedGameObject(null);
+
         if (objectPooler.isPaused)
         {
             objectPooler.UnPauseAll();
         }
+
+        MenuClosed();
+
+        
     }
 
     void RefillHand()
@@ -194,7 +228,19 @@ public class CombatMenu : MonoBehaviour
         spellAdvance.SetSpellNames();
     }
 
-   
+    public void MenuOpened()
+    {
+        menuPauseEvent?.Invoke();
+        this.GetComponent<CanvasGroup>().interactable = true;
+    }
+
+    public void MenuClosed()
+    {
+        menuUnPauseEvent?.Invoke();
+        this.GetComponent<CanvasGroup>().interactable = false;
+    }
+
+
 
     public void MoveCardToDestination(SpellCard s, CardDestination from, CardDestination to)
     {

@@ -7,16 +7,21 @@ public class TurnBarScript : MonoBehaviour
     public static TurnBarScript Instance;
     Image turnBar;
     [SerializeField]
-    public float maxTurnTime = 10f;
+    float maxTurnTime = 10f;
     [SerializeField]
     float speedModifier;
-    public float currentTurnTime;
+    float currentTurnTime;
     [SerializeField]
     Material material;
 
     public bool isPaused = false;
 
     Color barColour;
+
+    public float SpeedModifier { get => speedModifier; set => speedModifier = value; }
+    public float MaxTurnTime { get => maxTurnTime; set => maxTurnTime = value; }
+    public float CurrentTurnTime { get => currentTurnTime; set => currentTurnTime = value; }
+
     // Use this for initialization
     void Start()
     {
@@ -30,22 +35,22 @@ public class TurnBarScript : MonoBehaviour
     {
         if (isPaused == false)
         {
-            if (currentTurnTime == 0)
+            if (CurrentTurnTime == 0)
             {
                 turnBar.material = null;
                 turnBar.color = barColour;
             }
-            if (currentTurnTime < maxTurnTime)
+            if (CurrentTurnTime < MaxTurnTime)
             {
-                currentTurnTime += Time.deltaTime * speedModifier;
+                CurrentTurnTime += Time.deltaTime * SpeedModifier;
             }
-            else if (currentTurnTime >= maxTurnTime)
+            else if (CurrentTurnTime >= MaxTurnTime)
             {
                 turnBar.material = material;
                 turnBar.color = new Color(0, 0, 0);
             }
 
-            turnBar.fillAmount = currentTurnTime / maxTurnTime;
+            turnBar.fillAmount = CurrentTurnTime / MaxTurnTime;
         }
     }
 
@@ -58,21 +63,21 @@ public class TurnBarScript : MonoBehaviour
         else if(keepTime == false && ctt <= 0)
         {
             isPaused = true;
-            currentTurnTime = 0;
+            CurrentTurnTime = 0;
             turnBar.material = null;
             turnBar.color = barColour;
         }
         else
         {
             isPaused = true;
-            currentTurnTime = ctt;
+            CurrentTurnTime = ctt;
         }
-        turnBar.fillAmount = currentTurnTime / maxTurnTime;
+        turnBar.fillAmount = CurrentTurnTime / MaxTurnTime;
     }
     public void UnPause(float changeTime = 0)
     {
-        currentTurnTime += changeTime;
+        CurrentTurnTime += changeTime;
         isPaused = false;
-        turnBar.fillAmount = currentTurnTime / maxTurnTime;
+        turnBar.fillAmount = CurrentTurnTime / MaxTurnTime;
     }
 }

@@ -131,7 +131,6 @@ public class EnemyScript : MonoBehaviour
 
     public IEnumerator LerpMovement(float time)
     {
-        bool _occupied = false;
         if (coroutineIsOn == false)
         {
             coroutineIsOn = true;
@@ -191,22 +190,23 @@ public class EnemyScript : MonoBehaviour
 
     public void Paused()
     {
-        anim.enabled = false;
+        /*anim.enabled = false;
         ParticleSystem _pSys = status.hitParticles;
         if (_pSys.isPlaying)
         {
             _pSys.Pause();
-        }
+        }*/
         isPaused = true;
     }
     public void UnPaused()
     {
+        /*
         anim.enabled = true;
         ParticleSystem _pSys = status.hitParticles;
         if (_pSys.isPaused)
         {
             _pSys.Play();
-        }
+        }*/
         isPaused = false;
     }
 

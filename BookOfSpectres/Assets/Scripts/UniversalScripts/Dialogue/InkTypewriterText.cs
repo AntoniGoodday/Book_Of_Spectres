@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using TMPro;
 using Ink.Runtime;
 using EnumScript;
+using UnityEngine.SceneManagement;
 public class InkTypewriterText : MonoBehaviour
 {
     [SerializeField]
@@ -26,6 +27,7 @@ public class InkTypewriterText : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI[] namePoints;
 
+    [SerializeField]
     private Queue<string> dialogueLines = new Queue<string>();
 
     [SerializeField]
@@ -50,42 +52,61 @@ public class InkTypewriterText : MonoBehaviour
 
     public bool endDialogue = false;
 
+    bool endDialogueEvent = false;
+
+    bool setNextSpeaker = false;
+
+    [SerializeField]
+    bool unpauseAfterEnd = true;
+
+    bool initializeButtonChoice = false;
+
+    //Text Event Variables
+    string sceneName = "";
+
     public DialogueBoxPosition dialogueBoxPosition = DialogueBoxPosition.Left;
+
+    //for simple effects, such as darkening/lightening the screen when dialogue plays
+    [SerializeField]
+    Image darkness;
+    [SerializeField]
+    Image lightness;
+
+    ObjectPooler objectPooler;
+    private void Awake()
+    {
+        
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         story = new Story(inkJSONAsset.text);
 
+        SceneManager.sceneLoaded += OnSceneLoaded;
+
+        //FIX LATER
+        FindObjectOfType<CombatMenu>().menuPauseEvent += MenuPaused;
+        FindObjectOfType<CombatMenu>().menuUnPauseEvent += MenuUnPaused;
+
+
+        //story.ChoosePathString("tutorial_1");
+
+        BindExternalFunctions();
+
         currentSpeaker = Resources.Load<SpeakerAsset>("DialogueSpeakers/PhoebeDialogue");
 
-        currentLineNumber = -1;
+        objectPooler = ObjectPooler.Instance;
+
+        
         this.textTyper.PrintCompleted.AddListener(this.HandlePrintCompleted);
         this.textTyper.CharacterPrinted.AddListener(this.HandleCharacterPrinted);
 
         //this.printNextButton.onClick.AddListener(this.HandlePrintNextClicked);
         //this.printNoSkipButton.onClick.AddListener(this.HandlePrintNoSkipClicked);
 
-        
-
-
-
-        /*for (int i = 0; i < _dialogueClass.speakerDialogue.Length; i++)
-        {
-            _tempArray[i] = AlignToSide(i) + _dialogueClass.speakerDialogue[i];
-        }
-
-        foreach (string s in _tempArray)
-        {
-            dialogueLines.Enqueue(s);
-        }*/
-
-        InkStory();
-
-        /*foreach (string s in _dialogueClass.speakerDialogue)
-        {
-            dialogueLines.Enqueue(s);
-        }*/
-
+        //InkStory();
+     
         /*dialogueLines.Enqueue("Hello! My name is... <delay=0.5>NPC</delay>. Got it, <i>bub</i>?");
         dialogueLines.Enqueue("You can <b>use</b> <i>uGUI</i> <size=40>text</size> <size=20>tag</size> and <color=#ff0000ff>color</color> tag <color=#00ff00ff>like this</color>.");
         dialogueLines.Enqueue("bold <b>text</b> test <b>bold</b> text <b>test</b>");
@@ -93,14 +114,35 @@ public class InkTypewriterText : MonoBehaviour
         dialogueLines.Enqueue("You can <color=#ff0000ff>color</color> tag <color=#00ff00ff>like this</color>.");
         dialogueLines.Enqueue("Sample Shake Animations: <anim=lightrot>Light Rotation</anim>, <anim=lightpos>Light Position</anim>, <anim=fullshake>Full Shake</anim>\nSample Curve Animations: <animation=slowsine>Slow Sine</animation>, <animation=bounce>Bounce Bounce</animation>, <animation=crazyflip>Crazy Flip</animation>");*/
 
-        ShowScript();
+        //StartDialogue();
+    }
 
-        SetExpression();
+    public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        switch (scene.name)
+        {
+            case ("BattleScene"):
+                {
+                    FindObjectOfType<CombatMenu>().menuPauseEvent += MenuPaused;
+                    FindObjectOfType<CombatMenu>().menuUnPauseEvent += MenuUnPaused;
+                    break;
+                }
+        }
+    }
 
+    void MenuPaused()
+    {
+        unpauseAfterEnd = false;
+    }
+
+    void MenuUnPaused()
+    {
+        unpauseAfterEnd = true;
     }
 
     public void Update()
     {
+
         if (Input.GetKeyDown(KeyCode.Tilde))
         {
 
@@ -115,11 +157,83 @@ public class InkTypewriterText : MonoBehaviour
             tag = RichTextTag.ParseNext("This tag is a closing tag </bold>");
             LogTag(tag);
         }
-        if (Input.GetKeyDown(KeyCode.Space))
+
+        if (Input.GetButtonUp("Shoot") || Input.GetButtonUp("Use"))
         {
-            HandlePrintNextClicked();
+            HandlePrintNextClicked(); 
         }
+
+        if (choiceButtons[0].IsActive() && initializeButtonChoice == false)
+        {
+            if(Input.GetButtonUp("MoveLeft") )
+            {
+                choiceButtons[0].FindSelectableOnLeft();
+                initializeButtonChoice = true;
+            }
+            else if(Input.GetButtonUp("MoveRight"))
+            {
+                choiceButtons[0].FindSelectableOnRight();
+                initializeButtonChoice = true;
+            }
+            else if (Input.GetButtonUp("Shoot") || Input.GetButtonUp("Use"))
+            {
+                choiceButtons[0].Select();
+                initializeButtonChoice = true;
+            }
+        }
+
     }
+
+    public void StartDialogue(string knot = "")
+    {
+        objectPooler.SetLowpass(300);
+        if(unpauseAfterEnd == false)
+        {
+            FindObjectOfType<CombatMenu>().GetComponent<CanvasGroup>().interactable = false;
+        }
+
+        dialogueLines.Clear();
+        endDialogue = false;
+
+        currentLineNumber = -1;
+
+        InkStory();
+
+        if (objectPooler != null)
+        {
+            objectPooler.PauseAll();
+        }
+
+        foreach (Transform t in gameObject.GetComponentInChildren<Transform>())
+        {
+            t.gameObject.SetActive(true);
+        }
+
+        var _darkColour = darkness.color;
+        _darkColour.a = 0.6f;
+        darkness.color = _darkColour;
+
+        //ShowScript();
+        if (dialogueLines.Count == 0 && story.currentChoices.Count > 0)
+        {
+            foreach (GameObject g in activateButtons)
+            {
+                g.SetActive(true);
+            }
+        }
+
+        if (dialogueLines.Count <= 0)
+        {
+            if (endDialogue == true)
+            {
+                StartCoroutine(EndStory());
+            }
+            return;
+        }
+        this.textTyper.TypeText(dialogueLines.Dequeue(), this);
+        SetExpression();
+    }
+
 
     private void HandlePrintNextClicked()
     {
@@ -140,25 +254,41 @@ public class InkTypewriterText : MonoBehaviour
 
     private void ShowScript()
     {
-        if(dialogueLines.Count == 0 && story.currentChoices.Count > 0)
+        if (!story.canContinue && story.currentChoices.Count == 0)
         {
-            foreach (GameObject g in activateButtons)
-            {
-                g.SetActive(true);
-            }
+            endDialogue = true;
         }
 
-        if (dialogueLines.Count <= 0)
+        if (endDialogue == true)
+        {
+            StartCoroutine(EndStory());
+            return;
+        }
+
+        /*if (dialogueLines.Count <= 0)
         {
             if(endDialogue == true)
             {
                 EndStory();
             }
+            Debug.Log("End, but check failed");
+            return;
+        }*/
+
+        if (story.currentChoices.Count > 0)
+        {
+            OnNext();
+            foreach (GameObject g in activateButtons)
+            {
+                g.SetActive(true);
+            }
             return;
         }
-
         OnNext();
-        this.textTyper.TypeText(dialogueLines.Dequeue(), this);
+        if (dialogueLines.Count > 0)
+        {
+            this.textTyper.TypeText(dialogueLines.Dequeue(), this);
+        }
     }
 
     private void LogTag(RichTextTag tag)
@@ -168,7 +298,7 @@ public class InkTypewriterText : MonoBehaviour
             Debug.Log("Tag: " + tag.ToString());
         }
     }
-
+    
     private void HandleCharacterPrinted(string printedCharacter)
     {
         // Do not play a sound for whitespace
@@ -189,11 +319,13 @@ public class InkTypewriterText : MonoBehaviour
 
     private void HandlePrintCompleted()
     {
-        Debug.Log("TypeText Complete");
+        //Debug.Log("Line print finished 2");
     }
 
     private void OnNext()
     {
+        InkStory();
+
 
         /*if (currentLineNumber + 1 < dialogueLines.Count)
         {
@@ -301,7 +433,6 @@ public class InkTypewriterText : MonoBehaviour
                 }
             case (Speaker.Axolotl):
                 {
-
                     break;
                 }
 
@@ -313,18 +444,42 @@ public class InkTypewriterText : MonoBehaviour
 
         changeSpeaker = (int)speaker;
         currentSpeaker = Resources.Load<SpeakerAsset>("DialogueSpeakers/" + speaker + "Dialogue");
-
+        
     }
 
     public void RefreshSpeaker()
     {
-        imagePoints[(int)dialogueBoxPosition].enabled = true;
-        imagePoints[(int)dialogueBoxPosition].sprite = currentSpeaker.expressionSprites[changeExpression];
-        namePoints[(int)dialogueBoxPosition].text = currentSpeaker.speakerName;
+        foreach(int i in Enum.GetValues(typeof(DialogueBoxPosition)))
+        {
+            if(i == (int)dialogueBoxPosition)
+            {
+                imagePoints[(int)dialogueBoxPosition].enabled = true;
+                imagePoints[(int)dialogueBoxPosition].sprite = currentSpeaker.expressionSprites[changeExpression];
+                imagePoints[(int)dialogueBoxPosition].SetNativeSize();
+                namePoints[(int)dialogueBoxPosition].text = currentSpeaker.speakerName;
+            }
+            else
+            {
+                imagePoints[i].enabled = false;
+                namePoints[i].text = "";
+            }
+        }
+        
+    }
+
+    public void InvokeVoid()
+    {
+        Debug.Log("The void has invoked:");
+    }
+
+    public void TwoNumbers(int x, int y)
+    {
+        Debug.Log(x + " and " + y);
     }
 
     void InkStory()
     {
+
         if (activateButtons != null)
         {
             activateButtons.Clear();
@@ -335,7 +490,7 @@ public class InkTypewriterText : MonoBehaviour
             b.gameObject.SetActive(false);
         }
 
-        while (story.canContinue)
+        /*while (story.canContinue)
         {
             // Continue gets the next line of the story
             string text = story.Continue();
@@ -344,11 +499,28 @@ public class InkTypewriterText : MonoBehaviour
             // Display the text on screen!
             dialogueLines.Enqueue(text);
 
-        }
+        }*/
 
-        // Display all the choices, if there are any!
-        if (story.currentChoices.Count > 0)
+
+        if (story.canContinue)
         {
+            
+            // Continue gets the next line of the story
+            string text = story.Continue();
+            // This removes any white space from the text.
+            text = text.Trim();
+            // Display the text on screen!
+            //dialogueLines.Enqueue(ParseTextLine(text));
+
+
+
+            dialogueLines.Enqueue(ParseTextLine(text));
+
+        }
+        // Display all the choices, if there are any!
+        else if (story.currentChoices.Count > 0)
+        {
+            initializeButtonChoice = false;
             for (int i = 0; i < story.currentChoices.Count; i++)
             {
                 Choice choice = story.currentChoices[i];
@@ -362,14 +534,55 @@ public class InkTypewriterText : MonoBehaviour
                 choiceButtons[i].onClick.AddListener(delegate {
                     OnClickChoiceButton(choice);
                 });
+
+                
             }
+
+            //choiceButtons[0].Select();
 
         }
         // If we've read all the content and there's no choices, the story is finished!
         else
         {
-            endDialogue = true;
+
         }
+    }
+
+    public string ParseTextLine(string line)
+    {
+        string content = "";
+        string speaker = "";
+
+        if (TrySplitContentBySearchString(line, ": ", ref speaker, ref content))
+        {
+            
+            Enum.TryParse(speaker, out Speaker _spk);
+            changeSpeaker = (int)_spk;
+            changeExpression = 0;
+
+            SetSpeaker();
+            SetExpression();
+            RefreshSpeaker();
+        }
+        else
+        {
+            return line;
+        }
+
+        return content;
+    }
+
+    public bool TrySplitContentBySearchString(string line, string searchFor, ref string left, ref string right)
+    {
+        int firstSpecialCharacterIndex = line.IndexOf(searchFor);
+        if(firstSpecialCharacterIndex == -1)
+        {
+            return false;
+        }
+
+        left = line.Substring(0, firstSpecialCharacterIndex).Trim();
+        right = line.Substring(firstSpecialCharacterIndex + searchFor.Length, line.Length - firstSpecialCharacterIndex - searchFor.Length).Trim();
+        return true;
     }
 
     // When we click the choice button, tell the story to choose that choice!
@@ -377,17 +590,70 @@ public class InkTypewriterText : MonoBehaviour
     {
         story.ChooseChoiceIndex(choice.index);
 
-        InkStory();
+        //InkStory();
 
         ShowScript();
     }
 
-    void EndStory()
+    IEnumerator EndStory(float time = 0.1f)
     {
-        Debug.Log("disable");
-        foreach(RectTransform t in GetComponentInChildren<RectTransform>())
+        yield return new WaitForSecondsRealtime(time);
+        //Debug.Log("disable");
+        //foreach(RectTransform t in GetComponentInChildren<RectTransform>())
+        //{
+        //    t.gameObject.SetActive(false);
+        //}
+
+        
+        
+
+        var _darkColour = darkness.color;
+        _darkColour.a = 0.6f;
+        darkness.color = _darkColour;
+
+        GoToScene();
+
+        foreach(Transform t in gameObject.GetComponentInChildren<Transform>())
         {
             t.gameObject.SetActive(false);
+        }
+
+        if (unpauseAfterEnd == true)
+        {
+            if (objectPooler != null)
+            {
+                objectPooler.UnPauseAll();
+            }
+        }
+        else
+        {
+            FindObjectOfType<CombatMenu>().GetComponent<CanvasGroup>().interactable = true;
+        }
+
+        objectPooler.SetLowpass(22000);
+        //this.gameObject.SetActive(false);
+    }
+
+    void PlayStory()
+    {
+
+    }
+
+    void BindExternalFunctions()
+    {
+        story.BindExternalFunction("GoToScene", (string _sceneName) =>
+        {
+            endDialogueEvent = true;
+            sceneName = _sceneName; 
+        });
+    }
+
+
+    void GoToScene()
+    {
+        if (sceneName != "")
+        {
+            SceneManager.LoadScene(sceneName);
         }
     }
 

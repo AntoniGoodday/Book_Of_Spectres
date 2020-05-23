@@ -42,7 +42,9 @@ namespace UnityEngine.EventSystems
         /// Name of the submit button.
         /// </summary>
         [SerializeField]
-        private string m_SubmitButton = "Submit";
+        private string m_SubmitButton = "Shoot";
+        [SerializeField]
+        private string m_AltSubmitButton = "Use";
 
         /// <summary>
         /// Name of the submit button.
@@ -109,6 +111,12 @@ namespace UnityEngine.EventSystems
             set { m_SubmitButton = value; }
         }
 
+        public string altSubmitButton
+        {
+            get { return m_AltSubmitButton; }
+            set { m_AltSubmitButton = value; }
+        }
+
         public string cancelButton
         {
             get { return m_CancelButton; }
@@ -136,6 +144,7 @@ namespace UnityEngine.EventSystems
 
             var shouldActivate = m_ForceModuleActive;
             Input.GetButtonDown(m_SubmitButton);
+            Input.GetButtonDown(m_AltSubmitButton);
             shouldActivate |= Input.GetButtonDown(m_CancelButton);
             shouldActivate |= !Mathf.Approximately(Input.GetAxisRaw(m_HorizontalAxis), 0.0f);
             shouldActivate |= !Mathf.Approximately(Input.GetAxisRaw(m_VerticalAxis), 0.0f);
@@ -188,7 +197,7 @@ namespace UnityEngine.EventSystems
                 return false;
 
             var data = GetBaseEventData();
-            if (Input.GetButtonDown(m_SubmitButton))
+            if (Input.GetButtonDown(m_SubmitButton) || Input.GetButtonDown(m_AltSubmitButton))
                 ExecuteEvents.Execute(eventSystem.currentSelectedGameObject, data, ExecuteEvents.submitHandler);
 
             if (Input.GetButtonDown(m_CancelButton))

@@ -273,3 +273,4 @@ D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\obj\Debug\Ink-Librari
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\obj\Debug\Ink-Libraries.csproj.CopyComplete
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\obj\Debug\Ink-Libraries.dll
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\obj\Debug\Ink-Libraries.pdb
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\XInputDotNetPure.dll

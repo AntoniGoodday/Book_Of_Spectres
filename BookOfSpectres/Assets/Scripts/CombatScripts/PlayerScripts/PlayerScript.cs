@@ -12,6 +12,10 @@ public class PlayerScript : MonoBehaviour
     public event ShootDelegate shootEvent;
     public delegate void ChargedShootDelegate();
     public event ShootDelegate chargedShootEvent;
+
+
+    public delegate void MoveDelegate(MoveDirection direction);
+    public event MoveDelegate moveEvent;
     #endregion
 
     public static PlayerScript Instance;
@@ -41,6 +45,8 @@ public class PlayerScript : MonoBehaviour
     [SerializeField]
     List<ParticleSystem> chargeParticles;
     [SerializeField]
+    ParticleSystem spellParticles;
+    [SerializeField]
     float heightAboveGround = -1.25f;
 
     bool isLerping = false;
@@ -56,6 +62,8 @@ public class PlayerScript : MonoBehaviour
     StandardPlayerShot standardShot;
     [SerializeField]
     ChargedPlayerShot chargedShot;
+
+    bool canShoot = true;
     /*Spell origin:
     0 - Regular Slot
     */
@@ -98,7 +106,6 @@ public class PlayerScript : MonoBehaviour
         firstButton = GameObject.Find("Slot1");
         turnBarScript = GameObject.Find("TurnBar").GetComponent<TurnBarScript>();
         cardHolder = GameObject.Find("PlayerCanvas").GetComponent<CardHolder>();
-        playerSprite = GetComponentInChildren<SpriteRenderer>();
 
         Instance = this;
 
@@ -123,7 +130,7 @@ public class PlayerScript : MonoBehaviour
         //currentTileClass.SetColour(playerTileColour);
         currentTileClass.occupied = true;
 
-        playerSprite.sortingOrder = -(int)currentTileClass.gridLocation.y + 5;
+        SetSortingOrder(-(int)currentTileClass.gridLocation.y + 5);
     }
 
     // Update is called once per frame
@@ -138,10 +145,7 @@ public class PlayerScript : MonoBehaviour
                 {
                     if ((int)currentTileClass.gridLocation.y + movementRange < bfs.yMax && TileCheck(0, movementRange))
                     {
-                        isLerping = true;
-                        ZeroOutTheDelays();
-                        UpdateBattlefield(0, movementRange);
-                        UpdatePlayer();
+                        MovePlayer(MoveDirection.Up);
                     }
 
                 }
@@ -149,10 +153,7 @@ public class PlayerScript : MonoBehaviour
                 {
                     if ((int)currentTileClass.gridLocation.y - movementRange >= 0 && TileCheck(0, -movementRange))
                     {
-                        isLerping = true;
-                        ZeroOutTheDelays();
-                        UpdateBattlefield(0, -movementRange);
-                        UpdatePlayer();
+                        MovePlayer(MoveDirection.Down);
                     }
 
                 }
@@ -160,10 +161,7 @@ public class PlayerScript : MonoBehaviour
                 {
                     if ((int)currentTileClass.gridLocation.x - 1 >= 0 && TileCheck(-movementRange, 0))
                     {
-                        isLerping = true;
-                        ZeroOutTheDelays();
-                        UpdateBattlefield(-movementRange, 0);
-                        UpdatePlayer();
+                        MovePlayer(MoveDirection.Left);
                     }
 
                 }
@@ -171,10 +169,7 @@ public class PlayerScript : MonoBehaviour
                 {
                     if ((int)currentTileClass.gridLocation.x + 1 < bfs.xMax && TileCheck(movementRange, 0))
                     {
-                        isLerping = true;
-                        ZeroOutTheDelays();
-                        UpdateBattlefield(movementRange, 0);
-                        UpdatePlayer();
+                        MovePlayer(MoveDirection.Right);
                     }
 
                 }
@@ -182,29 +177,22 @@ public class PlayerScript : MonoBehaviour
 
                 #region consoleInput
                 else if (Input.GetAxisRaw("MoveVertical") != 0)
-                {
+                { 
                     if (vertAxisInUse == false)
                     {
                         if (Input.GetAxisRaw("MoveVertical") < 0)
                         {
+                            
                             if ((int)currentTileClass.gridLocation.y - movementRange >= 0 && TileCheck(0, -movementRange))
                             {
-                                vertAxisInUse = true;
-                                isLerping = true;
-                                ZeroOutTheDelays();
-                                UpdateBattlefield(0, -movementRange);
-                                UpdatePlayer();
+                                MovePlayer(MoveDirection.Down);
                             }
                         }
                         else if (Input.GetAxisRaw("MoveVertical") > 0)
                         {
                             if ((int)currentTileClass.gridLocation.y + movementRange < bfs.yMax && TileCheck(0, movementRange))
                             {
-                                vertAxisInUse = true;
-                                isLerping = true;
-                                ZeroOutTheDelays();
-                                UpdateBattlefield(0, movementRange);
-                                UpdatePlayer();
+                                MovePlayer(MoveDirection.Up);
                             }
                         }
                     }
@@ -218,22 +206,14 @@ public class PlayerScript : MonoBehaviour
                         {
                             if ((int)currentTileClass.gridLocation.x - 1 >= 0 && TileCheck(-movementRange, 0))
                             {
-                                horizontalAxisInUse = true;
-                                isLerping = true;
-                                ZeroOutTheDelays();
-                                UpdateBattlefield(-movementRange, 0);
-                                UpdatePlayer();
+                                MovePlayer(MoveDirection.Left);
                             }
                         }
                         if (Input.GetAxisRaw("MoveHorizontal") > 0)
                         {
                             if ((int)currentTileClass.gridLocation.x + 1 < bfs.xMax && TileCheck(movementRange, 0))
                             {
-                                horizontalAxisInUse = true;
-                                isLerping = true;
-                                ZeroOutTheDelays();
-                                UpdateBattlefield(movementRange, 0);
-                                UpdatePlayer();
+                                MovePlayer(MoveDirection.Right);
                             }
                         }
                     }
@@ -260,39 +240,31 @@ public class PlayerScript : MonoBehaviour
 
                     }
                 }
-                if (Input.GetButtonUp("Shoot"))
+                if (Input.GetButtonUp("Shoot") && canShoot == true)
                 {
-                    foreach (ParticleSystem ps in chargeParticles)
-                    {
-                        if (ps.isPlaying == true)
-                        {
-                            ps.Stop();
-                            ps.Clear();
-                        }
-                    }
-                    anim.Play("Attack");
+                    canShoot = false;
+
+                    ClearChargeParticles();
+                    
                     if (shotFullyCharged == false)
                     {
 
                         standardShot.Shoot(spellOrigin[0].transform, gameObject);
 
-
+                        anim.Play("Attack");
 
                         //objectPooler.SpawnFromPool("PlayerBullet", spellOrigin.transform.position, Quaternion.Euler(0, 0, 90), gameObject.transform);
                     }
                     else
                     {
                         //objectPooler.SpawnFromPool("ChargedPlayerBullet", spellOrigin.transform.position, Quaternion.Euler(0, 0, 90), gameObject.transform);
-                        chargedShot.ShootCharged(spellOrigin[0].transform, gameObject);
-                        shotFullyCharged = false;
-
-                        chargedShootEvent?.Invoke();
+                        ShootCharged();
                     }
                     shootEvent?.Invoke();
 
                     shotChargeAmount = 0;
 
-
+                    StartCoroutine(ShotDelay());
                 }
 
                 if (Input.GetButtonDown("Use"))
@@ -300,23 +272,28 @@ public class PlayerScript : MonoBehaviour
                     if (cardHolder.spellMiniatures.Count > 0)
                     {
                         cardHolder.UseSpell(gameObject, status, spellOrigin[0].transform);
+                        anim.Play("Spell");
+                        spellParticles.Play();
                     }
                 }
 
             }
 
+
+
             if (Input.GetAxisRaw("MoveVertical") == 0)
             {
+                
                 vertAxisInUse = false;
             }
-            if (Input.GetAxisRaw("MoveHorizontal") == 0)
+            if (Input.GetAxis("MoveHorizontal") == 0)
             {
                 horizontalAxisInUse = false;
             }
 
             
 
-            if (Input.GetButtonUp("StartTurn") && turnBarScript.currentTurnTime >= turnBarScript.maxTurnTime)
+            if (Input.GetButtonUp("StartTurn") && turnBarScript.CurrentTurnTime >= turnBarScript.MaxTurnTime)
             {
                 if (isPaused == false)
                 {
@@ -378,9 +355,10 @@ public class PlayerScript : MonoBehaviour
                     tempMovementDelayUp += Time.deltaTime;
                     if (tempMovementDelayUp > contMovementDelay)
                     {
-                        ZeroOutTheDelays();
+                        /*ZeroOutTheDelays();
                         UpdateBattlefield(0, movementRange);
-                        UpdatePlayer();
+                        UpdatePlayer();*/
+                        MovePlayer(MoveDirection.Up);
 
                     }
                 }
@@ -393,9 +371,7 @@ public class PlayerScript : MonoBehaviour
                     tempMovementDelayDown += Time.deltaTime;
                     if (tempMovementDelayDown > contMovementDelay)
                     {
-                        ZeroOutTheDelays();
-                        UpdateBattlefield(0, -movementRange);
-                        UpdatePlayer();
+                        MovePlayer(MoveDirection.Down);
                     }
                 }
 
@@ -407,9 +383,7 @@ public class PlayerScript : MonoBehaviour
                     tempMovementDelayLeft += Time.deltaTime;
                     if (tempMovementDelayLeft > contMovementDelay)
                     {
-                        ZeroOutTheDelays();
-                        UpdateBattlefield(-movementRange, 0);
-                        UpdatePlayer();
+                        MovePlayer(MoveDirection.Left);
                     }
                 }
 
@@ -421,9 +395,7 @@ public class PlayerScript : MonoBehaviour
                     tempMovementDelayRight += Time.deltaTime;
                     if (tempMovementDelayRight > contMovementDelay)
                     {
-                        ZeroOutTheDelays();
-                        UpdateBattlefield(movementRange, 0);
-                        UpdatePlayer();
+                        MovePlayer(MoveDirection.Right);
                     }
                 }
 
@@ -467,18 +439,7 @@ public class PlayerScript : MonoBehaviour
 
     public void UpdatePlayer()
     {
-
-        //Teleport player to new position
-        //transform.position = new Vector3(currentTile.transform.position.x, currentTile.transform.position.y, -1.4f);
         StartCoroutine(LerpPlayer(movementSpeed));
-        //currentTileClass.SetColour(playerTileColour);
-        //transform.position = new Vector3(bfs.battleTilesGrid[(int)bfs.playerPosition.x,(int)bfs.playerPosition.y].transform.position.x, bfs.battleTilesGrid[(int)bfs.playerPosition.x, (int)bfs.playerPosition.y].transform.position.y,-1.4f);
-
-        //bfs.battleTilesGrid[(int)transform.position.x, (int)transform.position.y].GetComponent<TileClass>().SetColour(playerTileColour);
-        //tileColour = bfs.battleTiles[bfs.currentTile].GetComponent<Renderer>().material.color;
-        //bfs.battleTiles[bfs.currentTile].GetComponent<Renderer>().material.color = playerTileColour;
-        //bfs.battleTiles[bfs.currentTile].transform.localPosition += new Vector3(0, Mathf.Lerp(0, -0.1f, 60), 0);
-        //bfs.battleTiles[bfs.currentTile].GetComponent<TileClass>().occupied = true;
     }
 
     bool TileCheck(int movementRangeX = 0, int movementRangeY = 0)
@@ -535,7 +496,8 @@ public class PlayerScript : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
         transform.position = cT;
-        playerSprite.sortingOrder = -(int)currentTileClass.gridLocation.y + 5;
+
+        SetSortingOrder(-(int)currentTileClass.gridLocation.y + 5);
 
 
         //For continuous movement, resetting the delay
@@ -550,19 +512,20 @@ public class PlayerScript : MonoBehaviour
 
     public void Paused()
     {
-        anim.enabled = false;
+        /*anim.enabled = false;
         emotionAnim.enabled = false;
         ParticleSystem _pSys = status.hitParticles;
         if (_pSys.isPlaying)
         {
             _pSys.Pause();
-        }
+        }*/
         isPaused = true;
 
     }
 
     public void UnPaused()
     {
+        /*
         ParticleSystem _pSys = status.hitParticles;
         if (_pSys.isPaused)
         {
@@ -570,8 +533,24 @@ public class PlayerScript : MonoBehaviour
         }
         anim.enabled = true;
         emotionAnim.enabled = true;
-
+        */
         isPaused = false;
+
+        if(Input.GetButton("Shoot") == false && shotChargeAmount >= maxShotChargeTime)
+        {
+            ShootCharged();
+            ClearChargeParticles();
+            shotChargeAmount = 0;
+        }
+        else if(Input.GetButton("Shoot") == false && shotChargeAmount <= maxShotChargeTime)
+        {
+            ClearChargeParticles();
+            shotChargeAmount = 0;
+        }
+        else if(Input.GetButton("Shoot") == true)
+        {
+
+        }
 
     }
 
@@ -613,5 +592,84 @@ public class PlayerScript : MonoBehaviour
     }
     #endregion
 
+    void ClearChargeParticles()
+    {
+        foreach (ParticleSystem ps in chargeParticles)
+        {
+            if (ps.isPlaying == true)
+            {
+                ps.Stop();
+                ps.Clear();
+            }
+        }
+    }
 
+    void ShootCharged()
+    {
+        chargedShot.ShootCharged(spellOrigin[0].transform, gameObject);
+        shotFullyCharged = false;
+
+        anim.Play("Spell");
+
+        spellParticles.Play();
+
+        chargedShootEvent?.Invoke();
+    }
+
+    public void SetSortingOrder(int i)
+    {
+        playerSprite.sortingOrder = i;
+    }
+
+    IEnumerator ShotDelay()
+    {
+        yield return new WaitForSeconds(0.2f);
+        canShoot = true;
+    }
+
+    void MovePlayer(MoveDirection moveDir)
+    {
+        int _x = 0;
+        int _y = 0;
+
+        switch(moveDir)
+        {
+            case (MoveDirection.Up):
+                {
+                    vertAxisInUse = true;
+                    _x = 0;
+                    _y = 1;
+                    break;
+                }
+            case (MoveDirection.Down):
+                {
+                    vertAxisInUse = true;
+                    _x = 0;
+                    _y = -1;
+                    break;
+                }
+            case (MoveDirection.Left):
+                {
+                    horizontalAxisInUse = true;
+                    _x = -1;
+                    _y = 0;
+                    break;
+                }
+            case (MoveDirection.Right):
+                {
+                    horizontalAxisInUse = true;
+                    _x = 1;
+                    _y = 0;
+                    break;
+                }
+        }
+
+
+        
+        isLerping = true;
+        ZeroOutTheDelays();
+        UpdateBattlefield(_x * movementRange, _y * movementRange);
+        moveEvent?.Invoke(moveDir);
+        UpdatePlayer();
+    }
 }
