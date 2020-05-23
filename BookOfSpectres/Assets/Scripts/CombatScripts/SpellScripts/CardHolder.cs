@@ -2,11 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 public class CardHolder : MonoBehaviour
 {
     public List<GameObject> spellMiniatures;
 
     public TextMeshProUGUI spellName;
+
+    Image background;
+
+    private void Start()
+    {
+        background = GameObject.Find("SpellNameBackground").GetComponent<Image>();
+        spellName = GameObject.Find("CurrentSpellName").GetComponent<TextMeshProUGUI>();
+    }
 
     public void Purge()
     {
@@ -28,10 +37,25 @@ public class CardHolder : MonoBehaviour
     {
         if (spellMiniatures.Count > 0)
         {
-            spellName.text = spellMiniatures[0].GetComponent<SpellVisuals>().spell.name + " " + spellMiniatures[0].GetComponent<CombatMiniatureProperties>().power.ToString();
+            background.enabled = true;
+            SpellCard _tempSpell = spellMiniatures[0].GetComponent<SpellVisuals>().spell;
+            if (_tempSpell.spellLogic.showPower == true)
+            {
+                
+                spellName.text = _tempSpell.name + " " + spellMiniatures[0].GetComponent<CombatMiniatureProperties>().power.ToString();
+
+            }
+            else
+            {
+                spellName.text = _tempSpell.name + " ";
+            }
+            //spellMiniatures[0].transform.Translate(new Vector3(0.025f, -0.025f, -0.1f));
+            spellMiniatures[0].GetComponent<SpellVisuals>().LoadSpell(_tempSpell);
+            
         }
         else
         {
+            background.enabled = false;
             spellName.text = "";
         }
     }
@@ -44,9 +68,9 @@ public class CardHolder : MonoBehaviour
         SetSpellName();
     }
 
-    public void UseSpell()
+    public void UseSpell(GameObject _user, EntityStatus _userStatus, Transform _shotOrigin)
     {
-        GameObject _tempMiniature = new GameObject();
+        GameObject _tempMiniature;
 
         _tempMiniature = spellMiniatures[0];
 
@@ -54,7 +78,7 @@ public class CardHolder : MonoBehaviour
 
         _tempMiniatureProperties.cardHolder = this;
 
-        _tempMiniatureProperties.spellLogic.Execute(_tempMiniatureProperties);
+        _tempMiniatureProperties.spellLogic.Execute(_tempMiniatureProperties, _user, _userStatus, _shotOrigin );
         
 
     }

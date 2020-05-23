@@ -62,6 +62,9 @@ public class ChosenSpells : MonoBehaviour
 
         List<int> _tempNumbers = new List<int>();
         int _spellsRemoved = 0;
+
+        spellAdvance.beforeMerge = "";
+        spellAdvance.afterMerge = "";
         //if (spellMiniatures.Count > 1)
         //{
         for (int i = 0; i < spellMiniatures.Count; i++)
@@ -74,12 +77,25 @@ public class ChosenSpells : MonoBehaviour
 
             SpellCard _spellCard = spellMiniatures[i].GetComponent<SpellVisuals>().spell;
 
+            
 
+            if (_spellCard.advancedSpellComponents.Count == 0)
+            {
+
+                //Debug.Log(_spellCard.advancedSpellComponents.Count);
+
+                spellAdvance.beforeMerge += _spellCard.name + " ";
+
+                SpawnMiniature(_spellCard,false,i);
+
+                spellAdvance.afterMerge += _spellCard.name + " ";
+            }
 
             if (_spellCard.advancedSpellComponents.Count > 0)
             {
                 if (i + _spellCard.advancedSpellComponents[0].recipeLength < spellMiniatures.Count + 1)
                 {
+                    
                     _tempString += _spellCard.name + " ";
                     _tempList.Add(_spellCard);
                     for (int j = 1; j < _spellCard.advancedSpellComponents[0].recipeLength; j++)
@@ -93,80 +109,88 @@ public class ChosenSpells : MonoBehaviour
                         int _number = i + j;
                         _tempNumbers.Add(_number);
                     }
-                }
-            }
-            else
-            {
-
-            }
-            if (_spellCard.advancedSpellComponents.Count > 0)
-            {
-                if (_tempString == _spellCard.advancedSpellComponents[0].advancedRecipe + " ")
-                {
-                    if (spellAdvance.gameObject.activeSelf == false)
+                    if (_tempString == _spellCard.advancedSpellComponents[0].advancedRecipe + " ")
                     {
-                        spellAdvance.gameObject.SetActive(true);
+                        if (spellAdvance.gameObject.activeSelf == false)
+                        {
+                            spellAdvance.gameObject.SetActive(true);
+                        }
+
+                        if (canAdvanceSpell == false)
+                        {
+                            canAdvanceSpell = true;
+                        }
+
+                        spellAdvance.InitialSetup(_spellCard);
+
+                        /*GameObject _spawnedMiniature = objectPooler.SpawnFromPool("CombatMiniature", Vector3.zero, Quaternion.identity, playerScript.playerCanvas.transform);
+                        _spawnedMiniature.transform.localPosition = Vector3.zero;
+                        _spawnedMiniature.transform.localRotation = Quaternion.Euler(Vector3.zero);
+                        SpellVisuals _spawnedMiniatureSpell = _spawnedMiniature.GetComponent<SpellVisuals>();
+                        _spawnedMiniatureSpell.spell = _spellCard.advancedSpellComponents[0].advancedSpell;
+                        _spawnedMiniatureSpell.LoadSpell(_spellCard.advancedSpellComponents[0].advancedSpell);
+                        cardHolder.spellMiniatures.Add(_spawnedMiniature);*/
+
+                        SpawnMiniature(_spellCard, true, i);
+
+
+                        spellAdvance.beforeMerge += _spellCard.name + " ";
+                        spellAdvance.beforeMerge += _tempComponents;
+
+                        spellAdvance.whichFlashing.Add(i);
+                        foreach (int num in _tempNumbers)
+                        {
+                            spellAdvance.whichFlashing.Add(num);
+                        }
+
+
+                        spellAdvance.whichFlashingAfter.Add(i - _spellsRemoved);
+                        _spellsRemoved += _spellCard.advancedSpellComponents[0].recipeLength - 1;
+
+                        spellAdvance.afterMerge += _spellCard.advancedSpellComponents[0].advancedSpell.name + " ";
+
+                        i += _spellCard.advancedSpellComponents[0].recipeLength - 1;
+                        _tempString = "";
+
+                        foreach (SpellCard s in _tempList)
+                        {
+                            combatMenu.MoveCardToDestination(s, CardDestination.Hand, CardDestination.Graveyard);
+                        }
                     }
-
-                    if (canAdvanceSpell == false)
+                    else
                     {
-                        canAdvanceSpell = true;
-                    }
+                        spellAdvance.beforeMerge += _spellCard.name + " ";
 
-                    spellAdvance.InitialSetup(_spellCard);
+                        SpawnMiniature(_spellCard, false, i);
 
-                    /*GameObject _spawnedMiniature = objectPooler.SpawnFromPool("CombatMiniature", Vector3.zero, Quaternion.identity, playerScript.playerCanvas.transform);
-                    _spawnedMiniature.transform.localPosition = Vector3.zero;
-                    _spawnedMiniature.transform.localRotation = Quaternion.Euler(Vector3.zero);
-                    SpellVisuals _spawnedMiniatureSpell = _spawnedMiniature.GetComponent<SpellVisuals>();
-                    _spawnedMiniatureSpell.spell = _spellCard.advancedSpellComponents[0].advancedSpell;
-                    _spawnedMiniatureSpell.LoadSpell(_spellCard.advancedSpellComponents[0].advancedSpell);
-                    cardHolder.spellMiniatures.Add(_spawnedMiniature);*/
-
-                    SpawnMiniature(_spellCard, true);
-
-
-                    spellAdvance.beforeMerge += _spellCard.name + " ";
-                    spellAdvance.beforeMerge += _tempComponents;
-
-                    spellAdvance.whichFlashing.Add(i);
-                    foreach (int num in _tempNumbers)
-                    {
-                        spellAdvance.whichFlashing.Add(num);
-                    }
-
-
-                    spellAdvance.whichFlashingAfter.Add(i - _spellsRemoved);
-                    _spellsRemoved += _spellCard.advancedSpellComponents[0].recipeLength - 1;
-
-                    spellAdvance.afterMerge += _spellCard.advancedSpellComponents[0].advancedSpell.name + " ";
-
-                    i += _spellCard.advancedSpellComponents[0].recipeLength - 1;
-                    _tempString = "";
-
-                    foreach(SpellCard s in _tempList)
-                    {
-                        combatMenu.MoveCardToDestination(s, CardDestination.Hand, CardDestination.Graveyard);
+                        spellAdvance.afterMerge += _spellCard.name + " ";
                     }
                 }
                 else
                 {
                     spellAdvance.beforeMerge += _spellCard.name + " ";
 
-                    SpawnMiniature(_spellCard);
+                    SpawnMiniature(_spellCard, false, i);
 
                     spellAdvance.afterMerge += _spellCard.name + " ";
                 }
 
-            }
-            else
-            {
-                spellAdvance.beforeMerge += _spellCard.name + " ";
+                
 
-                SpawnMiniature(_spellCard);
+                /*if (_spellCard.advancedSpellComponents.Count > 0)
+                {
 
-                spellAdvance.afterMerge += _spellCard.name + " ";
+                    spellAdvance.beforeMerge += _spellCard.name + " ";
+                    Debug.Log(spellAdvance.beforeMerge);
+
+                    SpawnMiniature(_spellCard);
+
+                    spellAdvance.afterMerge += _spellCard.name + " ";
+
+                }*/
             }
+
+            
 
         }
         //}
@@ -189,24 +213,30 @@ public class ChosenSpells : MonoBehaviour
         }
         else
         {
+            TurnBarScript.Instance.UnPause();
             cardHolder.SetSpellName();
-            objectPooler.UnPauseAll();
+            combatMenu.MenuUnPause();
         }
 
         
     }
 
-    void SpawnMiniature(SpellCard _spellCard, bool _loadAdvancedSpell = false)
+    void SpawnMiniature(SpellCard _spellCard, bool _loadAdvancedSpell = false, int offset = 0)
     {
-        GameObject _spawnedMiniature = objectPooler.SpawnFromPool("CombatMiniature", Vector3.zero, Quaternion.identity, playerScript.playerCanvas.transform);
-        _spawnedMiniature.transform.localPosition = Vector3.zero;
+        
+        GameObject _spawnedMiniature = objectPooler.SpawnFromPool("CombatMiniature", Vector3.zero , Quaternion.identity, playerScript.playerCanvas.transform);
+        _spawnedMiniature.transform.localPosition = Vector3.forward * (offset * 0.01f);
         _spawnedMiniature.transform.localRotation = Quaternion.Euler(Vector3.zero);
         SpellVisuals _spawnedMiniatureSpell = _spawnedMiniature.GetComponent<SpellVisuals>();
 
         CombatMiniatureProperties _miniatureProperties = _spawnedMiniature.GetComponent<CombatMiniatureProperties>();
 
+        _spawnedMiniature.GetComponent<SpriteRenderer>().sprite = null;
+
+        //Load combat spell visuals and logic
         if (_loadAdvancedSpell == false)
         {
+            
             _spawnedMiniatureSpell.spell = _spellCard;
             _spawnedMiniatureSpell.LoadSpell(_spellCard);
 
@@ -225,6 +255,11 @@ public class ChosenSpells : MonoBehaviour
         _miniatureProperties.OnSpellLogicChange(_spawnedMiniature.GetComponent<SpellVisuals>().spell.spellLogic);
 
         cardHolder.spellMiniatures.Add(_spawnedMiniature);
+    }
+
+    void CreateAdvancedSpell()
+    {
+
     }
 
 }

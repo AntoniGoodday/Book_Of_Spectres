@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using EnumScript;
-using Cinemachine.Editor;
 using Cinemachine;
 public class ProjectileScript : MonoBehaviour, IpooledObject
 {
@@ -18,7 +17,7 @@ public class ProjectileScript : MonoBehaviour, IpooledObject
     [SerializeField]
     Transform defaultParent;
     [SerializeField]
-    int damageDealt;
+    public int damageDealt;
     int initialDamageDealt;
     [SerializeField]
     float amplitudeModifier = 0.05f;
@@ -30,17 +29,29 @@ public class ProjectileScript : MonoBehaviour, IpooledObject
     float trailTime;
     ParticleSystem pSystem;
     BoxCollider boxCollider;
-
-
+    float pauseTime;
+    float resumeTime;
     
 
     private GameObject previousTile;
+    private GameObject currentTile;
+
     private TileClass previousTileClass;
+    private TileClass currentTileClass;
     private string tileTag = "Tile";
     private Ray ray;
     private RaycastHit hit;
     public bool isPaused = false;
-    
+
+    public delegate void ProjectileDodgedDelegate();
+    public event ProjectileDodgedDelegate dodgeEvent;
+
+
+    private void Start()
+    {
+        
+        GameObject.Find("PlayerStats").GetComponent<PlayerAchievements>().AddProjectileToTrack(this);
+    }
 
     // Start is called before the first frame update
     void Awake()
@@ -52,13 +63,26 @@ public class ProjectileScript : MonoBehaviour, IpooledObject
         tr = GetComponentInChildren<TrailRenderer>();
         rb = GetComponent<Rigidbody>();
         boxCollider = GetComponent<BoxCollider>();
+
+        
        
         initialDamageDealt = damageDealt;
     }
 
+    
+
     private void OnTriggerEnter(Collider other)
     {
-        
+        if (other.transform.tag == "DodgeVolume")
+        {
+            if (bAlign != BulletAlignement.Friendly)
+            {
+                dodgeEvent?.Invoke();
+                return;
+            }
+        }
+
+
         if (other.transform.tag != owner && other.transform.tag != transform.tag)
         {
             tr.autodestruct = true;
@@ -70,21 +94,14 @@ public class ProjectileScript : MonoBehaviour, IpooledObject
             }
             if (previousTile != null)
             {
-                previousTile.GetComponent<TileClass>().SetColour(previousTile.GetComponent<TileClass>().initialMaterialColour);
+                previousTile = currentTile;
+                previousTile.GetComponent<TileClass>().SetColour(previousTile.GetComponent<TileClass>().initialMaterialColour, false, false, false , 5);
                 previousTile = null;
             }
             StopAllCoroutines();
             
             gameObject.SetActive(false);
         }
-        
-    }
-
-    
-
-    void Start()
-    {
-        
         
     }
 
@@ -114,7 +131,7 @@ public class ProjectileScript : MonoBehaviour, IpooledObject
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         if (isPaused == false )
         {
@@ -126,20 +143,33 @@ public class ProjectileScript : MonoBehaviour, IpooledObject
                 GameObject _hitTile = hit.transform.gameObject;
                 if (previousTile == null)
                 {
-                    previousTile = hit.transform.gameObject;
-                    previousTileClass = previousTile.GetComponent<TileClass>();
-                    previousTileClass.SetColour(Color.yellow);
-                    tr.sortingOrder = -(int)previousTileClass.gridLocation.y;
+                    previousTile = _hitTile;
+                    currentTile = previousTile;
+                    currentTileClass = currentTile.GetComponent<TileClass>();
+                    if (_hitTile.GetComponent<TileClass>().occupied != true)
+                    {
+                        currentTileClass.SetColour(Color.yellow, false, true);
+                    }
+                    tr.sortingOrder = -(int)currentTileClass.gridLocation.y + 5;
                     
                 }
-                else if(previousTile != _hitTile)
+                else if(currentTile != _hitTile | currentTileClass.currentColour != Color.yellow)
                 {
+                    if (_hitTile.GetComponent<TileClass>().occupied != true)
+                    {
+                        if (currentTile.GetComponent<TileClass>().occupied != true)
+                        {
+                            previousTile = currentTile;
+                            previousTileClass = previousTile.GetComponent<TileClass>();
+                            previousTileClass.SetColour(previousTileClass.initialMaterialColour);
+                        }
+                        currentTile = _hitTile;
+                    
+                        currentTileClass = currentTile.GetComponent<TileClass>();
 
-                    previousTile.GetComponent<TileClass>().SetColour(previousTileClass.initialMaterialColour);
-                    previousTile = _hitTile;
-                    previousTileClass = previousTile.GetComponent<TileClass>();
-                    previousTileClass.SetColour(Color.yellow);
-                    tr.sortingOrder = -(int)previousTileClass.gridLocation.y;
+                        currentTileClass.SetColour(Color.yellow, false, true, false, 5);
+                        tr.sortingOrder = -(int)currentTileClass.gridLocation.y + 5;
+                    }
                 }
 
             }
@@ -147,10 +177,13 @@ public class ProjectileScript : MonoBehaviour, IpooledObject
             {
                 if (previousTile != null)
                 {
+                    previousTile = currentTile;
                     previousTileClass = previousTile.GetComponent<TileClass>();
                     previousTileClass.SetColour(previousTileClass.initialMaterialColour);
                     previousTile = null;
                     previousTileClass = null;
+                    currentTile = null;
+                    currentTileClass = null;
                 }
             }
             
@@ -207,26 +240,30 @@ public class ProjectileScript : MonoBehaviour, IpooledObject
         {
             
             isPaused = true;
-            rb.velocity = new Vector3(0, 0, 0);
+            /*rb.velocity = new Vector3(0, 0, 0);
 
             
             tr.time = Mathf.Infinity;
+            pauseTime = Time.time;
             //tr.emitting = false;
             //rb.isKinematic = true;
             
             if (pSystem != null)
             {
                 pSystem.Pause();
-            }
+            }*/
         }
     }
     public void UnPaused()
     {
         if (gameObject.activeSelf == true)
         {
-            tr.time = trailTime;
-            rb.velocity = new Vector3(speed, 0, 0);
             isPaused = false;
+            /*resumeTime = Time.time;
+            tr.time = (resumeTime - pauseTime) + trailTime;
+            Invoke("SetTrailTime", trailTime);
+            rb.velocity = new Vector3(speed, 0, 0);
+            
             
             //tr.emitting = true;
             //rb.isKinematic = false;
@@ -235,7 +272,13 @@ public class ProjectileScript : MonoBehaviour, IpooledObject
             {
                 pSystem.Play();
             }
-            
+            */
+
         }
+    }
+
+    void SetTrailTime()
+    {
+        tr.time = trailTime;
     }
 }

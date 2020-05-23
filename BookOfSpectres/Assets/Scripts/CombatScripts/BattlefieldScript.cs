@@ -19,19 +19,23 @@ public class BattlefieldScript : MonoBehaviour
     [SerializeField]
     public float distanceModifier;
     [SerializeField]
-    public Vector2 playerSpawn;
+    public Vector2Int playerSpawn;
     [SerializeField]
-    public Vector2 playerPosition;
+    public Vector2Int playerPosition;
     [SerializeField]
     TileColour t;
     [SerializeField]
-    List<Color> standardColours;
+    public List<Color> standardColours;
     
     [Header("Tile Alignement")]
     public List<GameObject> playerTiles = new List<GameObject>();
     public List<GameObject> neutralTiles = new List<GameObject>();
     public List<GameObject> enemyTiles = new List<GameObject>();
-    
+
+    [Header("Initial Tile Alignment")]
+    public List<GameObject> initialPlayerTiles = new List<GameObject>();
+    public List<GameObject> initialNeutralTiles = new List<GameObject>();
+    public List<GameObject> initialEnemyTiles = new List<GameObject>();
 
     private int playerColumns;
     public int PlayerColumns { get => playerColumns; set => playerColumns = value; }
@@ -56,12 +60,12 @@ public class BattlefieldScript : MonoBehaviour
     {
         if (battleTiles.Count <= 0)
         {
-            InstanciateBattlefield();
+            InstantiateBattlefield();
         }
         else
         {
             ClearBattlefield();
-            InstanciateBattlefield();
+            InstantiateBattlefield();
         }
     }
 
@@ -82,7 +86,7 @@ public class BattlefieldScript : MonoBehaviour
         AddNeighbours();
     }
 
-    void InstanciateBattlefield()
+    void InstantiateBattlefield()
     {
         
         int _tileID = 0;
@@ -93,7 +97,7 @@ public class BattlefieldScript : MonoBehaviour
                 battleTiles.Add(Instantiate(bTile, new Vector3(x*distanceModifier, y*distanceModifier, 0), Quaternion.Euler(0,0,0), gameObject.transform));
                 battleTiles[_tileID].name = "BattleTile #" + _tileID + ": " + x + "x || " + y + "y";
                 battleTiles[_tileID].GetComponent<TileClass>().tileID = _tileID;
-                battleTiles[_tileID].GetComponent<TileClass>().gridLocation = new Vector2(x, y);
+                battleTiles[_tileID].GetComponent<TileClass>().gridLocation = new Vector2Int(x, y);
                 TileColour(_tileID);
                 
                 _tileID++;
@@ -123,19 +127,19 @@ public class BattlefieldScript : MonoBehaviour
             {
                 //battleTiles[currentTile].GetComponent<Renderer>().material.color = Color.cyan;
                 SetTileAlignment(playerTiles, 0, TileAlignment.Friendly, _tileID);
-                
+                initialPlayerTiles.Add(battleTiles[_tileID]);
 
             }
             else if (_tileID >= _playerColumnID && _tileID <= _enemyColumnID)
             {
                 SetTileAlignment(neutralTiles, 1, TileAlignment.Neutral, _tileID);
-                
+                initialNeutralTiles.Add(battleTiles[_tileID]);
             }
             else if (_tileID > _enemyColumnID)
             {
                 //battleTiles[currentTile].GetComponent<Renderer>().material.color = Color.magenta;
                 SetTileAlignment(enemyTiles, 2, TileAlignment.Enemy, _tileID);
-                
+                initialEnemyTiles.Add(battleTiles[_tileID]);
             }
         }
     }
@@ -143,7 +147,7 @@ public class BattlefieldScript : MonoBehaviour
     {
         battleTiles[_tileID].GetComponent<TileClass>().initialMaterialColour = standardColours[_standardColoursID];
         battleTiles[_tileID].GetComponent<TileClass>().SetColour(standardColours[_standardColoursID], true);
-        battleTiles[_tileID].GetComponent<TileClass>().tAlign = _tileAlignment;
+        battleTiles[_tileID].GetComponent<TileClass>().tileAlignment = _tileAlignment;
         battleTiles[_tileID].GetComponent<TileClass>().SetVariables();
         _alignmentList.Add(battleTiles[_tileID]);
     }
@@ -167,22 +171,22 @@ public class BattlefieldScript : MonoBehaviour
                             {
                                 case 1:
                                     {
-                                        tile.GetComponent<TileClass>().tileNeighbours.Add(TileNeighbourDirection.DownLeft, battleTilesGrid[_tempX, _tempY]);
+                                        tile.GetComponent<TileClass>().tileNeighbours.Add(Direction.DownLeft, battleTilesGrid[_tempX, _tempY]);
                                         break;
                                     }
                                 case 2:
                                     {
-                                        tile.GetComponent<TileClass>().tileNeighbours.Add(TileNeighbourDirection.Down, battleTilesGrid[_tempX, _tempY]);
+                                        tile.GetComponent<TileClass>().tileNeighbours.Add(Direction.Down, battleTilesGrid[_tempX, _tempY]);
                                         break;
                                     }
                                 case 3:
                                     {
-                                        tile.GetComponent<TileClass>().tileNeighbours.Add(TileNeighbourDirection.DownRight, battleTilesGrid[_tempX, _tempY]);
+                                        tile.GetComponent<TileClass>().tileNeighbours.Add(Direction.DownRight, battleTilesGrid[_tempX, _tempY]);
                                         break;
                                     }
                                 case 4:
                                     {
-                                        tile.GetComponent<TileClass>().tileNeighbours.Add(TileNeighbourDirection.Left, battleTilesGrid[_tempX, _tempY]);
+                                        tile.GetComponent<TileClass>().tileNeighbours.Add(Direction.Left, battleTilesGrid[_tempX, _tempY]);
                                         break;
                                     }
                                 case 5:
@@ -192,35 +196,41 @@ public class BattlefieldScript : MonoBehaviour
                                     }
                                 case 6:
                                     {
-                                        tile.GetComponent<TileClass>().tileNeighbours.Add(TileNeighbourDirection.Right, battleTilesGrid[_tempX, _tempY]);
+                                        tile.GetComponent<TileClass>().tileNeighbours.Add(Direction.Right, battleTilesGrid[_tempX, _tempY]);
                                         break;
                                     }
                                 case 7:
                                     {
-                                        tile.GetComponent<TileClass>().tileNeighbours.Add(TileNeighbourDirection.UpLeft, battleTilesGrid[_tempX, _tempY]);
+                                        tile.GetComponent<TileClass>().tileNeighbours.Add(Direction.UpLeft, battleTilesGrid[_tempX, _tempY]);
                                         break;
                                     }
                                 case 8:
                                     {
-                                        tile.GetComponent<TileClass>().tileNeighbours.Add(TileNeighbourDirection.Up, battleTilesGrid[_tempX, _tempY]);
+                                        tile.GetComponent<TileClass>().tileNeighbours.Add(Direction.Up, battleTilesGrid[_tempX, _tempY]);
                                         break;
                                     }
                                 case 9:
                                     {
-                                        tile.GetComponent<TileClass>().tileNeighbours.Add(TileNeighbourDirection.UpRight, battleTilesGrid[_tempX, _tempY]);
+                                        tile.GetComponent<TileClass>().tileNeighbours.Add(Direction.UpRight, battleTilesGrid[_tempX, _tempY]);
                                         break;
                                     }
                             }
                             _currentDirection++;
                             
-                        //}
-                        //else
-                        //{
-                            //_currentDirection++;
-                        //}
-                    }
+                        }
+                        else
+                        {
+                            _currentDirection++;
+                        }
+                   
                 }
             }
         }
+    }
+
+    public TileClass GetTile(int x, int y)
+    {
+        TileClass _tc = battleTilesGrid[x, y].GetComponent<TileClass>();
+        return _tc;
     }
 }

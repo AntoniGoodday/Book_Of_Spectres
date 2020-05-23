@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Linq;
-
+using UnityEngine.Audio;
 public class ObjectPooler : MonoBehaviour
 {
+
+
     [System.Serializable]
     public class Pool
     {
@@ -37,8 +39,19 @@ public class ObjectPooler : MonoBehaviour
 
     [SerializeField]
     public GameObject BGM;
+    [SerializeField]
+    AudioMixer audioMixer;
 
     public bool isPaused = false;
+
+    InkTypewriterText inkTypewriterText;
+
+    string dialogueKnot = "";
+    [SerializeField]
+    string sceneName = "";
+
+    public string DialogueKnot { get => dialogueKnot; set => dialogueKnot = value; }
+    public string SceneName { get => sceneName; set => sceneName = value; }
 
     private void Awake()
     {
@@ -48,28 +61,45 @@ public class ObjectPooler : MonoBehaviour
 
         Instance = this;
 
-        
+        inkTypewriterText = GameObject.Find("DialogueCanvas").GetComponent<InkTypewriterText>();
+
         LevelStart();
 
     }
-    public GameObject SpawnFromPool(string tag, Vector3 position, Quaternion rotation, Transform parent)
+    public GameObject SpawnFromPool(string tag, Vector3 position, Quaternion rotation, Transform parent, GameObject _prefab = null)
 
     {
         if (!poolDictionary.ContainsKey(tag))
         {
-            Debug.LogWarning("Pool with tag " + tag + " doesn't exist.");
-            return null;
+
+            Pool _tempPool = new Pool();
+            _tempPool.tag = tag;
+            _tempPool.prefab = _prefab;
+            _tempPool.size = 1;
+            pools.Add(_tempPool);
+            GameObject _tempObj = Instantiate(_tempPool.prefab);
+            char[] _cloneRemover = { '(', 'C', 'l', 'o', 'n', 'e', ')' };
+            _tempObj.name.TrimEnd(_cloneRemover);
+            allPooledObjects.Add(_tempObj);
+            Queue<GameObject> _objQueue = new Queue<GameObject>();
+            _objQueue.Enqueue(_tempObj);
+            poolDictionary.Add(tag, _objQueue);
+            _tempObj.SetActive(false);
+            //return null;
         }
 
 
         //GameObject objectToSpawn = poolDictionary[tag].Dequeue();
         GameObject peekObjectToSpawn = poolDictionary[tag].Peek();
+
+
         GameObject objectToSpawn = null;
 
         IpooledObject pooledObj = null;
         if (peekObjectToSpawn.activeSelf == true)
         {
             objectToSpawn = Instantiate(peekObjectToSpawn.gameObject);
+            objectToSpawn.name = peekObjectToSpawn.name;
             allPooledObjects.Add(objectToSpawn);
             objectToSpawn.transform.position = position;
             objectToSpawn.transform.rotation = rotation;
@@ -111,8 +141,6 @@ public class ObjectPooler : MonoBehaviour
     void LevelStart()
     {
         poolDictionary = new Dictionary<string, Queue<GameObject>>();
-
-        bool canBeAdded = false;
 
         for (int i = 0; i < eWaves.Count; i++)
         {
@@ -180,6 +208,7 @@ public class ObjectPooler : MonoBehaviour
             for (int i = 0; i < pool.size; i++)
             {
                 GameObject obj = Instantiate(pool.prefab,gameObject.transform);
+                obj.name = pool.prefab.name;
                 allPooledObjects.Add(obj);
                 obj.SetActive(false);
                 objectPool.Enqueue(obj);
@@ -188,7 +217,8 @@ public class ObjectPooler : MonoBehaviour
             poolDictionary.Add(pool.tag, objectPool);
         }
 
-        StartWave();
+        ///REDO LATER
+        //StartWave();
 
         //previousEnemyTypes.Clear();
     }
@@ -256,6 +286,9 @@ public class ObjectPooler : MonoBehaviour
     public void PauseAll()
     {
         isPaused = true;
+        Time.timeScale = 0;
+        //SetLowpass(300);
+
         foreach (GameObject g in allPooledObjects)
         {
             if (g.activeSelf)
@@ -267,6 +300,8 @@ public class ObjectPooler : MonoBehaviour
     public void UnPauseAll()
     {
         isPaused = false;
+        Time.timeScale = 1;
+        
         foreach (GameObject g in allPooledObjects)
         {
             if (g.activeSelf)
@@ -274,21 +309,42 @@ public class ObjectPooler : MonoBehaviour
                 g.SendMessage("UnPaused", SendMessageOptions.RequireReceiver);
             }
         }
-
+        //SetLowpass(22000);
 
     }
     public void EnemyDefeated()
     {
         StartCoroutine("WaitTillDie");
     }
+
+    public void SetLowpass(float value)
+    {
+        audioMixer.SetFloat("LowpassCutoff", value);
+    }
+
     IEnumerator WaitTillDie()
     {
-        yield return new WaitForSeconds(0);
+        yield return new WaitForSeconds(3);
         enemiesLeft--;
         if (enemiesLeft <= 0)
         {
             waveNumber++;
-            StartWave();
+            if (waveNumber < eWaves.Count)
+            {
+                StartWave();
+            }
+            else
+            {
+                if (dialogueKnot == "")
+                {
+                    SceneManager.LoadScene(sceneName);
+                }
+                else
+                {
+                    inkTypewriterText.story.ChoosePathString(dialogueKnot);
+                    inkTypewriterText.StartDialogue();
+                }
+            }
         }
     }
 }

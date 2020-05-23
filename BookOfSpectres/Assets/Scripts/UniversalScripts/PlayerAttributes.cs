@@ -5,9 +5,12 @@ using UnityEngine;
 public class PlayerAttributes : MonoBehaviour
 {
     public int handSize;
+    public int startingColourlessMana;
+    public int maxMana;
+    public int manaRegen;
     public static PlayerAttributes Instance;
 
-    private void Start()
+    private void Awake()
     {
         if (Instance == null)
         {
@@ -16,7 +19,7 @@ public class PlayerAttributes : MonoBehaviour
         }
         else
         {
-            Destroy(this);
+            Destroy(this.gameObject);
         }
     }
 }

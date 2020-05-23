@@ -14,20 +14,39 @@ public class CombatMiniatureProperties : MonoBehaviour
 
     public CombatMenu combatMenu;
 
+    [SerializeField]
+    SpellVisuals sv;
+    [SerializeField]
+    SpriteRenderer sr;
+
+    public BattlefieldScript bfs;
+
+    private void Awake()
+    {
+        bfs = BattlefieldScript.Instance;
+        //sr = gameObject.GetComponent<SpriteRenderer>();
+        //sr.sprite = null;
+        
+    }
+
     private void Start()
     {
+        
         combatMenu = GameObject.Find("Canvas").GetComponent<CombatMenu>();
     }
 
     public void OnSpellLogicChange(SpellLogic _spellLogic)
     {
         spellLogic = _spellLogic;
-        power = spellLogic.power;
+        
+        power = spellLogic.power[0];
+        
+        
     }
 
     public void UnPaused()
     {
-
+       
     }
 
     public void Paused()

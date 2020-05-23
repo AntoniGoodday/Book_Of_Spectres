@@ -313,6 +313,7 @@ D:\Desktop\BookOfSpectres\BookOfSpectres\obj\Debug\Assembly-CSharp-Editor.dll
 D:\Desktop\BookOfSpectres\BookOfSpectres\obj\Debug\Assembly-CSharp-Editor.pdb
 D:\Desktop\BookOfSpectres\BookOfSpectres\Temp\bin\Debug\Assembly-CSharp.pdb
 D:\Desktop\BookOfSpectres\BookOfSpectres\Temp\bin\Debug\Coffee.UnmaskForUGUI.pdb
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\obj\Debug\Assembly-CSharp-Editor.csproj.CoreCompileInputs.cache
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Assembly-CSharp-Editor.dll
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Assembly-CSharp-Editor.pdb
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Boo.Lang.dll
@@ -445,7 +446,14 @@ D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.Postprocessing.Runtime.dll
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.ProBuilder.AddOns.Editor.dll
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.ProBuilder.AssetIdRemapUtility.dll
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.RenderPipelines.Core.Editor.dll
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.RenderPipelines.Core.Runtime.dll
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.RenderPipelines.Core.ShaderLibrary.dll
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.RenderPipelines.Lightweight.Editor.dll
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.RenderPipelines.Lightweight.Runtime.dll
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.Rider.Editor.dll
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.ShaderGraph.Editor.dll
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.TextMeshPro.dll
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.TextMeshPro.Editor.dll
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.Timeline.dll
@@ -460,6 +468,7 @@ D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityE
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEditor.Purchasing.dll
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEditor.TestRunner.dll
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEditor.UI.dll
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEditor.UWP.Extensions.dll
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEditor.VR.dll
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEditor.WindowsStandalone.Extensions.dll
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.AccessibilityModule.dll
@@ -543,18 +552,25 @@ D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityE
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.Timeline.Editor.pdb
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Cinemachine.pdb
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.VSCode.Editor.pdb
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.RenderPipelines.Core.Editor.pdb
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.ProBuilder.AssetIdRemapUtility.pdb
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.RenderPipelines.Core.Runtime.pdb
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.TextMeshPro.Editor.pdb
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.RenderPipelines.Lightweight.Runtime.pdb
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.RenderPipelines.Lightweight.Editor.pdb
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.UI.pdb
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.Timeline.pdb
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.CollabProxy.Editor.pdb
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.Postprocessing.Editor.pdb
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.Rider.Editor.pdb
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.pdb
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.2D.Sprite.Editor.pdb
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.Postprocessing.Runtime.pdb
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\com.unity.cinemachine.editor.pdb
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.VisualStudio.Editor.pdb
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.ProBuilder.AddOns.Editor.pdb
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.ShaderGraph.Editor.pdb
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.RenderPipelines.Core.ShaderLibrary.pdb
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.TextMeshPro.pdb
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.Analytics.DataPrivacy.pdb
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEditor.UI.pdb
@@ -621,23 +637,348 @@ D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityE
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\nunit.framework.pdb
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\nunit.framework.xml
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\obj\Debug\Assembly-CSharp-Editor.csprojAssemblyReference.cache
-D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\obj\Debug\Assembly-CSharp-Editor.csproj.CoreCompileInputs.cache
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\obj\Debug\Assembly-CSharp-Editor.csproj.CopyComplete
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\obj\Debug\Assembly-CSharp-Editor.dll
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\obj\Debug\Assembly-CSharp-Editor.pdb
-D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.RenderPipelines.Core.Editor.dll
-D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.RenderPipelines.Core.Runtime.dll
-D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.RenderPipelines.Core.ShaderLibrary.dll
-D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.RenderPipelines.Lightweight.Editor.dll
-D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.RenderPipelines.Lightweight.Runtime.dll
-D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll
-D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.ShaderGraph.Editor.dll
-D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.RenderPipelines.Core.Editor.pdb
-D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.RenderPipelines.Core.Runtime.pdb
-D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.RenderPipelines.Lightweight.Runtime.pdb
-D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.RenderPipelines.Lightweight.Editor.pdb
-D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.pdb
-D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.ShaderGraph.Editor.pdb
-D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.RenderPipelines.Core.ShaderLibrary.pdb
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Assembly-CSharp-Editor.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Assembly-CSharp-Editor.pdb
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Boo.Lang.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Cinemachine.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\com.unity.cinemachine.editor.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Microsoft.CSharp.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Microsoft.Win32.Primitives.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\mscorlib.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\netstandard.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\nunit.framework.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\SyntaxTree.VisualStudio.Unity.Bridge.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.AppContext.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Collections.Concurrent.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Collections.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Collections.NonGeneric.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Collections.Specialized.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.ComponentModel.Annotations.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.ComponentModel.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.ComponentModel.EventBasedAsync.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.ComponentModel.Primitives.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.ComponentModel.TypeConverter.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Console.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Core.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Data.Common.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Data.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Diagnostics.Contracts.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Diagnostics.Debug.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Diagnostics.FileVersionInfo.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Diagnostics.Process.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Diagnostics.StackTrace.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Diagnostics.TextWriterTraceListener.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Diagnostics.Tools.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Diagnostics.TraceSource.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Drawing.Primitives.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Dynamic.Runtime.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Globalization.Calendars.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Globalization.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Globalization.Extensions.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.IO.Compression.ZipFile.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.IO.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.IO.FileSystem.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.IO.FileSystem.DriveInfo.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.IO.FileSystem.Primitives.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.IO.FileSystem.Watcher.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.IO.IsolatedStorage.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.IO.MemoryMappedFiles.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.IO.Pipes.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.IO.UnmanagedMemoryStream.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Linq.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Linq.Expressions.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Linq.Parallel.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Linq.Queryable.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Net.Http.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Net.Http.Rtc.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Net.NameResolution.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Net.NetworkInformation.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Net.Ping.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Net.Primitives.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Net.Requests.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Net.Security.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Net.Sockets.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Net.WebHeaderCollection.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Net.WebSockets.Client.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Net.WebSockets.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Numerics.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Numerics.Vectors.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.ObjectModel.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Reflection.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Reflection.Emit.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Reflection.Emit.ILGeneration.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Reflection.Emit.Lightweight.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Reflection.Extensions.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Reflection.Primitives.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Resources.Reader.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Resources.ResourceManager.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Resources.Writer.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Runtime.CompilerServices.VisualC.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Runtime.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Runtime.Extensions.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Runtime.Handles.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Runtime.InteropServices.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Runtime.InteropServices.RuntimeInformation.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Runtime.InteropServices.WindowsRuntime.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Runtime.Numerics.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Runtime.Serialization.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Runtime.Serialization.Formatters.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Runtime.Serialization.Json.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Runtime.Serialization.Primitives.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Runtime.Serialization.Xml.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Security.Claims.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Security.Cryptography.Algorithms.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Security.Cryptography.Csp.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Security.Cryptography.Encoding.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Security.Cryptography.Primitives.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Security.Cryptography.X509Certificates.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Security.Principal.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Security.SecureString.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.ServiceModel.Duplex.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.ServiceModel.Http.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.ServiceModel.NetTcp.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.ServiceModel.Primitives.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.ServiceModel.Security.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Text.Encoding.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Text.Encoding.Extensions.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Text.RegularExpressions.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Threading.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Threading.Overlapped.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Threading.Tasks.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Threading.Tasks.Parallel.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Threading.Thread.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Threading.ThreadPool.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Threading.Timer.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.ValueTuple.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Xml.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Xml.Linq.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Xml.ReaderWriter.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Xml.XDocument.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Xml.XmlDocument.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Xml.XmlSerializer.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Xml.XPath.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\System.Xml.XPath.XDocument.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.2D.Sprite.Editor.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.Analytics.DataPrivacy.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.Analytics.Editor.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.Analytics.StandardEvents.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.Analytics.Tracker.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.CollabProxy.Editor.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.Postprocessing.Editor.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.Postprocessing.Runtime.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.ProBuilder.AddOns.Editor.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.ProBuilder.AssetIdRemapUtility.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.Recorder.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.Recorder.Editor.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.RenderPipelines.Core.Editor.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.RenderPipelines.Core.Runtime.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.RenderPipelines.Core.ShaderLibrary.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.RenderPipelines.Lightweight.Editor.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.RenderPipelines.Lightweight.Runtime.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.Rider.Editor.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.ShaderGraph.Editor.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.TextMeshPro.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.TextMeshPro.Editor.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.Timeline.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.Timeline.Editor.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.VisualStudio.Editor.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.VSCode.Editor.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEditor.Advertisements.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEditor.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEditor.Graphs.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEditor.LinuxStandalone.Extensions.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEditor.OSXStandalone.Extensions.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEditor.Purchasing.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEditor.TestRunner.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEditor.UI.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEditor.UWP.Extensions.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEditor.VR.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEditor.WindowsStandalone.Extensions.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.AccessibilityModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.AIModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.AndroidJNIModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.AnimationModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.ARModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.AssetBundleModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.AudioModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.ClothModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.ClusterInputModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.ClusterRendererModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.CoreModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.CrashReportingModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.DirectorModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.DSPGraphModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.FileSystemHttpModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.GameCenterModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.GridModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.HotReloadModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.ImageConversionModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.IMGUIModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.InputLegacyModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.InputModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.JSONSerializeModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.LocalizationModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.ParticleSystemModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.PerformanceReportingModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.Physics2DModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.PhysicsModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.ProfilerModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.ScreenCaptureModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.SharedInternalsModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.SpriteMaskModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.SpriteShapeModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.StreamingModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.SubstanceModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.TerrainModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.TerrainPhysicsModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.TestRunner.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.TextCoreModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.TextRenderingModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.TilemapModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.TLSModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.UI.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.UIElementsModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.UIModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.UmbraModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.UNETModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.UnityAnalyticsModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.UnityConnectModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.UnityTestProtocolModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.UnityWebRequestAssetBundleModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.UnityWebRequestAudioModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.UnityWebRequestModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.UnityWebRequestTextureModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.UnityWebRequestWWWModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.VehiclesModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.VFXModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.VideoModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.VRModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.WindModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.XRModule.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityScript.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityScript.Lang.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.Cecil.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.SerializationLogic.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.Legacy.NRefactory.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\ExCSS.Unity.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\SyntaxTree.VisualStudio.Unity.Messaging.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Boo.Lang.Compiler.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Boo.Lang.PatternMatching.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Boo.Lang.Parser.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Boo.Lang.Useful.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.CecilTools.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEditor.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEditor.TestRunner.pdb
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.TestRunner.pdb
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.Timeline.Editor.pdb
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Cinemachine.pdb
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.VSCode.Editor.pdb
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.RenderPipelines.Core.Editor.pdb
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.ProBuilder.AssetIdRemapUtility.pdb
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.RenderPipelines.Core.Runtime.pdb
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.Recorder.Editor.pdb
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.TextMeshPro.Editor.pdb
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.Recorder.pdb
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.RenderPipelines.Lightweight.Runtime.pdb
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.RenderPipelines.Lightweight.Editor.pdb
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.UI.pdb
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.Timeline.pdb
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.CollabProxy.Editor.pdb
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.Postprocessing.Editor.pdb
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.Rider.Editor.pdb
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.pdb
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.2D.Sprite.Editor.pdb
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.Postprocessing.Runtime.pdb
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\com.unity.cinemachine.editor.pdb
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.VisualStudio.Editor.pdb
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.ProBuilder.AddOns.Editor.pdb
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.ShaderGraph.Editor.pdb
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.RenderPipelines.Core.ShaderLibrary.pdb
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.TextMeshPro.pdb
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.Analytics.DataPrivacy.pdb
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEditor.UI.pdb
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.AIModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.ARModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.AccessibilityModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.AndroidJNIModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.AnimationModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.AssetBundleModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.AudioModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.ClothModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.ClusterInputModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.ClusterRendererModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.CoreModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.CrashReportingModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.DSPGraphModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.DirectorModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.FileSystemHttpModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.GameCenterModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.GridModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.HotReloadModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.IMGUIModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.ImageConversionModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.InputModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.InputLegacyModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.JSONSerializeModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.LocalizationModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.ParticleSystemModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.PerformanceReportingModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.PhysicsModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.Physics2DModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.ProfilerModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.ScreenCaptureModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.SharedInternalsModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.SpriteMaskModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.SpriteShapeModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.StreamingModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.SubstanceModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.TLSModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.TerrainModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.TerrainPhysicsModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.TextCoreModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.TextRenderingModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.TilemapModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.UIModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.UIElementsModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.UNETModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.UmbraModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.UnityAnalyticsModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.UnityConnectModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.UnityTestProtocolModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.UnityWebRequestModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.UnityWebRequestAssetBundleModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.UnityWebRequestAudioModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.UnityWebRequestTextureModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.UnityWebRequestWWWModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.VFXModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.VRModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.VehiclesModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.VideoModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.WindModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.XRModule.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEditor.VR.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\nunit.framework.pdb
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\nunit.framework.xml
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\obj\Debug\Assembly-CSharp-Editor.csprojAssemblyReference.cache
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\obj\Debug\Assembly-CSharp-Editor.csproj.CoreCompileInputs.cache
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\obj\Debug\Assembly-CSharp-Editor.csproj.CopyComplete
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\obj\Debug\Assembly-CSharp-Editor.dll
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\obj\Debug\Assembly-CSharp-Editor.pdb
+G:\BoS - New\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Assembly-CSharp.pdb
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.Recorder.dll
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.Recorder.Editor.dll
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.Recorder.Editor.pdb
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.Recorder.pdb
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEditor.WebGL.Extensions.dll
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Assembly-CSharp-firstpass.pdb
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Assembly-CSharp.pdb
-D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Coffee.UnmaskForUGUI.pdb
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Assembly-CSharp-Editor-firstpass.pdb
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Ink-Libraries.pdb
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\XInputDotNetPure.dll

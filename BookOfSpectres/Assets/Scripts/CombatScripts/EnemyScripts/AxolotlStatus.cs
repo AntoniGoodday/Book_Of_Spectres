@@ -12,6 +12,7 @@ public class AxolotlStatus : EntityStatus
 
         hpText = transform.GetComponentInChildren<TextMeshPro>();
         base.Start();
+        hpText.sortingOrder = 6;
     }
 
     public override void UpdateUI()

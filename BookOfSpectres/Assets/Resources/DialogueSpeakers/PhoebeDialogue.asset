@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e138f1224f2b04e479abf44b5fb745bb, type: 3}
+  m_Name: PhoebeDialogue
+  m_EditorClassIdentifier: 
+  speakerName: Phoebe
+  expressionSprites:
+  - {fileID: 21300000, guid: d45a9e6468eb6d34fb5d3f5e976d9571, type: 3}
+  - {fileID: 21300000, guid: 0b1278f642179c741b4300df93bb2ea5, type: 3}
+  - {fileID: 21300000, guid: 110634e82a1f2cf4084c0fc2af0ff9db, type: 3}
+  - {fileID: 21300000, guid: c2efe82074089754d8ca317312f3c6f8, type: 3}
+  - {fileID: 21300000, guid: d0f878d0759bc40478739a9d8d9e186c, type: 3}
+  - {fileID: 21300000, guid: 0b2ffe1d5f7fd4a4691a8527b53a0ba1, type: 3}
+  - {fileID: 21300000, guid: ef7a18ccc25669c488addac849e39e39, type: 3}

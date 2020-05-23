@@ -4,9 +4,20 @@ using UnityEngine;
 using EnumScript;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using UnityEngine.Events;
+
 public class PlayerScript : MonoBehaviour
 {
+    #region delegates
+    public delegate void ShootDelegate();
+    public event ShootDelegate shootEvent;
+    public delegate void ChargedShootDelegate();
+    public event ShootDelegate chargedShootEvent;
+
+
+    public delegate void MoveDelegate(MoveDirection direction);
+    public event MoveDelegate moveEvent;
+    #endregion
+
     public static PlayerScript Instance;
     ObjectPooler objectPooler;
     [SerializeField]
@@ -34,6 +45,8 @@ public class PlayerScript : MonoBehaviour
     [SerializeField]
     List<ParticleSystem> chargeParticles;
     [SerializeField]
+    ParticleSystem spellParticles;
+    [SerializeField]
     float heightAboveGround = -1.25f;
 
     bool isLerping = false;
@@ -49,6 +62,8 @@ public class PlayerScript : MonoBehaviour
     StandardPlayerShot standardShot;
     [SerializeField]
     ChargedPlayerShot chargedShot;
+
+    bool canShoot = true;
     /*Spell origin:
     0 - Regular Slot
     */
@@ -56,23 +71,26 @@ public class PlayerScript : MonoBehaviour
     List<GameObject> spellOrigin;
     [SerializeField]
     Animator anim;
-    public UnityEvent OnSpellUsed;
+
 
     public Animator emotionAnim;
     public Animator canvasAnim;
     public Canvas playerCanvas;
     GameObject firstButton;
     TurnBarScript turnBarScript;
-    SpriteRenderer playerSprite;
+    [SerializeField]
+    public SpriteRenderer playerSprite;
     CardHolder cardHolder;
 
-    EntityStatus status;
+    public EntityStatus status;
     private GameObject previousRaycastTile;
+    private GameObject currentRaycastTile;
     private string tileTag = "Tile";
     private Ray ray;
     private RaycastHit hit;
 
-
+    private bool vertAxisInUse = false;
+    private bool horizontalAxisInUse = false;
 
     // Start is called before the first frame update
     void Awake()
@@ -88,7 +106,7 @@ public class PlayerScript : MonoBehaviour
         firstButton = GameObject.Find("Slot1");
         turnBarScript = GameObject.Find("TurnBar").GetComponent<TurnBarScript>();
         cardHolder = GameObject.Find("PlayerCanvas").GetComponent<CardHolder>();
-        playerSprite = GetComponentInChildren<SpriteRenderer>();
+
         Instance = this;
 
     }
@@ -101,18 +119,24 @@ public class PlayerScript : MonoBehaviour
         currentTile = bfs.battleTilesGrid[(int)bfs.playerSpawn.x, (int)bfs.playerSpawn.y];
         currentTileClass = currentTile.GetComponent<TileClass>();
 
-        currentTileClass.SetColour(playerTileColour);
+
         transform.position = new Vector3(currentTile.transform.position.x, currentTile.transform.position.y, heightAboveGround);
-        bfs.playerPosition = new Vector2((int)currentTileClass.gridLocation.x, (int)currentTileClass.gridLocation.y);
+        bfs.playerPosition = new Vector2Int((int)currentTileClass.gridLocation.x, (int)currentTileClass.gridLocation.y);
         previousTile = currentTile;
 
         standardShot = GetComponent<StandardPlayerShot>();
         chargedShot = GetComponent<ChargedPlayerShot>();
+
+        //currentTileClass.SetColour(playerTileColour);
+        currentTileClass.occupied = true;
+
+        SetSortingOrder(-(int)currentTileClass.gridLocation.y + 5);
     }
 
     // Update is called once per frame
     void Update()
     {
+
         if (isPaused == false)
         {
             if (isLerping == false)
@@ -121,10 +145,7 @@ public class PlayerScript : MonoBehaviour
                 {
                     if ((int)currentTileClass.gridLocation.y + movementRange < bfs.yMax && TileCheck(0, movementRange))
                     {
-                        isLerping = true;
-                        ZeroOutTheDelays();
-                        UpdateBattlefield(0, movementRange);
-                        UpdatePlayer();
+                        MovePlayer(MoveDirection.Up);
                     }
 
                 }
@@ -132,10 +153,7 @@ public class PlayerScript : MonoBehaviour
                 {
                     if ((int)currentTileClass.gridLocation.y - movementRange >= 0 && TileCheck(0, -movementRange))
                     {
-                        isLerping = true;
-                        ZeroOutTheDelays();
-                        UpdateBattlefield(0, -movementRange);
-                        UpdatePlayer();
+                        MovePlayer(MoveDirection.Down);
                     }
 
                 }
@@ -143,10 +161,7 @@ public class PlayerScript : MonoBehaviour
                 {
                     if ((int)currentTileClass.gridLocation.x - 1 >= 0 && TileCheck(-movementRange, 0))
                     {
-                        isLerping = true;
-                        ZeroOutTheDelays();
-                        UpdateBattlefield(-movementRange, 0);
-                        UpdatePlayer();
+                        MovePlayer(MoveDirection.Left);
                     }
 
                 }
@@ -154,136 +169,181 @@ public class PlayerScript : MonoBehaviour
                 {
                     if ((int)currentTileClass.gridLocation.x + 1 < bfs.xMax && TileCheck(movementRange, 0))
                     {
-                        isLerping = true;
-                        ZeroOutTheDelays();
-                        UpdateBattlefield(movementRange, 0);
-                        UpdatePlayer();
+                        MovePlayer(MoveDirection.Right);
                     }
 
+                }
+
+
+                #region consoleInput
+                else if (Input.GetAxisRaw("MoveVertical") != 0)
+                { 
+                    if (vertAxisInUse == false)
+                    {
+                        if (Input.GetAxisRaw("MoveVertical") < 0)
+                        {
+                            
+                            if ((int)currentTileClass.gridLocation.y - movementRange >= 0 && TileCheck(0, -movementRange))
+                            {
+                                MovePlayer(MoveDirection.Down);
+                            }
+                        }
+                        else if (Input.GetAxisRaw("MoveVertical") > 0)
+                        {
+                            if ((int)currentTileClass.gridLocation.y + movementRange < bfs.yMax && TileCheck(0, movementRange))
+                            {
+                                MovePlayer(MoveDirection.Up);
+                            }
+                        }
+                    }
+
+                }
+                else if (Input.GetAxisRaw("MoveHorizontal") != 0)
+                {
+                    if (horizontalAxisInUse == false)
+                    {
+                        if (Input.GetAxisRaw("MoveHorizontal") < 0)
+                        {
+                            if ((int)currentTileClass.gridLocation.x - 1 >= 0 && TileCheck(-movementRange, 0))
+                            {
+                                MovePlayer(MoveDirection.Left);
+                            }
+                        }
+                        if (Input.GetAxisRaw("MoveHorizontal") > 0)
+                        {
+                            if ((int)currentTileClass.gridLocation.x + 1 < bfs.xMax && TileCheck(movementRange, 0))
+                            {
+                                MovePlayer(MoveDirection.Right);
+                            }
+                        }
+                    }
+                }
+
+                #endregion
+                ContinuousMovement();
+                if (Input.GetButton("Shoot"))
+                {
+                    shotChargeAmount += Time.deltaTime;
+                    if (shotChargeAmount < maxShotChargeTime && shotChargeAmount > 0.05f)
+                    {
+                        if (chargeParticles[0].isPlaying == false)
+                        {
+                            chargeParticles[0].Play();
+                        }
+                    }
+                    else if (shotChargeAmount >= maxShotChargeTime && shotFullyCharged == false)
+                    {
+
+                        chargeParticles[0].Stop();
+                        chargeParticles[1].Play();
+                        shotFullyCharged = true;
+
+                    }
+                }
+                if (Input.GetButtonUp("Shoot") && canShoot == true)
+                {
+                    canShoot = false;
+
+                    ClearChargeParticles();
+                    
+                    if (shotFullyCharged == false)
+                    {
+
+                        standardShot.Shoot(spellOrigin[0].transform, gameObject);
+
+                        anim.Play("Attack");
+
+                        //objectPooler.SpawnFromPool("PlayerBullet", spellOrigin.transform.position, Quaternion.Euler(0, 0, 90), gameObject.transform);
+                    }
+                    else
+                    {
+                        //objectPooler.SpawnFromPool("ChargedPlayerBullet", spellOrigin.transform.position, Quaternion.Euler(0, 0, 90), gameObject.transform);
+                        ShootCharged();
+                    }
+                    shootEvent?.Invoke();
+
+                    shotChargeAmount = 0;
+
+                    StartCoroutine(ShotDelay());
+                }
+
+                if (Input.GetButtonDown("Use"))
+                {
+                    if (cardHolder.spellMiniatures.Count > 0)
+                    {
+                        cardHolder.UseSpell(gameObject, status, spellOrigin[0].transform);
+                        anim.Play("Spell");
+                        spellParticles.Play();
+                    }
                 }
 
             }
-            ContinuousMovement();
-            if (Input.GetButton("Shoot"))
+
+
+
+            if (Input.GetAxisRaw("MoveVertical") == 0)
             {
-                shotChargeAmount += Time.deltaTime;
-                if (shotChargeAmount < maxShotChargeTime && shotChargeAmount > 0.05f)
-                {
-                    if (chargeParticles[0].isPlaying == false)
-                    {
-                        chargeParticles[0].Play();
-                    }
-                }
-                else if (shotChargeAmount >= maxShotChargeTime && shotFullyCharged == false)
-                {
-
-                    chargeParticles[0].Stop();
-                    chargeParticles[1].Play();
-                    shotFullyCharged = true;
-
-                }
+                
+                vertAxisInUse = false;
             }
-            if (Input.GetButtonUp("Shoot"))
+            if (Input.GetAxis("MoveHorizontal") == 0)
             {
-                foreach (ParticleSystem ps in chargeParticles)
-                {
-                    if (ps.isPlaying == true)
-                    {
-                        ps.Stop();
-                        ps.Clear();
-                    }
-                }
-                anim.Play("Attack");
-                if (shotFullyCharged == false)
-                {
+                horizontalAxisInUse = false;
+            }
 
-                    standardShot.Shoot(spellOrigin[0].transform, gameObject);
-                    //objectPooler.SpawnFromPool("PlayerBullet", spellOrigin.transform.position, Quaternion.Euler(0, 0, 90), gameObject.transform);
+            
+
+            if (Input.GetButtonUp("StartTurn") && turnBarScript.CurrentTurnTime >= turnBarScript.MaxTurnTime)
+            {
+                if (isPaused == false)
+                {
+                    //objectPooler.PauseAll();
+
+
+                    CombatMenu _tempCombatMenu = canvasAnim.gameObject.GetComponent<CombatMenu>();
+
+                    List<SpellCard> _tempSpellList = new List<SpellCard>();
+
+                    foreach (SpellCard s in _tempCombatMenu.playerCombatInUse)
+                    {
+                        _tempSpellList.Add(s);
+                    }
+
+                    foreach (SpellCard s in _tempSpellList)
+                    {
+                        _tempCombatMenu.MoveCardToDestination(s, CardDestination.Combat, CardDestination.Graveyard);
+                    }
+
+                    cardHolder.Purge();
+                    turnBarScript.Pause(false);
+
+                    canvasAnim.Play("MenuSlideIn");
+
+                    //EventSystem.current.SetSelectedGameObject(null);
+                    //EventSystem.current.SetSelectedGameObject(firstButton);
                 }
                 else
                 {
-                    //objectPooler.SpawnFromPool("ChargedPlayerBullet", spellOrigin.transform.position, Quaternion.Euler(0, 0, 90), gameObject.transform);
-                    chargedShot.ShootCharged(spellOrigin[0].transform, gameObject);
-                    shotFullyCharged = false;
+                    //canvasAnim.Play("MenuSlideOut");
+
+                    //EventSystem.current.SetSelectedGameObject(null);
+                    //objectPooler.UnPauseAll();
                 }
-
-                shotChargeAmount = 0;
-            }
-
-            if (Input.GetButtonDown("Use"))
-            {
-                if (cardHolder.spellMiniatures.Count > 0)
-                {
-                    OnSpellUsed.Invoke();
-                }
-            }
-
-        }
-        ray = new Ray(transform.position, transform.forward);
-
-        if (Physics.Raycast(ray, out hit, 10f))
-        {
-            Debug.DrawRay(transform.position, -transform.up);
-            if (previousRaycastTile == null)
-            {
-                previousRaycastTile = hit.transform.gameObject;
-                previousRaycastTile.GetComponent<TileClass>().SetColour(playerTileColour);
-            }
-            else
-            {
-                previousRaycastTile.GetComponent<TileClass>().SetColour(previousRaycastTile.GetComponent<TileClass>().initialMaterialColour);
-                previousRaycastTile = hit.transform.gameObject;
-                previousRaycastTile.GetComponent<TileClass>().SetColour(playerTileColour);
-            }
-
-        }
-        else
-        {
-            if (previousRaycastTile != null)
-            {
-                previousRaycastTile.GetComponent<TileClass>().SetColour(previousRaycastTile.GetComponent<TileClass>().initialMaterialColour);
-                previousRaycastTile = null;
             }
         }
 
-        if (Input.GetButtonUp("StartTurn") && turnBarScript.currentTurnTime >= turnBarScript.maxTurnTime)
-        {
-            if (isPaused == false)
-            {
-                //objectPooler.PauseAll();
-                
-
-                CombatMenu _tempCombatMenu = canvasAnim.gameObject.GetComponent<CombatMenu>();
-
-                List<SpellCard> _tempSpellList = new List<SpellCard>();
-
-                foreach (SpellCard s in _tempCombatMenu.playerCombatInUse)
-                {
-                    _tempSpellList.Add(s);
-                }
-
-                foreach (SpellCard s in _tempSpellList)
-                {
-                    _tempCombatMenu.MoveCardToDestination(s, CardDestination.Combat, CardDestination.Graveyard);
-                }
-
-                cardHolder.Purge();
-
-                canvasAnim.Play("MenuSlideIn");
-
-                //EventSystem.current.SetSelectedGameObject(null);
-                //EventSystem.current.SetSelectedGameObject(firstButton);
-            }
-            else
-            {
-                //canvasAnim.Play("MenuSlideOut");
-
-                //EventSystem.current.SetSelectedGameObject(null);
-                //objectPooler.UnPauseAll();
-            }
-        }
+       
     }
 
+    private void FixedUpdate()
+    {
+        //Raycast downwards
+        ray = new Ray(transform.position, transform.forward);
+
+        RayCheck(ray);
+    }
+
+   
     void ContinuousMovement()
     {
         if (isLerping == false)
@@ -295,9 +355,10 @@ public class PlayerScript : MonoBehaviour
                     tempMovementDelayUp += Time.deltaTime;
                     if (tempMovementDelayUp > contMovementDelay)
                     {
-                        ZeroOutTheDelays();
+                        /*ZeroOutTheDelays();
                         UpdateBattlefield(0, movementRange);
-                        UpdatePlayer();
+                        UpdatePlayer();*/
+                        MovePlayer(MoveDirection.Up);
 
                     }
                 }
@@ -310,9 +371,7 @@ public class PlayerScript : MonoBehaviour
                     tempMovementDelayDown += Time.deltaTime;
                     if (tempMovementDelayDown > contMovementDelay)
                     {
-                        ZeroOutTheDelays();
-                        UpdateBattlefield(0, -movementRange);
-                        UpdatePlayer();
+                        MovePlayer(MoveDirection.Down);
                     }
                 }
 
@@ -324,9 +383,7 @@ public class PlayerScript : MonoBehaviour
                     tempMovementDelayLeft += Time.deltaTime;
                     if (tempMovementDelayLeft > contMovementDelay)
                     {
-                        ZeroOutTheDelays();
-                        UpdateBattlefield(-movementRange, 0);
-                        UpdatePlayer();
+                        MovePlayer(MoveDirection.Left);
                     }
                 }
 
@@ -338,9 +395,7 @@ public class PlayerScript : MonoBehaviour
                     tempMovementDelayRight += Time.deltaTime;
                     if (tempMovementDelayRight > contMovementDelay)
                     {
-                        ZeroOutTheDelays();
-                        UpdateBattlefield(movementRange, 0);
-                        UpdatePlayer();
+                        MovePlayer(MoveDirection.Right);
                     }
                 }
 
@@ -379,40 +434,36 @@ public class PlayerScript : MonoBehaviour
         //currentTileClass.SetColour(currentTileClass.initialMaterialColour);
         previousTile = currentTile;
         SetTileInfo(x, y);
-        bfs.playerPosition = new Vector2((int)currentTileClass.gridLocation.x, (int)currentTileClass.gridLocation.y);
+        bfs.playerPosition = new Vector2Int((int)currentTileClass.gridLocation.x, (int)currentTileClass.gridLocation.y);
     }
 
     public void UpdatePlayer()
     {
-
-        //Teleport player to new position
-        //transform.position = new Vector3(currentTile.transform.position.x, currentTile.transform.position.y, -1.4f);
         StartCoroutine(LerpPlayer(movementSpeed));
-        //currentTileClass.SetColour(playerTileColour);
-        //transform.position = new Vector3(bfs.battleTilesGrid[(int)bfs.playerPosition.x,(int)bfs.playerPosition.y].transform.position.x, bfs.battleTilesGrid[(int)bfs.playerPosition.x, (int)bfs.playerPosition.y].transform.position.y,-1.4f);
-
-        //bfs.battleTilesGrid[(int)transform.position.x, (int)transform.position.y].GetComponent<TileClass>().SetColour(playerTileColour);
-        //tileColour = bfs.battleTiles[bfs.currentTile].GetComponent<Renderer>().material.color;
-        //bfs.battleTiles[bfs.currentTile].GetComponent<Renderer>().material.color = playerTileColour;
-        //bfs.battleTiles[bfs.currentTile].transform.localPosition += new Vector3(0, Mathf.Lerp(0, -0.1f, 60), 0);
-        //bfs.battleTiles[bfs.currentTile].GetComponent<TileClass>().occupied = true;
     }
+
     bool TileCheck(int movementRangeX = 0, int movementRangeY = 0)
     {
         foreach (TileAlignment aligned in alignedTiles)
         {
-            if (bfs.battleTilesGrid[(int)currentTileClass.gridLocation.x + movementRangeX, (int)currentTileClass.gridLocation.y + movementRangeY].GetComponent<TileClass>().tAlign == aligned)
-            {
-                //if (battleTiles[currentTile + movementRange].GetComponent<TileClass>().occupied == false)
-                //{
+            TileClass _tileClass = bfs.battleTilesGrid[(int)currentTileClass.gridLocation.x + movementRangeX, (int)currentTileClass.gridLocation.y + movementRangeY].GetComponent<TileClass>();
 
-                return true;
-                //}
+            if (_tileClass.tileAlignment == aligned)
+            {
+                if (_tileClass.occupied == false)
+                {
+                    if (_tileClass.tileEffect != TileEffect.Broken)
+                    {
+                        return true;
+                    }
+
+                }
             }
 
         }
         return false;
     }
+
     void SetTileInfo(int x, int y)
     {
         currentTile = bfs.battleTilesGrid[(int)currentTileClass.gridLocation.x + x, (int)currentTileClass.gridLocation.y + y];
@@ -423,6 +474,13 @@ public class PlayerScript : MonoBehaviour
     IEnumerator LerpPlayer(float time)
     {
         float _elapsedTime = 0f;
+
+        //Set which tile the entity is on before it moves, so that it won't clip into another entity
+        previousTile.GetComponent<TileClass>().occupied = false;
+
+
+        currentTileClass.occupied = true;
+
         isLerping = true;
         Vector3 pT = new Vector3(previousTile.transform.position.x, previousTile.transform.position.y, heightAboveGround);
         Vector3 cT = new Vector3(currentTile.transform.position.x, currentTile.transform.position.y, heightAboveGround);
@@ -433,13 +491,18 @@ public class PlayerScript : MonoBehaviour
             {
                 transform.position = Vector3.Lerp(pT, cT, (_elapsedTime / time));
                 _elapsedTime += Time.deltaTime;
+
             }
             yield return new WaitForEndOfFrame();
         }
         transform.position = cT;
-        playerSprite.sortingOrder = -(int)currentTileClass.gridLocation.y;
+
+        SetSortingOrder(-(int)currentTileClass.gridLocation.y + 5);
+
+
         //For continuous movement, resetting the delay
         isLerping = false;
+
 
 
         yield return new WaitForSeconds(0);
@@ -449,19 +512,20 @@ public class PlayerScript : MonoBehaviour
 
     public void Paused()
     {
-        anim.enabled = false;
+        /*anim.enabled = false;
         emotionAnim.enabled = false;
         ParticleSystem _pSys = status.hitParticles;
         if (_pSys.isPlaying)
         {
             _pSys.Pause();
-        }
+        }*/
         isPaused = true;
 
     }
 
     public void UnPaused()
     {
+        /*
         ParticleSystem _pSys = status.hitParticles;
         if (_pSys.isPaused)
         {
@@ -469,10 +533,143 @@ public class PlayerScript : MonoBehaviour
         }
         anim.enabled = true;
         emotionAnim.enabled = true;
-
+        */
         isPaused = false;
 
+        if(Input.GetButton("Shoot") == false && shotChargeAmount >= maxShotChargeTime)
+        {
+            ShootCharged();
+            ClearChargeParticles();
+            shotChargeAmount = 0;
+        }
+        else if(Input.GetButton("Shoot") == false && shotChargeAmount <= maxShotChargeTime)
+        {
+            ClearChargeParticles();
+            shotChargeAmount = 0;
+        }
+        else if(Input.GetButton("Shoot") == true)
+        {
+
+        }
+
+    }
+
+    void RayCheck(Ray ray)
+    {
+        if (Physics.Raycast(ray, out hit, 10f))
+        {
+            Debug.DrawRay(transform.position, -transform.up);
+            if (previousRaycastTile == null)
+            {
+                previousRaycastTile = hit.transform.gameObject;
+                currentRaycastTile = hit.transform.gameObject;
+
+                TileClass _previousRaycastTileClass = previousRaycastTile.GetComponent<TileClass>();
+                _previousRaycastTileClass.SetColour(playerTileColour);
+            }
+            else
+            {
+                if (hit.transform.gameObject != currentRaycastTile | currentRaycastTile.GetComponent<TileClass>().currentColour != playerTileColour)
+                {
+                    
+                    previousRaycastTile.GetComponent<TileClass>().SetColour(previousRaycastTile.GetComponent<TileClass>().initialMaterialColour, false, false, true);
+
+                    currentRaycastTile = hit.transform.gameObject;
+                    currentRaycastTile.GetComponent<TileClass>().SetColour(playerTileColour);
+                    previousRaycastTile = currentRaycastTile;
+                }
+            }
+
+        }
+        else
+        {
+            if (previousRaycastTile != null)
+            {
+                previousRaycastTile.GetComponent<TileClass>().SetColour(previousRaycastTile.GetComponent<TileClass>().initialMaterialColour);
+                previousRaycastTile = null;
+            }
+        }
     }
     #endregion
 
+    void ClearChargeParticles()
+    {
+        foreach (ParticleSystem ps in chargeParticles)
+        {
+            if (ps.isPlaying == true)
+            {
+                ps.Stop();
+                ps.Clear();
+            }
+        }
+    }
+
+    void ShootCharged()
+    {
+        chargedShot.ShootCharged(spellOrigin[0].transform, gameObject);
+        shotFullyCharged = false;
+
+        anim.Play("Spell");
+
+        spellParticles.Play();
+
+        chargedShootEvent?.Invoke();
+    }
+
+    public void SetSortingOrder(int i)
+    {
+        playerSprite.sortingOrder = i;
+    }
+
+    IEnumerator ShotDelay()
+    {
+        yield return new WaitForSeconds(0.2f);
+        canShoot = true;
+    }
+
+    void MovePlayer(MoveDirection moveDir)
+    {
+        int _x = 0;
+        int _y = 0;
+
+        switch(moveDir)
+        {
+            case (MoveDirection.Up):
+                {
+                    vertAxisInUse = true;
+                    _x = 0;
+                    _y = 1;
+                    break;
+                }
+            case (MoveDirection.Down):
+                {
+                    vertAxisInUse = true;
+                    _x = 0;
+                    _y = -1;
+                    break;
+                }
+            case (MoveDirection.Left):
+                {
+                    horizontalAxisInUse = true;
+                    _x = -1;
+                    _y = 0;
+                    break;
+                }
+            case (MoveDirection.Right):
+                {
+                    horizontalAxisInUse = true;
+                    _x = 1;
+                    _y = 0;
+                    break;
+                }
+        }
+
+
+        
+        isLerping = true;
+        ZeroOutTheDelays();
+        UpdateBattlefield(_x * movementRange, _y * movementRange);
+        moveEvent?.Invoke(moveDir);
+        UpdatePlayer();
+    }
 }

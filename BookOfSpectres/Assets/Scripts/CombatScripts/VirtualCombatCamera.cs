@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Cinemachine.Editor;
 using Cinemachine;
 public class VirtualCombatCamera : MonoBehaviour
 {
