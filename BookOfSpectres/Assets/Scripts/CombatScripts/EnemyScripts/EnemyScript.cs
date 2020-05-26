@@ -231,4 +231,13 @@ public class EnemyScript : MonoBehaviour
         }
         return false;
     }
+
+    private void OnDisable()
+    {
+        if (currentRaycastTile != null)
+        {
+            currentRaycastTile.GetComponent<TileClass>().UnOccupy(true);
+            previousTile.GetComponent<TileClass>().UnOccupy(true);
+        }
+    }
 }

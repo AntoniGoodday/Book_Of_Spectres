@@ -123,13 +123,9 @@ D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEditor.Advertisements.dll
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEditor.dll
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEditor.Graphs.dll
-D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEditor.LinuxStandalone.Extensions.dll
-D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEditor.OSXStandalone.Extensions.dll
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEditor.Purchasing.dll
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEditor.UI.dll
-D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEditor.UWP.Extensions.dll
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEditor.VR.dll
-D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEditor.WebGL.Extensions.dll
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEditor.WindowsStandalone.Extensions.dll
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.AccessibilityModule.dll
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.AIModule.dll
@@ -146,7 +142,6 @@ D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityE
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.DirectorModule.dll
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.dll
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.DSPGraphModule.dll
-D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.FileSystemHttpModule.dll
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.GameCenterModule.dll
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.GridModule.dll
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.HotReloadModule.dll
@@ -222,7 +217,6 @@ D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityE
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.CrashReportingModule.xml
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.DSPGraphModule.xml
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.DirectorModule.xml
-D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.FileSystemHttpModule.xml
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.GameCenterModule.xml
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.GridModule.xml
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.HotReloadModule.xml
@@ -267,10 +261,13 @@ D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityE
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.VideoModule.xml
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.WindModule.xml
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.XRModule.xml
-D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEditor.VR.xml
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\obj\Debug\Ink-Libraries.csprojAssemblyReference.cache
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\obj\Debug\Ink-Libraries.csproj.CoreCompileInputs.cache
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\obj\Debug\Ink-Libraries.csproj.CopyComplete
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\obj\Debug\Ink-Libraries.dll
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\obj\Debug\Ink-Libraries.pdb
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\XInputDotNetPure.dll
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\ICSharpCode.NRefactory.dll
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.SubsystemsModule.dll
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.CompilationPipeline.Common.dll
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.SubsystemsModule.xml

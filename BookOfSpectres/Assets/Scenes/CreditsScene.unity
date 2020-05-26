@@ -96,6 +96,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
+    m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -274,8 +275,9 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1267957335}
   m_Enabled: 1
-  serializedVersion: 9
+  serializedVersion: 10
   m_Type: 1
+  m_Shape: 0
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
   m_Intensity: 1
   m_Range: 10
@@ -367,16 +369,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 1285718791}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
+  m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
-  m_SubmitButton: Shoot
-  m_CancelButton: Cancel
-  m_InputActionsPerSecond: 10
-  m_RepeatDelay: 0.5
-  m_ForceModuleActive: 0
+  m_MoveRepeatDelay: 0.5
+  m_MoveRepeatRate: 0.1
+  m_ActionsAsset: {fileID: -944628639613478452, guid: e11dde18181c4d44ba9fa18e9c41c41e,
+    type: 3}
+  m_PointAction: {fileID: 0}
+  m_MoveAction: {fileID: -1469706139188847115, guid: e11dde18181c4d44ba9fa18e9c41c41e,
+    type: 3}
+  m_SubmitAction: {fileID: -6429120077872987137, guid: e11dde18181c4d44ba9fa18e9c41c41e,
+    type: 3}
+  m_CancelAction: {fileID: 0}
+  m_LeftClickAction: {fileID: 0}
+  m_MiddleClickAction: {fileID: 0}
+  m_RightClickAction: {fileID: 0}
+  m_ScrollWheelAction: {fileID: 0}
+  m_TrackedDevicePositionAction: {fileID: 0}
+  m_TrackedDeviceOrientationAction: {fileID: 0}
+  m_DeselectOnBackgroundClick: 1
+  m_PointerBehavior: 0
 --- !u!114 &1285718793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -389,7 +402,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
+  m_FirstSelected: {fileID: 384422731}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
 --- !u!4 &1285718794
@@ -663,13 +676,15 @@ MonoBehaviour:
     Programming, Music and Design - Antoni Gudejko
 
 
-    Art - InkyDaft (Instagram - @inkydaft)
+    Art
+    - InkyDaft (Instagram - @inkydaft)
 
 
     INK by Inkle (https://www.inklestudios.com/ink/)
 
 
-    Unity Text Typer by Red Blue Games (https://github.com/redbluegames/unity-text-typer)'
+    Unity
+    Text Typer by Red Blue Games (https://github.com/redbluegames/unity-text-typer)'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 54bc4f4cd06f75e4d9b882992ca65e15, type: 2}
   m_sharedMaterial: {fileID: 8813994419268937592, guid: 54bc4f4cd06f75e4d9b882992ca65e15,

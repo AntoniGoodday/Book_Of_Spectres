@@ -29,4 +29,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BattleS/BattleScene_5.unity
     guid: 84d5ca62f51c46342bacf04bdc505155
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: 2402d8c387665ac48bf96e0758bbfd5f,
+      type: 2}

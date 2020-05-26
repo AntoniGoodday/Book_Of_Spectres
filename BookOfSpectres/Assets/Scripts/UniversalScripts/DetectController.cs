@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using XInputDotNetPure;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 public class DetectController : MonoBehaviour
 {
-    PlayerIndex player = PlayerIndex.One;
+    /*PlayerIndex player = PlayerIndex.One;
     [SerializeField]
     bool controllerConnected = false;
     [SerializeField]
@@ -87,5 +87,5 @@ public class DetectController : MonoBehaviour
             inkTypewriterText.story.variablesState["controllerConnected"] = false;
         }
         controllerConnected = false;
-    }
+    }*/
 }

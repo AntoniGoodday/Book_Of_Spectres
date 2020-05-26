@@ -1,11 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using EnumScript;
 using TMPro;
 using Cinemachine;
+
 public class EntityStatus : MonoBehaviour
 {
+
+
     ObjectPooler objectPooler;
     public float maxHp;
     public float hp;
@@ -34,10 +38,15 @@ public class EntityStatus : MonoBehaviour
 
     public AiMastermind aiMastermind;
 
+    public delegate void DieDelegate();
+    public event DieDelegate dieEvent;
+
     public List<StatusEffect> StatusEffects { get => statusEffects; set => statusEffects = value; }
 
     public virtual void Start()
     {
+
+
         objectPooler = ObjectPooler.Instance;
         aiMastermind = AiMastermind.Instance;
 
@@ -134,6 +143,7 @@ public class EntityStatus : MonoBehaviour
             }
             anim.SetBool("AttackToken", false);
         }
+        dieEvent?.Invoke();
         anim.Play("Die");    
     }
 

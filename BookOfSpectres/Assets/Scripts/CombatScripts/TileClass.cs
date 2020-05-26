@@ -131,6 +131,7 @@ public class TileClass : MonoBehaviour
         }
         occupierPriority = 0;
         transform.localPosition = initialPosition;
+        occupied = false;
     }
 
     public void SetVariables()

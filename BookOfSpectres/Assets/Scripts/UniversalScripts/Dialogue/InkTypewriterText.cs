@@ -1,13 +1,22 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
-using RedBlueGames.Tools.TextTyper;
 using UnityEngine.UI;
-using TMPro;
-using Ink.Runtime;
-using EnumScript;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
+
+using PlayerControlNamespace;
+
+using RedBlueGames.Tools.TextTyper;
+
+using TMPro;
+
+using Ink.Runtime;
+
+using EnumScript;
+
 public class InkTypewriterText : MonoBehaviour
 {
     [SerializeField]
@@ -73,9 +82,22 @@ public class InkTypewriterText : MonoBehaviour
     Image lightness;
 
     ObjectPooler objectPooler;
+
+    PlayerControl playerControl;
     private void Awake()
     {
-        
+        playerControl = new PlayerControl();
+
+        playerControl.DefaultControls.Submit.performed += context => HandlePrintNextClicked();
+
+        playerControl.DefaultControls.Move.performed += context => SelectButton(context.ReadValue<Vector2>());
+
+        playerControl.Enable();
+    }
+
+    private void OnDisable()
+    {
+        playerControl.Disable();
     }
 
     // Start is called before the first frame update
@@ -142,8 +164,7 @@ public class InkTypewriterText : MonoBehaviour
 
     public void Update()
     {
-
-        if (Input.GetKeyDown(KeyCode.Tilde))
+        /*if (Input.GetKeyDown(KeyCode.Tilde))
         {
 
             var tag = RichTextTag.ParseNext("blah<color=red>boo</color");
@@ -156,32 +177,7 @@ public class InkTypewriterText : MonoBehaviour
             LogTag(tag);
             tag = RichTextTag.ParseNext("This tag is a closing tag </bold>");
             LogTag(tag);
-        }
-
-        if (Input.GetButtonUp("Shoot") || Input.GetButtonUp("Use"))
-        {
-            HandlePrintNextClicked(); 
-        }
-
-        if (choiceButtons[0].IsActive() && initializeButtonChoice == false)
-        {
-            if(Input.GetButtonUp("MoveLeft") )
-            {
-                choiceButtons[0].FindSelectableOnLeft();
-                initializeButtonChoice = true;
-            }
-            else if(Input.GetButtonUp("MoveRight"))
-            {
-                choiceButtons[0].FindSelectableOnRight();
-                initializeButtonChoice = true;
-            }
-            else if (Input.GetButtonUp("Shoot") || Input.GetButtonUp("Use"))
-            {
-                choiceButtons[0].Select();
-                initializeButtonChoice = true;
-            }
-        }
-
+        }*/
     }
 
     public void StartDialogue(string knot = "")
@@ -656,5 +652,23 @@ public class InkTypewriterText : MonoBehaviour
             SceneManager.LoadScene(sceneName);
         }
     }
+
+    void SelectButton(Vector2 direction)
+    {
+        if (choiceButtons[0].IsActive() && initializeButtonChoice == false)
+        {
+            if (direction.x > 0)
+            {
+                choiceButtons[0].FindSelectableOnRight().Select();
+            }
+            else if(direction.x < 0)
+            {
+                choiceButtons[0].Select();
+            }
+
+            initializeButtonChoice = true;
+        }
+    }
+
 
 }
