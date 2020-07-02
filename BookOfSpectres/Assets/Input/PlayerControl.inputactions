@@ -19,7 +19,15 @@
                     "id": "f304976d-0a1e-4881-84c0-d14a886af3be",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "Press(pressPoint=1,behavior=1)"
+                },
+                {
+                    "name": "DialogueSubmit",
+                    "type": "Button",
+                    "id": "a0e658d0-5774-4f3b-9596-4c335a79ca17",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(pressPoint=1,behavior=1)"
                 },
                 {
                     "name": "Shoot",
@@ -103,6 +111,61 @@
                     "isPartOfComposite": true
                 },
                 {
+                    "name": "Keyboard",
+                    "id": "6f3e0d9b-4c35-4ca1-9519-7f0731530bee",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Move",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "f13808c9-fe8a-4fe5-a5d0-900442c8fbf2",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "87f445d3-d2a6-4310-b99c-125b7068beda",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "ba05813f-a282-47df-81ae-8e195f5062a3",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "ec605eb0-8726-464c-a8c8-433111d6fc0e",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "2D Vector",
                     "id": "451f0f4c-4348-4c27-a2c0-a4dc17745681",
                     "path": "2DVector",
@@ -161,6 +224,28 @@
                     "name": "",
                     "id": "b28423ed-39e6-45a3-b106-78c8f149bb7c",
                     "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Submit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a9d37aa3-ec2c-4bee-9352-2287f9924a96",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Submit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f25fe62a-ce70-44da-9ad9-0b1925041992",
+                    "path": "<Keyboard>/enter",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -247,6 +332,17 @@
                 },
                 {
                     "name": "",
+                    "id": "41382cee-1aa6-4c7b-98a3-fa132059577b",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "Spell",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "913e2a7e-d4f8-47aa-941d-bda2717deffe",
                     "path": "<Keyboard>/q",
                     "interactions": "",
@@ -264,6 +360,39 @@
                     "processors": "",
                     "groups": "Controller",
                     "action": "Menu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "88c3277a-e508-4cfb-9ee3-4b48e67d8b69",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "DialogueSubmit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c4c0a79e-5b1d-433d-80d5-32590da79d4c",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "DialogueSubmit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f631a17b-3d2a-46d7-a1bb-20e2355c9182",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "DialogueSubmit",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

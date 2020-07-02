@@ -55,17 +55,28 @@ public class ObjectPooler : MonoBehaviour
 
     private void Awake()
     {
+        LoadUI.UILoadEvent += UILoaded;
+
         waveNumber = 0;
 
         BGM = GameObject.Find("BGMHandler");
+        
+
 
         Instance = this;
 
-        inkTypewriterText = GameObject.Find("DialogueCanvas").GetComponent<InkTypewriterText>();
+
+        
 
         LevelStart();
 
     }
+
+    void UILoaded()
+    {
+        inkTypewriterText = GameObject.Find("DialogueCanvas").GetComponent<InkTypewriterText>();
+    }
+
     public GameObject SpawnFromPool(string tag, Vector3 position, Quaternion rotation, Transform parent, GameObject _prefab = null)
 
     {
@@ -287,7 +298,7 @@ public class ObjectPooler : MonoBehaviour
     {
         isPaused = true;
         Time.timeScale = 0;
-        //SetLowpass(300);
+        SetLowpass(22000);
 
         foreach (GameObject g in allPooledObjects)
         {
@@ -309,7 +320,7 @@ public class ObjectPooler : MonoBehaviour
                 g.SendMessage("UnPaused", SendMessageOptions.RequireReceiver);
             }
         }
-        //SetLowpass(22000);
+        SetLowpass(22000);
 
     }
     public void EnemyDefeated()

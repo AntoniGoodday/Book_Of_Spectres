@@ -10,13 +10,13 @@ public class PlayerScript : MonoBehaviour
 {
     #region delegates
     public delegate void ShootDelegate();
-    public event ShootDelegate shootEvent;
+    public event ShootDelegate ShootEvent;
     public delegate void ChargedShootDelegate();
-    public event ShootDelegate chargedShootEvent;
+    public event ShootDelegate ChargedShootEvent;
 
 
     public delegate void MoveDelegate(MoveDirection direction);
-    public event MoveDelegate moveEvent;
+    public event MoveDelegate MoveEvent;
     #endregion
 
     public static PlayerScript Instance;
@@ -95,14 +95,24 @@ public class PlayerScript : MonoBehaviour
 
     PlayerControl playerControl;
 
+    bool dying = false;
+
     bool shootIsHeld = false;
+    bool instantMove = true;
+    Vector2 moveVector = new Vector2();
+    bool bufferedMove = false;
+    Vector2 lastMove = new Vector2();
+
+    public bool Dying { get => dying; set => dying = value; }
 
     // Start is called before the first frame update
     void Awake()
     {
-        playerControl = new PlayerControl();
+        /*playerControl = new PlayerControl();
 
-        playerControl.DefaultControls.Move.performed += context => MovePlayer(context.ReadValue<Vector2>());
+        //playerControl.DefaultControls.Move.performed += context => MovePlayer(context.ReadValue<Vector2>());
+
+        playerControl.DefaultControls.Move.performed += context => { if (!isPaused) { moveVector = context.ReadValue<Vector2>(); } };
 
         playerControl.DefaultControls.Shoot.started += context => {if (!isPaused) { shootIsHeld = true; } };
         playerControl.DefaultControls.Shoot.performed += context => PlayerShot();
@@ -111,15 +121,12 @@ public class PlayerScript : MonoBehaviour
 
         playerControl.DefaultControls.Menu.performed += context => SpellMenu();
 
-        playerControl.Enable();
+        playerControl.Enable();*/
 
-        anim = GetComponent<Animator>();
-        status = GetComponent<EntityStatus>();
-        emotionAnim = GameObject.Find("PlayerEmotionSprite").GetComponent<Animator>();
-        canvasAnim = GameObject.Find("Canvas").GetComponent<Animator>();
-        firstButton = GameObject.Find("Slot1");
-        turnBarScript = GameObject.Find("TurnBar").GetComponent<TurnBarScript>();
-        cardHolder = GameObject.Find("PlayerCanvas").GetComponent<CardHolder>();
+        
+        
+
+        
 
         Instance = this;
 
@@ -127,7 +134,7 @@ public class PlayerScript : MonoBehaviour
 
     private void OnDisable()
     {
-        playerControl.Disable();
+        //playerControl.Disable();
     }
 
     private void Shoot_performed(InputAction.CallbackContext obj)
@@ -162,8 +169,10 @@ public class PlayerScript : MonoBehaviour
     void Update()
     {
 
-        if (isPaused == false)
+        if (isPaused == false && Dying == false)
         {
+            PlayerControls();
+
             if(shootIsHeld == true)
             {
                 shotChargeAmount += Time.deltaTime;
@@ -183,6 +192,15 @@ public class PlayerScript : MonoBehaviour
 
                 }
             }
+
+            /*if(moveVector.x != 0 || moveVector.y != 0)
+            {
+                if (isLerping == false /*&& playerControl.DefaultControls.Move.triggered)
+                {
+                    MovePlayer(moveVector);
+                }
+            }*/
+
 
             if (Input.GetAxisRaw("MoveVertical") == 0)
             {
@@ -287,6 +305,90 @@ public class PlayerScript : MonoBehaviour
         }
     }*/
 
+    void PlayerControls()
+    {
+
+        moveVector.y = Input.GetAxisRaw("Vertical");
+
+        moveVector.x = Input.GetAxisRaw("Horizontal");
+
+        if(moveVector == Vector2.zero && instantMove == false || Input.GetButtonDown("Horizontal") || Input.GetButtonDown("Vertical"))
+        {
+            instantMove = true;
+        }
+
+        if (Input.GetButtonDown("MoveUp"))
+        {
+            if (isLerping == true)
+            {
+                lastMove = new Vector2(0, 1);
+                bufferedMove = true;
+            }
+            else
+            {
+                MovePlayer(new Vector2(0, 1));
+            }
+        }
+        else if (Input.GetButtonDown("MoveDown"))
+        {
+            if (isLerping == true)
+            {
+                lastMove = new Vector2(0, -1);
+                bufferedMove = true;
+            }
+            else
+            {
+                MovePlayer(new Vector2(0, -1));
+            }
+        }
+        else if (Input.GetButtonDown("MoveLeft"))
+        {
+            if (isLerping == true)
+            {
+                lastMove = new Vector2(-1, 0);
+                bufferedMove = true;
+            }
+            else
+            {
+                MovePlayer(new Vector2(-1, 0));
+            }
+        }
+        else if (Input.GetButtonDown("MoveRight"))
+        {
+            if (isLerping == true)
+            {
+                lastMove = new Vector2(1, 0);
+                bufferedMove = true;
+            }
+            else
+            {
+                MovePlayer(new Vector2(1, 0));
+            }
+        }
+
+        if(Input.GetButtonDown("Shoot"))
+        {
+            shootIsHeld = true;
+        }
+
+        if(Input.GetButtonUp("Shoot"))
+        {
+            PlayerShot();
+        }
+
+        if (Input.GetButtonUp("Use"))
+        {
+            PlayerSpell();
+        }
+
+        if (Input.GetButtonUp("StartTurn"))
+        {
+            SpellMenu();
+        }
+
+
+    }
+
     void ZeroOutTheDelays()
     {
         tempMovementDelayUp = 0;
@@ -372,6 +474,12 @@ public class PlayerScript : MonoBehaviour
         //For continuous movement, resetting the delay
         isLerping = false;
 
+        ///BUFFER MOVE
+        if(bufferedMove == true)
+        {
+            MovePlayer(lastMove);
+            bufferedMove = false;
+        }
 
 
         yield return new WaitForSeconds(0);
@@ -405,20 +513,18 @@ public class PlayerScript : MonoBehaviour
         */
         isPaused = false;
 
-        if(shootIsHeld == false && shotChargeAmount >= maxShotChargeTime)
+        if(shotChargeAmount >= maxShotChargeTime)
         {
             ShootCharged();
             ClearChargeParticles();
             shotChargeAmount = 0;
+            shootIsHeld = false;
         }
-        else if(shootIsHeld == false && shotChargeAmount <= maxShotChargeTime)
+        else if(shotChargeAmount <= maxShotChargeTime)
         {
             ClearChargeParticles();
             shotChargeAmount = 0;
-        }
-        else if(shootIsHeld == true)
-        {
-
+            shootIsHeld = false;
         }
 
     }
@@ -484,12 +590,15 @@ public class PlayerScript : MonoBehaviour
 
         spellParticles.Play();
 
-        chargedShootEvent?.Invoke();
+        ChargedShootEvent?.Invoke();
     }
 
     public void SetSortingOrder(int i)
     {
-        playerSprite.sortingOrder = i;
+        if (Dying == false)
+        {
+            playerSprite.sortingOrder = i;
+        }
     }
 
     IEnumerator ShotDelay()
@@ -498,112 +607,128 @@ public class PlayerScript : MonoBehaviour
         canShoot = true;
     }
 
+    IEnumerator MoveDelay()
+    {
+        yield return new WaitForSeconds(0.2f);
+        //instantMove = true;
+    }
+
     void MovePlayer(Vector2 direction)
     {
-        if (isPaused == false)
+        if (isPaused == false && !Dying)
         {
             if (isLerping == false)
             {
-                int _x = 0;
-                int _y = 0;
+                if (instantMove == true)
+                {
+                    int _x = 0;
+                    int _y = 0;
 
-                MoveDirection moveDir = MoveDirection.None;
+                    MoveDirection moveDir = MoveDirection.None;
 
-                if (direction.x > 0)
-                {
-                    if ((int)currentTileClass.gridLocation.x + 1 < bfs.xMax && TileCheck(movementRange, 0))
+                    if (direction.x > 0)
                     {
-                        moveDir = MoveDirection.Right;
-                    }
-                    else
-                    {
-                        return;
-                    }
-                }
-                else if (direction.x < 0)
-                {
-                    if ((int)currentTileClass.gridLocation.x - 1 >= 0 && TileCheck(-movementRange, 0))
-                    {
-                        moveDir = MoveDirection.Left;
-                    }
-                    else
-                    {
-                        return;
-                    }
-                }
-                else if (direction.y > 0)
-                {
-                    if ((int)currentTileClass.gridLocation.y + movementRange < bfs.yMax && TileCheck(0, movementRange))
-                    {
-                        moveDir = MoveDirection.Up;
-                    }
-                    else
-                    {
-                        return;
-                    }
-                }
-                else if (direction.y < 0)
-                {
-                    if ((int)currentTileClass.gridLocation.y - movementRange >= 0 && TileCheck(0, -movementRange))
-                    {
-                        moveDir = MoveDirection.Down;
-                    }
-                    else
-                    {
-                        return;
-                    }
-                }
-
-                switch (moveDir)
-                {
-                    case (MoveDirection.Up):
+                        if ((int)currentTileClass.gridLocation.x + 1 < bfs.xMax && TileCheck(movementRange, 0))
                         {
-                            vertAxisInUse = true;
-                            _x = 0;
-                            _y = 1;
-                            break;
+                            moveDir = MoveDirection.Right;
                         }
-                    case (MoveDirection.Down):
-                        {
-                            vertAxisInUse = true;
-                            _x = 0;
-                            _y = -1;
-                            break;
-                        }
-                    case (MoveDirection.Left):
-                        {
-                            horizontalAxisInUse = true;
-                            _x = -1;
-                            _y = 0;
-                            break;
-                        }
-                    case (MoveDirection.Right):
-                        {
-                            horizontalAxisInUse = true;
-                            _x = 1;
-                            _y = 0;
-                            break;
-                        }
-                    default:
+                        else
                         {
                             return;
                         }
+                    }
+                    if (direction.x < 0)
+                    {
+                        if ((int)currentTileClass.gridLocation.x - 1 >= 0 && TileCheck(-movementRange, 0))
+                        {
+                            moveDir = MoveDirection.Left;
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+                    if (direction.y > 0)
+                    {
+                        if ((int)currentTileClass.gridLocation.y + movementRange < bfs.yMax && TileCheck(0, movementRange))
+                        {
+                            moveDir = MoveDirection.Up;
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+                    if (direction.y < 0)
+                    {
+                        if ((int)currentTileClass.gridLocation.y - movementRange >= 0 && TileCheck(0, -movementRange))
+                        {
+                            moveDir = MoveDirection.Down;
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+
+                    switch (moveDir)
+                    {
+                        case (MoveDirection.Up):
+                            {
+                                vertAxisInUse = true;
+                                _x = 0;
+                                _y = 1;
+                                break;
+                            }
+                        case (MoveDirection.Down):
+                            {
+                                vertAxisInUse = true;
+                                _x = 0;
+                                _y = -1;
+                                break;
+                            }
+                        case (MoveDirection.Left):
+                            {
+                                horizontalAxisInUse = true;
+                                _x = -1;
+                                _y = 0;
+                                break;
+                            }
+                        case (MoveDirection.Right):
+                            {
+                                horizontalAxisInUse = true;
+                                _x = 1;
+                                _y = 0;
+                                break;
+                            }
+                        default:
+                            {
+                                return;
+                            }
+                    }
+
+
+
+                    isLerping = true;
+                    ZeroOutTheDelays();
+                    UpdateBattlefield(_x * movementRange, _y * movementRange);
+                    MoveEvent?.Invoke(moveDir);
+                    UpdatePlayer();
+
+                    StopCoroutine(MoveDelay());
+                    StartCoroutine(MoveDelay());
                 }
-
-
-
-                isLerping = true;
-                ZeroOutTheDelays();
-                UpdateBattlefield(_x * movementRange, _y * movementRange);
-                moveEvent?.Invoke(moveDir);
-                UpdatePlayer();
             }
+        }
+        if (instantMove == true)
+        {
+            instantMove = false;
         }
     }
 
     void PlayerSpell()
     {
-        if (!isPaused)
+        if (!isPaused && !Dying)
         {
             if (cardHolder.spellMiniatures.Count > 0)
             {
@@ -618,9 +743,9 @@ public class PlayerScript : MonoBehaviour
 
     void PlayerShot()
     {
-        if (!isPaused)
+        shootIsHeld = false;
+        if (!isPaused && !Dying)
         {
-            shootIsHeld = false;
             if (canShoot)
             {
                 canShoot = false;
@@ -641,7 +766,7 @@ public class PlayerScript : MonoBehaviour
                     //objectPooler.SpawnFromPool("ChargedPlayerBullet", spellOrigin.transform.position, Quaternion.Euler(0, 0, 90), gameObject.transform);
                     ShootCharged();
                 }
-                shootEvent?.Invoke();
+                ShootEvent?.Invoke();
 
                 shotChargeAmount = 0;
 
@@ -651,7 +776,7 @@ public class PlayerScript : MonoBehaviour
        
     }
 
-    void SpellMenu()
+    public void SpellMenu()
     {
         if (turnBarScript.CurrentTurnTime >= turnBarScript.MaxTurnTime)
         {
@@ -679,6 +804,7 @@ public class PlayerScript : MonoBehaviour
 
                 canvasAnim.Play("MenuSlideIn");
 
+
                 //EventSystem.current.SetSelectedGameObject(null);
                 //EventSystem.current.SetSelectedGameObject(firstButton);
             }
@@ -691,4 +817,43 @@ public class PlayerScript : MonoBehaviour
             }
         }
     }
+
+    public void StartCombat()
+    {
+        anim = GetComponent<Animator>();
+        status = GetComponent<EntityStatus>();
+        emotionAnim = GameObject.Find("PlayerEmotionSprite").GetComponent<Animator>();
+        canvasAnim = GameObject.Find("CombatCanvas").GetComponent<Animator>();
+        firstButton = GameObject.Find("Slot1");
+        turnBarScript = GameObject.Find("TurnBar").GetComponent<TurnBarScript>();
+        cardHolder = GameObject.Find("PlayerCanvas").GetComponent<CardHolder>();
+
+        CombatMenu.MenuUnPauseEvent += UnPaused;
+        CombatMenu.MenuPauseEvent += Paused;
+
+        cardHolder.Initialize();
+        status.Initialize();
+
+        CombatMenu _tempCombatMenu = canvasAnim.gameObject.GetComponent<CombatMenu>();
+
+        List<SpellCard> _tempSpellList = new List<SpellCard>();
+
+        foreach (SpellCard s in _tempCombatMenu.playerCombatInUse)
+        {
+            _tempSpellList.Add(s);
+        }
+
+        foreach (SpellCard s in _tempSpellList)
+        {
+            _tempCombatMenu.MoveCardToDestination(s, CardDestination.Combat, CardDestination.Graveyard);
+        }
+
+        cardHolder.Purge();
+        turnBarScript.Pause(false);
+
+        
+        canvasAnim.Play("MenuSlideIn");
+    }
+
+   
 }

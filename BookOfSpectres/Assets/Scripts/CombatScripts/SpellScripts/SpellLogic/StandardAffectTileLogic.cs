@@ -332,6 +332,12 @@ public class StandardAffectTileLogic : SpellLogic
 
             if (tpb.tileClass != null)
             {
+                if (tpb.tileClass.EffectResetIsRunning)
+                {
+                    tpb.tileClass.StopAllCoroutines();
+                    tpb.tileClass.EffectResetIsRunning = false;
+                }
+
                 switch (tileEffect)
                 {
 

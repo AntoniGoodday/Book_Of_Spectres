@@ -999,3 +999,7 @@ D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.Settings.Editor.pdb
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.ProBuilder.Stl.pdb
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.ShaderGraph.Utilities.pdb
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\DOTween.dll
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\DOTweenEditor.dll
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\DOTween.xml
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\DOTweenEditor.xml

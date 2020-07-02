@@ -23,15 +23,7 @@ public class PlayerStatus : EntityStatus
 
     public override void Start()
     {
-        playerScript = PlayerScript.Instance;
-        hpText = GameObject.Find("PlayerHp").GetComponent<TextMeshProUGUI>();
-        if(vCamAnim == null)
-        {
-            vCamAnim = GameObject.Find("MainVirtualCam").GetComponent<Animator>();
-            vCamAnim.gameObject.transform.GetComponentInChildren<Renderer>().sortingOrder = -10;
-        }
-        canvasAnim = GameObject.Find("Canvas").GetComponent<Animator>();
-        base.Start();
+       
         
     }
 
@@ -50,6 +42,7 @@ public class PlayerStatus : EntityStatus
         anim.Play("Die");
         vCamAnim.Play("PlayerDie");
         canvasAnim.Play("FadeOut", 2);
+        playerScript.Dying = true;
         playerScript.playerSprite.sortingOrder = 10;
         vCamAnim.gameObject.transform.GetComponentInChildren<Renderer>().sortingOrder = 9;
         zoomInCam.SetActive(true);
@@ -58,6 +51,11 @@ public class PlayerStatus : EntityStatus
 
     public override void UpdateUI()
     {
+        if(hpText == null)
+        {
+            hpText = GameObject.Find("PlayerHp").GetComponent<TextMeshProUGUI>();
+        }
+
         hpText.text = hp.ToString();
         if(hp >= maxHp/2)
         {
@@ -95,5 +93,20 @@ public class PlayerStatus : EntityStatus
     public override void EnemyStart()
     {
         aiMastermind.player = gameObject;
+    }
+
+    public override void Initialize()
+    {
+        playerScript = PlayerScript.Instance;
+        hpText = GameObject.Find("PlayerHp").GetComponent<TextMeshProUGUI>();
+        hpText.text = hp.ToString();
+        if (vCamAnim == null)
+        {
+            vCamAnim = GameObject.Find("MainVirtualCam").GetComponent<Animator>();
+            vCamAnim.gameObject.transform.GetComponentInChildren<Renderer>().sortingOrder = -10;
+        }
+        canvasAnim = GameObject.Find("CombatCanvas").GetComponent<Animator>();
+
+        base.Start();
     }
 }

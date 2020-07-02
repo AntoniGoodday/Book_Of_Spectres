@@ -39,9 +39,9 @@ public class PlayerAchievements : MonoBehaviour
         {
             case ("BattleScene"):
                 {
-                    FindObjectOfType<PlayerScript>().shootEvent += OnPlayerShot;
-                    FindObjectOfType<PlayerScript>().chargedShootEvent += OnPlayerChargedShot;
-                    FindObjectOfType<PlayerScript>().moveEvent += OnPlayerMove;
+                    FindObjectOfType<PlayerScript>().ShootEvent += OnPlayerShot;
+                    FindObjectOfType<PlayerScript>().ChargedShootEvent += OnPlayerChargedShot;
+                    FindObjectOfType<PlayerScript>().MoveEvent += OnPlayerMove;
                     FindObjectOfType<PlayerStatus>().hitEvent += OnPlayerHit;
                     break;
                 }

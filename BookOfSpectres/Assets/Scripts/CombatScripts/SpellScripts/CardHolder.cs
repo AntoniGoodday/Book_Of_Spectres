@@ -13,8 +13,7 @@ public class CardHolder : MonoBehaviour
 
     private void Start()
     {
-        background = GameObject.Find("SpellNameBackground").GetComponent<Image>();
-        spellName = GameObject.Find("CurrentSpellName").GetComponent<TextMeshProUGUI>();
+        
     }
 
     public void Purge()
@@ -81,5 +80,11 @@ public class CardHolder : MonoBehaviour
         _tempMiniatureProperties.spellLogic.Execute(_tempMiniatureProperties, _user, _userStatus, _shotOrigin );
         
 
+    }
+
+    public void Initialize()
+    {
+        background = GameObject.Find("SpellNameBackground").GetComponent<Image>();
+        spellName = GameObject.Find("CurrentSpellName").GetComponent<TextMeshProUGUI>();
     }
 }

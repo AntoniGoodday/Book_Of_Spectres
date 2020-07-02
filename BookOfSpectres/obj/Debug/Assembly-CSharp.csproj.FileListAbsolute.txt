@@ -949,3 +949,5 @@ D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEditor.TestRunner.pdb
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\Unity.ShaderGraph.Utilities.pdb
 D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\UnityEngine.TestRunner.pdb
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\DOTween.dll
+D:\Desktop\BookOfSpectres\Book_Of_Sprectres\BookOfSpectres\Temp\bin\Debug\DOTween.xml

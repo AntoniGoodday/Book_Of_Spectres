@@ -13,12 +13,17 @@ public class ManaManager : MonoBehaviour
     }
     private void Start()
     {
+        
+    }
+
+    public void LoadManaManager()
+    {
         foreach (ManaScript m in manaType)
         {
             Debug.Log(m.gameObject.name);
             if (m.gameObject.name == SpellColour.Colourless.ToString())
             {
-                m.InitialSetText(PlayerAttributes.Instance.startingColourlessMana,PlayerAttributes.Instance.maxMana);
+                m.InitialSetText(PlayerAttributes.Instance.startingColourlessMana, PlayerAttributes.Instance.maxMana);
 
             }
         }

@@ -23,13 +23,7 @@ public class SpellAdvance : MonoBehaviour
     
     private void Start()
     {
-        objectPooler = ObjectPooler.Instance;
-        cardHolder = GameObject.Find("PlayerCanvas").GetComponent<CardHolder>();
-        canvasAnim = GameObject.Find("Canvas").GetComponent<Animator>();
-        if (advanceAnim == null)
-        {
-            advanceAnim = GetComponent<Animator>();
-        }
+        
     }
     public void InitialSetup(SpellCard s)
     {
@@ -90,6 +84,17 @@ public class SpellAdvance : MonoBehaviour
         afterMerge = "";
 
         StartCoroutine("StartRound");
+    }
+
+    public void LoadSpellAdvance()
+    {
+        objectPooler = ObjectPooler.Instance;
+        cardHolder = GameObject.Find("PlayerCanvas").GetComponent<CardHolder>();
+        canvasAnim = GameObject.Find("CombatCanvas").GetComponent<Animator>();
+        if (advanceAnim == null)
+        {
+            advanceAnim = GetComponent<Animator>();
+        }
     }
 
     IEnumerator ExpandList()

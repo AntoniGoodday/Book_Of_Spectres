@@ -44,7 +44,7 @@ public class TutorialScript : MonoBehaviour
 
 
 
-        FindObjectOfType<PlayerScript>().moveEvent += OnPlayerMove;
+        FindObjectOfType<PlayerScript>().MoveEvent += OnPlayerMove;
         objectPooler = ObjectPooler.Instance;
 
         GameObject.Find("PlayerCombat").GetComponent<EntityStatus>().StatusEffects.Add(StatusEffect.Endure);
@@ -66,7 +66,7 @@ public class TutorialScript : MonoBehaviour
                     //Attack check
                     if (doOnce == false)
                     {
-                        FindObjectOfType<PlayerScript>().shootEvent += AttackCheck;
+                        FindObjectOfType<PlayerScript>().ShootEvent += AttackCheck;
                         doOnce = true;
                     }
                     break;
@@ -76,7 +76,7 @@ public class TutorialScript : MonoBehaviour
                     //Charge Attack check
                     if (doOnce == false)
                     {
-                        FindObjectOfType<PlayerScript>().chargedShootEvent += ChargeAttackCheck;
+                        FindObjectOfType<PlayerScript>().ChargedShootEvent += ChargeAttackCheck;
                         doOnce = true;
                     }
                     break;
@@ -85,7 +85,7 @@ public class TutorialScript : MonoBehaviour
                 {
                     if (doOnce == false)
                     {
-                        FindObjectOfType<CombatMenu>().menuPauseEvent += MenuCheck;
+                        CombatMenu.MenuPauseEvent += MenuCheck;
                         doOnce = true;
                     }
                     break;
@@ -94,7 +94,7 @@ public class TutorialScript : MonoBehaviour
                 {
                     if (doOnce == false)
                     {
-                        FindObjectOfType<CombatMenu>().menuUnPauseEvent += MenuEndCheck;
+                        CombatMenu.MenuUnPauseEvent += MenuEndCheck;
                         doOnce = true;
                     }
                     break;
@@ -150,10 +150,12 @@ public class TutorialScript : MonoBehaviour
 
     void ExecuteMovementCheck()
     {
+        FindObjectOfType<PlayerScript>().MoveEvent -= OnPlayerMove;
+
         inkTypewriterText.story.ChoosePathString("tutorial_2");
         objectPooler.StartWave();
         inkTypewriterText.StartDialogue();
-        FindObjectOfType<PlayerScript>().moveEvent -= OnPlayerMove;
+
 
         GameObject.Find("AxolotlGhost").GetComponent<EntityStatus>().StatusEffects.Add(StatusEffect.Endure);
 
@@ -181,6 +183,7 @@ public class TutorialScript : MonoBehaviour
     }
     void ExecuteDodgeCheck()
     {
+        dodgeInitial = 1000;
         inkTypewriterText.story.ChoosePathString("tutorial_3");
         inkTypewriterText.StartDialogue();
         currentTutorialStage = 3;
@@ -195,6 +198,7 @@ public class TutorialScript : MonoBehaviour
             if (coroutineRunning == false)
             {
                 coroutineRunning = true;
+                attacksExecuted = -100;
                 currentAction = () => ExecuteAttackCheck();
                 StartCoroutine(ObjectiveDelay(0.5f, currentAction));
             }
@@ -203,10 +207,13 @@ public class TutorialScript : MonoBehaviour
 
     void ExecuteAttackCheck()
     {
+
+        FindObjectOfType<PlayerScript>().ShootEvent -= AttackCheck;
+
         inkTypewriterText.story.ChoosePathString("tutorial_4");
         inkTypewriterText.StartDialogue();
 
-        FindObjectOfType<PlayerScript>().shootEvent -= AttackCheck;
+
 
         currentTutorialStage = 4;
     }
@@ -223,10 +230,13 @@ public class TutorialScript : MonoBehaviour
 
     void ExecuteChargeAttackCheck()
     {
+
+        FindObjectOfType<PlayerScript>().ChargedShootEvent -= ChargeAttackCheck;
+
         inkTypewriterText.story.ChoosePathString("tutorial_5");
         inkTypewriterText.StartDialogue();
 
-        FindObjectOfType<PlayerScript>().chargedShootEvent -= ChargeAttackCheck;
+
 
         turnBarScript.SpeedModifier = 1;
         turnBarScript.CurrentTurnTime = 10;
@@ -246,12 +256,14 @@ public class TutorialScript : MonoBehaviour
 
     void ExecuteMenuCheck()
     {
+        CombatMenu.MenuPauseEvent -= MenuCheck;
+
         inkTypewriterText.story.ChoosePathString("tutorial_6");
         inkTypewriterText.StartDialogue();
 
         FindObjectOfType<CombatMenu>().MinimumSpellsChosen = 3;
 
-        FindObjectOfType<CombatMenu>().menuPauseEvent -= MenuCheck;
+
 
         currentTutorialStage = 6;
     }
@@ -268,12 +280,14 @@ public class TutorialScript : MonoBehaviour
 
     void ExecuteEndMenuCheck()
     {
+
+        CombatMenu.MenuUnPauseEvent -= MenuEndCheck;
+
         inkTypewriterText.story.ChoosePathString("tutorial_7");
         inkTypewriterText.StartDialogue();
 
         FindObjectOfType<CombatMenu>().MinimumSpellsChosen = 0;
 
-        FindObjectOfType<CombatMenu>().menuUnPauseEvent -= MenuEndCheck;
 
         GameObject.Find("AxolotlGhost").GetComponent<EntityStatus>().StatusEffects.Remove(StatusEffect.Endure);
 
@@ -293,9 +307,10 @@ public class TutorialScript : MonoBehaviour
         else
         {
             yield return new WaitForSecondsRealtime(time);
-            method();
+            method();            
         }
 
+        currentAction = null;
         coroutineRunning = false;
         doOnce = false;
     }

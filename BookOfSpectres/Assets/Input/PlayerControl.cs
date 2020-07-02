@@ -34,7 +34,15 @@ namespace PlayerControlNamespace
                     ""id"": ""f304976d-0a1e-4881-84c0-d14a886af3be"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Press(pressPoint=1,behavior=1)""
+                },
+                {
+                    ""name"": ""DialogueSubmit"",
+                    ""type"": ""Button"",
+                    ""id"": ""a0e658d0-5774-4f3b-9596-4c335a79ca17"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(pressPoint=1,behavior=1)""
                 },
                 {
                     ""name"": ""Shoot"",
@@ -118,6 +126,61 @@ namespace PlayerControlNamespace
                     ""isPartOfComposite"": true
                 },
                 {
+                    ""name"": ""Keyboard"",
+                    ""id"": ""6f3e0d9b-4c35-4ca1-9519-7f0731530bee"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""f13808c9-fe8a-4fe5-a5d0-900442c8fbf2"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""87f445d3-d2a6-4310-b99c-125b7068beda"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""ba05813f-a282-47df-81ae-8e195f5062a3"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""ec605eb0-8726-464c-a8c8-433111d6fc0e"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": ""2D Vector"",
                     ""id"": ""451f0f4c-4348-4c27-a2c0-a4dc17745681"",
                     ""path"": ""2DVector"",
@@ -176,6 +239,28 @@ namespace PlayerControlNamespace
                     ""name"": """",
                     ""id"": ""b28423ed-39e6-45a3-b106-78c8f149bb7c"",
                     ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Submit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a9d37aa3-ec2c-4bee-9352-2287f9924a96"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Submit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f25fe62a-ce70-44da-9ad9-0b1925041992"",
+                    ""path"": ""<Keyboard>/enter"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
@@ -262,6 +347,17 @@ namespace PlayerControlNamespace
                 },
                 {
                     ""name"": """",
+                    ""id"": ""41382cee-1aa6-4c7b-98a3-fa132059577b"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Spell"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""913e2a7e-d4f8-47aa-941d-bda2717deffe"",
                     ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
@@ -279,6 +375,39 @@ namespace PlayerControlNamespace
                     ""processors"": """",
                     ""groups"": ""Controller"",
                     ""action"": ""Menu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""88c3277a-e508-4cfb-9ee3-4b48e67d8b69"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""DialogueSubmit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c4c0a79e-5b1d-433d-80d5-32590da79d4c"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""DialogueSubmit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f631a17b-3d2a-46d7-a1bb-20e2355c9182"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""DialogueSubmit"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -314,6 +443,7 @@ namespace PlayerControlNamespace
             m_DefaultControls = asset.FindActionMap("DefaultControls", throwIfNotFound: true);
             m_DefaultControls_Move = m_DefaultControls.FindAction("Move", throwIfNotFound: true);
             m_DefaultControls_Submit = m_DefaultControls.FindAction("Submit", throwIfNotFound: true);
+            m_DefaultControls_DialogueSubmit = m_DefaultControls.FindAction("DialogueSubmit", throwIfNotFound: true);
             m_DefaultControls_Shoot = m_DefaultControls.FindAction("Shoot", throwIfNotFound: true);
             m_DefaultControls_Spell = m_DefaultControls.FindAction("Spell", throwIfNotFound: true);
             m_DefaultControls_Menu = m_DefaultControls.FindAction("Menu", throwIfNotFound: true);
@@ -368,6 +498,7 @@ namespace PlayerControlNamespace
         private IDefaultControlsActions m_DefaultControlsActionsCallbackInterface;
         private readonly InputAction m_DefaultControls_Move;
         private readonly InputAction m_DefaultControls_Submit;
+        private readonly InputAction m_DefaultControls_DialogueSubmit;
         private readonly InputAction m_DefaultControls_Shoot;
         private readonly InputAction m_DefaultControls_Spell;
         private readonly InputAction m_DefaultControls_Menu;
@@ -377,6 +508,7 @@ namespace PlayerControlNamespace
             public DefaultControlsActions(@PlayerControl wrapper) { m_Wrapper = wrapper; }
             public InputAction @Move => m_Wrapper.m_DefaultControls_Move;
             public InputAction @Submit => m_Wrapper.m_DefaultControls_Submit;
+            public InputAction @DialogueSubmit => m_Wrapper.m_DefaultControls_DialogueSubmit;
             public InputAction @Shoot => m_Wrapper.m_DefaultControls_Shoot;
             public InputAction @Spell => m_Wrapper.m_DefaultControls_Spell;
             public InputAction @Menu => m_Wrapper.m_DefaultControls_Menu;
@@ -395,6 +527,9 @@ namespace PlayerControlNamespace
                     @Submit.started -= m_Wrapper.m_DefaultControlsActionsCallbackInterface.OnSubmit;
                     @Submit.performed -= m_Wrapper.m_DefaultControlsActionsCallbackInterface.OnSubmit;
                     @Submit.canceled -= m_Wrapper.m_DefaultControlsActionsCallbackInterface.OnSubmit;
+                    @DialogueSubmit.started -= m_Wrapper.m_DefaultControlsActionsCallbackInterface.OnDialogueSubmit;
+                    @DialogueSubmit.performed -= m_Wrapper.m_DefaultControlsActionsCallbackInterface.OnDialogueSubmit;
+                    @DialogueSubmit.canceled -= m_Wrapper.m_DefaultControlsActionsCallbackInterface.OnDialogueSubmit;
                     @Shoot.started -= m_Wrapper.m_DefaultControlsActionsCallbackInterface.OnShoot;
                     @Shoot.performed -= m_Wrapper.m_DefaultControlsActionsCallbackInterface.OnShoot;
                     @Shoot.canceled -= m_Wrapper.m_DefaultControlsActionsCallbackInterface.OnShoot;
@@ -414,6 +549,9 @@ namespace PlayerControlNamespace
                     @Submit.started += instance.OnSubmit;
                     @Submit.performed += instance.OnSubmit;
                     @Submit.canceled += instance.OnSubmit;
+                    @DialogueSubmit.started += instance.OnDialogueSubmit;
+                    @DialogueSubmit.performed += instance.OnDialogueSubmit;
+                    @DialogueSubmit.canceled += instance.OnDialogueSubmit;
                     @Shoot.started += instance.OnShoot;
                     @Shoot.performed += instance.OnShoot;
                     @Shoot.canceled += instance.OnShoot;
@@ -449,6 +587,7 @@ namespace PlayerControlNamespace
         {
             void OnMove(InputAction.CallbackContext context);
             void OnSubmit(InputAction.CallbackContext context);
+            void OnDialogueSubmit(InputAction.CallbackContext context);
             void OnShoot(InputAction.CallbackContext context);
             void OnSpell(InputAction.CallbackContext context);
             void OnMenu(InputAction.CallbackContext context);

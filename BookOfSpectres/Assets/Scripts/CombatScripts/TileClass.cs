@@ -33,7 +33,12 @@ public class TileClass : MonoBehaviour
     public Renderer rend;
     public SpriteRenderer sRend;
 
+    AudioSource audioSource;
+
     public TileEffect tileEffect;
+
+    public AudioClip crackSound;
+    public AudioClip explosionSound;
 
     bool effectResetIsRunning = false;
     bool alignmentResetIsRunning = false;
@@ -46,10 +51,13 @@ public class TileClass : MonoBehaviour
 
     float timeSinceStart = 0;
 
+    public bool EffectResetIsRunning { get => effectResetIsRunning; set => effectResetIsRunning = value; }
+
     // Use this for initialization
     private void Awake()
     {
         objectPooler = ObjectPooler.Instance;
+        audioSource = GetComponent<AudioSource>();
         tileEffect = initialTileEffect;
         initialPosition = transform.localPosition;
         CheckEffect(tileEffect,true);
@@ -162,7 +170,11 @@ public class TileClass : MonoBehaviour
 
     public void CheckEffect(TileEffect _tEffect, bool setup = false)
     {
-        
+        if (EffectResetIsRunning)
+        {
+            StopAllCoroutines();
+            EffectResetIsRunning = false;
+        }
         //StopCoroutine(ReturnToInitialEffect());
         switch (_tEffect)
         {
@@ -177,10 +189,17 @@ public class TileClass : MonoBehaviour
                             objectPooler.SpawnFromPool("TileBreakParticles", this.gameObject.transform.position - new Vector3(0, 0, 0), Quaternion.Euler(180, 0, 0), objectPooler.transform, (Resources.Load("Particles/TileBreakParticles") as GameObject));
                         }
                         gameObject.layer = 9;
+                        if(setup == false)
+                        {
+                            audioSource.PlayOneShot(explosionSound);
+                        }
                     }
                     else
                     {
-                        CheckEffect(TileEffect.Cracked);
+                        if (tileEffect != TileEffect.Cracked)
+                        {
+                            CheckEffect(TileEffect.Cracked);
+                        }
                         return;
                     }
                     break;
@@ -195,6 +214,7 @@ public class TileClass : MonoBehaviour
                         {
                             objectPooler.SpawnFromPool("TileCrackParticles", this.gameObject.transform.position - new Vector3(0, 0, 0.75f), Quaternion.Euler(180, 0, 0), objectPooler.transform, (Resources.Load("Particles/TileCrackParticles") as GameObject));
                         }
+                        audioSource.PlayOneShot(crackSound);
                         return;
                     }
                     else
@@ -215,7 +235,7 @@ public class TileClass : MonoBehaviour
         tileEffect = _tEffect;
         if (setup == false)
         {
-            if (effectResetIsRunning == true)
+            if (EffectResetIsRunning == true)
             {
                 bonusWait += initialWait;
             }
@@ -230,7 +250,7 @@ public class TileClass : MonoBehaviour
 
     IEnumerator ReturnToInitialEffect()
     {
-        effectResetIsRunning = true;
+        EffectResetIsRunning = true;
         yield return new WaitForSeconds(initialWait + bonusWait);
         if(returnToStandard == false)
         {
@@ -240,7 +260,7 @@ public class TileClass : MonoBehaviour
         {
             Standard();
         }
-        effectResetIsRunning = false;
+        EffectResetIsRunning = false;
         bonusWait = 0;
         
     }
@@ -258,6 +278,24 @@ public class TileClass : MonoBehaviour
                 sRend.enabled = true;
             }
         }
+        else
+        {
+            if (occupied == false)
+            {
+                sRend.enabled = false;
+                rend.enabled = false;
+                if (Resources.Load("Particles/TileBreakParticles") != null)
+                {
+                    objectPooler.SpawnFromPool("TileBreakParticles", this.gameObject.transform.position - new Vector3(0, 0, 0), Quaternion.Euler(180, 0, 0), objectPooler.transform, (Resources.Load("Particles/TileBreakParticles") as GameObject));
+                }
+                gameObject.layer = 9;
+            }
+            else
+            {
+                CheckEffect(TileEffect.Cracked);
+                return;
+            }
+        }
         tileEffect = initialTileEffect;
 
         gameObject.layer = 0;
@@ -268,6 +306,7 @@ public class TileClass : MonoBehaviour
         if (rend.enabled == false)
         {
             rend.enabled = true;
+            rend.material.SetFloat("_UnscaledTime", timeSinceStart);
         }
 
         if (sRend.sprite != null)

@@ -168,4 +168,9 @@ public class EntityStatus : MonoBehaviour
     {
         aiMastermind.enemies.Add(this.gameObject);
     }
+
+    public virtual void Initialize()
+    {
+
+    }
 }

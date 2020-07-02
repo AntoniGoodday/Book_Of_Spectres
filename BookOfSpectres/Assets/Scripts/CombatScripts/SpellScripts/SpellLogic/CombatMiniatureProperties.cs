@@ -32,7 +32,7 @@ public class CombatMiniatureProperties : MonoBehaviour
     private void Start()
     {
         
-        combatMenu = GameObject.Find("Canvas").GetComponent<CombatMenu>();
+        combatMenu = GameObject.Find("CombatCanvas").GetComponent<CombatMenu>();
     }
 
     public void OnSpellLogicChange(SpellLogic _spellLogic)

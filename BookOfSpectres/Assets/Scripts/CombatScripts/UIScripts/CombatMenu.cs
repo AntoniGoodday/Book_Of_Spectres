@@ -1,8 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using EnumScript;
+
+using UnityEngine.UI;
+using DG.Tweening;
+//using PlayerControlNamespace;
 
 public class CombatMenu : MonoBehaviour
 {
@@ -36,48 +41,63 @@ public class CombatMenu : MonoBehaviour
 
     GameObject firstButton;
 
-    
+
+    //PlayerControl playerControl;
+    public Transform UIMenu;
 
     [SerializeField]
     ManaManager manaManager;
+
+    [SerializeField]
+    GameObject visuals;
 
     int minimumSpellsChosen = 0;
 
     public int MinimumSpellsChosen { get => minimumSpellsChosen; set => minimumSpellsChosen = value; }
 
     public delegate void MenuPauseDelegate();
-    public event MenuPauseDelegate menuPauseEvent;
+    public static event MenuPauseDelegate MenuPauseEvent;
     public delegate void MenuUnPauseDelegate();
-    public event MenuUnPauseDelegate menuUnPauseEvent;
+    public static event MenuUnPauseDelegate MenuUnPauseEvent;
+
+    public delegate void UILoadDelegate();
+    public static event UILoadDelegate UILoadEvent;
+
+    public static CombatMenu Instance;
+
+    private void Awake()
+    {
+        //playerControl = new PlayerControl();
+        //playerControl.DefaultControls.Enable();
+
+        
+    }
 
     private void Start()
     {
-        Random.seed = System.Environment.TickCount;
-        objectPooler = ObjectPooler.Instance;
-        playerDeck = PlayerDeck.Instance;
-        playerAttributes = PlayerAttributes.Instance;
-
-        firstButton = GameObject.Find("Slot1");
-
-        canvasAnimator = gameObject.GetComponent<Animator>();
-
-        foreach(SpellCard d in playerDeck.pDeck)
-        { 
-           playerCombatDeck.Add(d);   
-        }
-
-        if(shuffleDeck == true)
+        if (Instance == null)
         {
-            for(int i = 0; i < playerCombatDeck.Count; i++)
-            {
-                SpellCard temp = playerCombatDeck[i];
-                int randomIndex = Random.Range(i, playerCombatDeck.Count);
-                playerCombatDeck[i] = playerCombatDeck[randomIndex];
-                playerCombatDeck[randomIndex] = temp;
-            }
+            DontDestroyOnLoad(this);
+            Instance = this;
+        }
+        else
+        {
+            Destroy(this);
         }
 
-        manaManager = GameObject.Find("ManaManager").GetComponent<ManaManager>();
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+
+        GetComponent<Canvas>().worldCamera = Camera.main;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (SceneManager.GetActiveScene().buildIndex > 2)
+        {
+            UILoadEvent?.Invoke();
+            LoadPlayerStats();
+        }
     }
 
     public void ReadyButton()
@@ -91,6 +111,8 @@ public class CombatMenu : MonoBehaviour
 
     public void MenuPause()
     {
+        //playerControl.DefaultControls.Submit.Enable();
+
         //WIP MANA< CHANGE LATER
         if (objectPooler.isPaused == false)
         {
@@ -116,9 +138,6 @@ public class CombatMenu : MonoBehaviour
 
     public void MenuUnPause()
     {
-        
-        
-
         TurnBarScript.Instance.UnPause();
         EventSystem.current.SetSelectedGameObject(null);
 
@@ -126,11 +145,9 @@ public class CombatMenu : MonoBehaviour
         {
             objectPooler.UnPauseAll();
         }
-
-        MenuClosed();
-
-        
+        MenuClosed();  
     }
+
 
     void RefillHand()
     {
@@ -230,16 +247,60 @@ public class CombatMenu : MonoBehaviour
 
     public void MenuOpened()
     {
-        menuPauseEvent?.Invoke();
+        MenuPauseEvent?.Invoke();
         this.GetComponent<CanvasGroup>().interactable = true;
     }
 
     public void MenuClosed()
     {
-        menuUnPauseEvent?.Invoke();
+        MenuUnPauseEvent?.Invoke();
         this.GetComponent<CanvasGroup>().interactable = false;
     }
 
+    public void LoadPlayerStats()
+    {
+        visuals.SetActive(true);
+
+        GetComponent<Canvas>().worldCamera = GameObject.Find("MainVirtualCam").GetComponent<Camera>();
+
+        Random.seed = System.Environment.TickCount;
+        objectPooler = ObjectPooler.Instance;
+        playerDeck = PlayerDeck.Instance;
+        playerAttributes = PlayerAttributes.Instance;
+
+        firstButton = GameObject.Find("Slot1");
+
+        canvasAnimator = gameObject.GetComponent<Animator>();
+
+        foreach (SpellCard d in playerDeck.pDeck)
+        {
+            playerCombatDeck.Add(d);
+        }
+
+        if (shuffleDeck == true)
+        {
+            for (int i = 0; i < playerCombatDeck.Count; i++)
+            {
+                SpellCard temp = playerCombatDeck[i];
+                int randomIndex = Random.Range(i, playerCombatDeck.Count);
+                playerCombatDeck[i] = playerCombatDeck[randomIndex];
+                playerCombatDeck[randomIndex] = temp;
+            }
+        }
+
+        //manaManager = GameObject.Find("ManaManager").GetComponent<ManaManager>();
+
+        LoadChildren();
+
+       
+    }
+
+    void LoadChildren()
+    {
+        spellAdvance.LoadSpellAdvance();
+        chosenSpells.LoadChosenSpells();
+        manaManager.LoadManaManager();
+    }
 
 
     public void MoveCardToDestination(SpellCard s, CardDestination from, CardDestination to)

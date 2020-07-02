@@ -40,7 +40,7 @@ public class InkTypewriterText : MonoBehaviour
     private Queue<string> dialogueLines = new Queue<string>();
 
     [SerializeField]
-    private TextTyper textTyper;
+    private TextTyperSimple textTyper;
 
     int currentLineNumber;
 
@@ -70,6 +70,8 @@ public class InkTypewriterText : MonoBehaviour
 
     bool initializeButtonChoice = false;
 
+    bool canStart = false;
+
     //Text Event Variables
     string sceneName = "";
 
@@ -83,33 +85,55 @@ public class InkTypewriterText : MonoBehaviour
 
     ObjectPooler objectPooler;
 
-    PlayerControl playerControl;
+    //PlayerControl playerControl;
+
+    bool controlsEnabled = true;
+
+    [SerializeField]
+    GameObject visuals;
+
+    public GameObject Visuals { get => visuals; set => visuals = value; }
+    public bool ControlsEnabled { get => controlsEnabled; set => controlsEnabled = value; }
+
+    public static InkTypewriterText Instance;
+
     private void Awake()
     {
-        playerControl = new PlayerControl();
+        //playerControl = new PlayerControl();
 
-        playerControl.DefaultControls.Submit.performed += context => HandlePrintNextClicked();
+        //playerControl.DefaultControls.DialogueSubmit.performed += context => HandlePrintNextClicked();
 
-        playerControl.DefaultControls.Move.performed += context => SelectButton(context.ReadValue<Vector2>());
+        //playerControl.DefaultControls.Move.performed += context => SelectButton(context.ReadValue<Vector2>());
 
-        playerControl.Enable();
+        //playerControl.Enable();
+
     }
 
     private void OnDisable()
     {
-        playerControl.Disable();
+        //playerControl.Disable();
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        if (Instance == null)
+        {
+            DontDestroyOnLoad(this);
+            Instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
+
         story = new Story(inkJSONAsset.text);
 
         SceneManager.sceneLoaded += OnSceneLoaded;
 
         //FIX LATER
-        FindObjectOfType<CombatMenu>().menuPauseEvent += MenuPaused;
-        FindObjectOfType<CombatMenu>().menuUnPauseEvent += MenuUnPaused;
+        CombatMenu.MenuPauseEvent += MenuPaused;
+        CombatMenu.MenuUnPauseEvent += MenuUnPaused;
 
 
         //story.ChoosePathString("tutorial_1");
@@ -120,15 +144,22 @@ public class InkTypewriterText : MonoBehaviour
 
         objectPooler = ObjectPooler.Instance;
 
-        
+
         this.textTyper.PrintCompleted.AddListener(this.HandlePrintCompleted);
         this.textTyper.CharacterPrinted.AddListener(this.HandleCharacterPrinted);
 
         //this.printNextButton.onClick.AddListener(this.HandlePrintNextClicked);
         //this.printNoSkipButton.onClick.AddListener(this.HandlePrintNoSkipClicked);
 
+        //story.ChoosePathString("tutorial_1");
+        //StartDialogue();
+
+
+        //this.printNextButton.onClick.AddListener(this.HandlePrintNextClicked);
+        //this.printNoSkipButton.onClick.AddListener(this.HandlePrintNoSkipClicked);
+
         //InkStory();
-     
+
         /*dialogueLines.Enqueue("Hello! My name is... <delay=0.5>NPC</delay>. Got it, <i>bub</i>?");
         dialogueLines.Enqueue("You can <b>use</b> <i>uGUI</i> <size=40>text</size> <size=20>tag</size> and <color=#ff0000ff>color</color> tag <color=#00ff00ff>like this</color>.");
         dialogueLines.Enqueue("bold <b>text</b> test <b>bold</b> text <b>test</b>");
@@ -145,8 +176,8 @@ public class InkTypewriterText : MonoBehaviour
         {
             case ("BattleScene"):
                 {
-                    FindObjectOfType<CombatMenu>().menuPauseEvent += MenuPaused;
-                    FindObjectOfType<CombatMenu>().menuUnPauseEvent += MenuUnPaused;
+                    CombatMenu.MenuPauseEvent += MenuPaused;
+                    CombatMenu.MenuUnPauseEvent += MenuUnPaused;
                     break;
                 }
         }
@@ -164,6 +195,16 @@ public class InkTypewriterText : MonoBehaviour
 
     public void Update()
     {
+        if(Input.GetButtonDown("Horizontal"))
+        {
+            SelectButton(new Vector2( Input.GetAxisRaw("Horizontal"),0));
+        }
+
+        if(Input.GetButtonUp("Shoot"))
+        {
+            HandlePrintNextClicked();
+        }
+
         /*if (Input.GetKeyDown(KeyCode.Tilde))
         {
 
@@ -182,28 +223,40 @@ public class InkTypewriterText : MonoBehaviour
 
     public void StartDialogue(string knot = "")
     {
-        objectPooler.SetLowpass(300);
-        if(unpauseAfterEnd == false)
-        {
-            FindObjectOfType<CombatMenu>().GetComponent<CanvasGroup>().interactable = false;
-        }
-
-        dialogueLines.Clear();
+        //playerControl.DefaultControls.DialogueSubmit.Enable();
         endDialogue = false;
+        canStart = false;
 
-        currentLineNumber = -1;
-
-        InkStory();
+        EnableControls();
 
         if (objectPooler != null)
         {
             objectPooler.PauseAll();
+            objectPooler.SetLowpass(300);
         }
+        //dialogueLines.Clear();
 
-        foreach (Transform t in gameObject.GetComponentInChildren<Transform>())
+
+        InkStory();
+
+        visuals.GetComponent<CanvasGroup>().alpha = 1;
+
+        
+
+       
+
+        
+
+        StartCoroutine(DelayStart());
+        if (unpauseAfterEnd == false)
         {
-            t.gameObject.SetActive(true);
+            FindObjectOfType<CombatMenu>().GetComponent<CanvasGroup>().interactable = false;
         }
+        
+
+        
+
+        
 
         var _darkColour = darkness.color;
         _darkColour.a = 0.6f;
@@ -218,28 +271,41 @@ public class InkTypewriterText : MonoBehaviour
             }
         }
 
-        if (dialogueLines.Count <= 0)
+        /*if (dialogueLines.Count <= 0)
         {
             if (endDialogue == true)
             {
                 StartCoroutine(EndStory());
             }
             return;
-        }
-        this.textTyper.TypeText(dialogueLines.Dequeue(), this);
+        }*/
+
+        //if (textTyper = null)
+        //{
+        //    textTyper = GameObject.Find("TextTyper").GetComponent<TextTyper>();
+        //
+        //}
+        //this.textTyper.TypeText(dialogueLines.Dequeue(), this);
+
+        StartCoroutine(DelayType());
         SetExpression();
     }
 
 
     private void HandlePrintNextClicked()
     {
-        if (this.textTyper.IsSkippable() && this.textTyper.IsTyping)
+        if (canStart == true)
         {
-            this.textTyper.Skip();
-        }
-        else
-        {
-            ShowScript();
+            if (this.textTyper.IsSkippable() && this.textTyper.IsTyping)
+            {
+
+                this.textTyper.Skip();
+
+            }
+            else
+            {
+                ShowScript();
+            }
         }
     }
 
@@ -250,15 +316,22 @@ public class InkTypewriterText : MonoBehaviour
 
     private void ShowScript()
     {
+        //QuickFix();
+        
+
         if (!story.canContinue && story.currentChoices.Count == 0)
         {
             endDialogue = true;
         }
 
-        if (endDialogue == true)
+        if (endDialogue == true && dialogueLines.Count <= 0)
         {
             StartCoroutine(EndStory());
             return;
+        }
+        if (textTyper.enabled == false)
+        {
+            visuals.GetComponent<CanvasGroup>().alpha = 1;
         }
 
         /*if (dialogueLines.Count <= 0)
@@ -475,7 +548,7 @@ public class InkTypewriterText : MonoBehaviour
 
     void InkStory()
     {
-
+        
         if (activateButtons != null)
         {
             activateButtons.Clear();
@@ -517,6 +590,8 @@ public class InkTypewriterText : MonoBehaviour
         else if (story.currentChoices.Count > 0)
         {
             initializeButtonChoice = false;
+
+
             for (int i = 0; i < story.currentChoices.Count; i++)
             {
                 Choice choice = story.currentChoices[i];
@@ -591,42 +666,62 @@ public class InkTypewriterText : MonoBehaviour
         ShowScript();
     }
 
-    IEnumerator EndStory(float time = 0.1f)
+    IEnumerator EndStory(float time = 0.5f)
     {
-        yield return new WaitForSecondsRealtime(time);
-        //Debug.Log("disable");
-        //foreach(RectTransform t in GetComponentInChildren<RectTransform>())
-        //{
-        //    t.gameObject.SetActive(false);
-        //}
-
-        
-        
-
-        var _darkColour = darkness.color;
-        _darkColour.a = 0.6f;
-        darkness.color = _darkColour;
-
-        GoToScene();
-
-        foreach(Transform t in gameObject.GetComponentInChildren<Transform>())
+        if (canStart == true && !this.textTyper.IsTyping && !story.canContinue)
         {
-            t.gameObject.SetActive(false);
-        }
+            DisableControls();
 
-        if (unpauseAfterEnd == true)
-        {
-            if (objectPooler != null)
+            //playerControl.DefaultControls.DialogueSubmit.Disable();
+            yield return new WaitForSecondsRealtime(time);
+            endDialogue = false;
+            //Debug.Log("disable");
+            //foreach(RectTransform t in GetComponentInChildren<RectTransform>())
+            //{
+            //    t.gameObject.SetActive(false);
+            //}
+
+
+
+
+            var _darkColour = darkness.color;
+            _darkColour.a = 0.6f;
+            darkness.color = _darkColour;
+
+            GoToScene();
+
+            /*foreach (Transform t in gameObject.GetComponentInChildren<Transform>())
             {
-                objectPooler.UnPauseAll();
+                if (t.gameObject.name != "TextTyper")
+                {
+                    t.gameObject.SetActive(false);
+                }
+            }*/
+
+            visuals.GetComponent<CanvasGroup>().alpha = 0;
+
+            textTyper.GetComponent<TextMeshProUGUI>().text = "";
+            dialogueLines.Clear();
+
+
+
+            if (unpauseAfterEnd == true)
+            {
+                if (objectPooler != null)
+                {
+                    objectPooler.UnPauseAll();
+                }
             }
-        }
-        else
-        {
-            FindObjectOfType<CombatMenu>().GetComponent<CanvasGroup>().interactable = true;
+            else
+            {
+                FindObjectOfType<CombatMenu>().GetComponent<CanvasGroup>().interactable = true;
+            }
+
+            objectPooler.SetLowpass(22000);
+
         }
 
-        objectPooler.SetLowpass(22000);
+
         //this.gameObject.SetActive(false);
     }
 
@@ -670,5 +765,67 @@ public class InkTypewriterText : MonoBehaviour
         }
     }
 
+    IEnumerator DelayStart()
+    {
+        canStart = false;
+        yield return new WaitForSecondsRealtime(1);
+        canStart = true;
+    }
+
+    IEnumerator DelayType()
+    {
+        yield return new WaitForSecondsRealtime(0);
+        this.textTyper.TypeText(dialogueLines.Dequeue(), this);
+    }
+
+    void QuickFix()
+    {
+        if (Time.timeScale != 0)
+        {
+            visuals.GetComponent<CanvasGroup>().alpha = 1;
+
+            objectPooler.PauseAll();
+
+            objectPooler.SetLowpass(300);
+
+
+            if (unpauseAfterEnd == false)
+            {
+                FindObjectOfType<CombatMenu>().GetComponent<CanvasGroup>().interactable = false;
+            }
+
+
+
+
+
+
+            var _darkColour = darkness.color;
+            _darkColour.a = 0.6f;
+            darkness.color = _darkColour;
+
+            //ShowScript();
+            if (dialogueLines.Count == 0 && story.currentChoices.Count > 0)
+            {
+                foreach (GameObject g in activateButtons)
+                {
+                    g.SetActive(true);
+                }
+            }
+
+            SetExpression();
+        }
+    }
+    
+    public void DisableControls()
+    {
+        controlsEnabled = false;
+        //playerControl.DefaultControls.DialogueSubmit.Disable();
+    }
+
+    public void EnableControls()
+    {
+        controlsEnabled = true;
+        //playerControl.DefaultControls.DialogueSubmit.Enable();
+    }
 
 }

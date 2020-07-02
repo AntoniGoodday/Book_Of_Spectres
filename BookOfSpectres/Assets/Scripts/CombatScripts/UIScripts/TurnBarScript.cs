@@ -10,6 +10,7 @@ public class TurnBarScript : MonoBehaviour
     float maxTurnTime = 10f;
     [SerializeField]
     float speedModifier;
+    [SerializeField]
     float currentTurnTime;
     [SerializeField]
     Material material;

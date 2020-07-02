@@ -24,9 +24,14 @@ public class ChosenSpells : MonoBehaviour
 
     private void Start()
     {
+        
+    }
+
+    public void LoadChosenSpells()
+    {
         objectPooler = ObjectPooler.Instance;
         playerScript = PlayerScript.Instance;
-        GameObject _tempCanvas = GameObject.Find("Canvas");
+        GameObject _tempCanvas = GameObject.Find("CombatCanvas");
         canvasAnim = _tempCanvas.GetComponent<Animator>();
         combatMenu = _tempCanvas.GetComponent<CombatMenu>();
         cardHolder = GameObject.Find("PlayerCanvas").GetComponent<CardHolder>();

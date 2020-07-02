@@ -80,9 +80,7 @@ ScriptsOnlyBuild:
     - Cinemachine.CinemachineVirtualCamera
     - Cinemachine.NoiseSettings
     Unity.InputSystem.dll:
-    - UnityEngine.InputSystem.Editor.InputActionAssetEditor
     - UnityEngine.InputSystem.Editor.InputActionEditorWindow
-    - UnityEngine.InputSystem.Editor.InputActionImporterEditor
     - UnityEngine.InputSystem.InputActionAsset
     - UnityEngine.InputSystem.InputActionReference
     - UnityEngine.InputSystem.InputSettings
@@ -159,7 +157,6 @@ ScriptsOnlyBuild:
     - UnityEditor.TestTools.TestRunner.TestRun.TestJobDataHolder
     UnityEngine.UI.dll:
     - UnityEngine.EventSystems.EventSystem
-    - UnityEngine.EventSystems.StandaloneInputModule
     - UnityEngine.UI.Button
     - UnityEngine.UI.CanvasScaler
     - UnityEngine.UI.ContentSizeFitter
@@ -1512,6 +1509,8 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 13340}
     - Class: 114
+      Script: {instanceID: 14552}
+    - Class: 114
       Script: {instanceID: 14716}
     - Class: 114
       Script: {instanceID: 15084}
@@ -1733,71 +1732,6 @@ ScriptsOnlyBuild:
     - Class: 243
       Script: {instanceID: 0}
     - Class: 245
-      Script: {instanceID: 0}
-    Assets/Scenes/TestScene.unity:
-    - Class: 1
-      Script: {instanceID: 0}
-    - Class: 4
-      Script: {instanceID: 0}
-    - Class: 20
-      Script: {instanceID: 0}
-    - Class: 21
-      Script: {instanceID: 0}
-    - Class: 28
-      Script: {instanceID: 0}
-    - Class: 48
-      Script: {instanceID: 0}
-    - Class: 49
-      Script: {instanceID: 0}
-    - Class: 81
-      Script: {instanceID: 0}
-    - Class: 83
-      Script: {instanceID: 0}
-    - Class: 104
-      Script: {instanceID: 0}
-    - Class: 108
-      Script: {instanceID: 0}
-    - Class: 114
-      Script: {instanceID: 11464}
-    - Class: 114
-      Script: {instanceID: 12140}
-    - Class: 114
-      Script: {instanceID: 12244}
-    - Class: 114
-      Script: {instanceID: 13340}
-    - Class: 114
-      Script: {instanceID: 13566}
-    - Class: 114
-      Script: {instanceID: 13842}
-    - Class: 114
-      Script: {instanceID: 14716}
-    - Class: 114
-      Script: {instanceID: 14870}
-    - Class: 114
-      Script: {instanceID: 15034}
-    - Class: 114
-      Script: {instanceID: 15342}
-    - Class: 114
-      Script: {instanceID: 15350}
-    - Class: 114
-      Script: {instanceID: 15976}
-    - Class: 114
-      Script: {instanceID: 16152}
-    - Class: 114
-      Script: {instanceID: 17302}
-    - Class: 115
-      Script: {instanceID: 0}
-    - Class: 128
-      Script: {instanceID: 0}
-    - Class: 157
-      Script: {instanceID: 0}
-    - Class: 213
-      Script: {instanceID: 0}
-    - Class: 222
-      Script: {instanceID: 0}
-    - Class: 223
-      Script: {instanceID: 0}
-    - Class: 224
       Script: {instanceID: 0}
   scriptHashData:
   - hash:
@@ -2504,7 +2438,7 @@ ScriptsOnlyBuild:
     className: PlayerInput
   - hash:
       serializedVersion: 2
-      Hash: 0f33e876b916bf2b711dccf749dcf133
+      Hash: 6125d93ab9d9cd504ded74ed5610ddd3
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: TileClass
@@ -3670,10 +3604,9 @@ ScriptsOnlyBuild:
   scenePathNames:
   - Assets/Scenes/MenuScene.unity
   - Assets/Scenes/BattleScene.unity
-  - Assets/Scenes/TestScene.unity
   - Assets/Scenes/CreditsScene.unity
   - Assets/Scenes/BattleS/BattleScene_2.unity
   - Assets/Scenes/BattleS/BattleScene_3.unity
   - Assets/Scenes/BattleS/BattleScene_4.unity
   - Assets/Scenes/BattleS/BattleScene_5.unity
-  playerPath: D:/Desktop/BookOfSpectres_Controller/BookOfSpectres.exe
+  playerPath: D:/Desktop/BookOfSpectres_FinalHandIn_2/BookOfSpectres.exe

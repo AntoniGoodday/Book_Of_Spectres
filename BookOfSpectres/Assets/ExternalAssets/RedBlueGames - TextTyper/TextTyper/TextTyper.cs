@@ -13,7 +13,7 @@
     /// Type text component types out Text one character at a time. Heavily adapted from synchrok's GitHub project.
     /// </summary>
     [RequireComponent(typeof(TextMeshProUGUI))]
-    public sealed class TextTyper : MonoBehaviour
+    public sealed class TextTyperSimple : MonoBehaviour
     {
         /// <summary>
         /// The print delay setting. Could make this an option some day, for fast readers.
@@ -99,7 +99,7 @@
         }
 
         /// <summary>
-        /// Gets a value indicating whether this <see cref="TextTyper"/> is currently printing text.
+        /// Gets a value indicating whether this <see cref="TextTyperSimple"/> is currently printing text.
         /// </summary>
         /// <value><c>true</c> if printing; otherwise, <c>false</c>.</value>
         public bool IsTyping
