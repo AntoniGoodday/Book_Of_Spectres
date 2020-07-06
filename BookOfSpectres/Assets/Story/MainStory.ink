@@ -118,5 +118,9 @@ Phoebe: <expression=Smug>We did it, all ghosts defeated!
 I think this is th-{GoToScene("CreditsScene")}
 -> END
 
+=== battleFlavourText ===
+{~You feel like you're going to have a bad time.|You felt your sins crawling on your back.}
+-> battleFlavourText
+
 === function GoToScene(x) ===
 ~ return ""

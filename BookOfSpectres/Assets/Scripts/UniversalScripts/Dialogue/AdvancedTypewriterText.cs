@@ -32,7 +32,7 @@ public class AdvancedTypewriterText : MonoBehaviour
     private Queue<string> dialogueLines = new Queue<string>();
 
     [SerializeField]
-    private TextTyperSimple textTyper;
+    private TextTyper textTyper;
 
     int currentLineNumber;
     public int changeExpression;

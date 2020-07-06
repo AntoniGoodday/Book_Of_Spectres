@@ -121,6 +121,36 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &6234360
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6234361}
+  m_Layer: 0
+  m_Name: GenericText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6234361
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6234360}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &46292534
 GameObject:
   m_ObjectHideFlags: 0
@@ -188,33 +218,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &363370858 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1018517223557984560, guid: b61be1d800c5eb14e9643e9281d267be,
-    type: 3}
-  m_PrefabInstance: {fileID: 1816313871}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &363370859
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 363370858}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ece93e789392cab498408406d4438896, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shakeLibrary: {fileID: 0}
-  curveLibrary: {fileID: 0}
-  useUnscaledTime: 1
-  printCompleted:
-    m_PersistentCalls:
-      m_Calls: []
-  characterPrinted:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &405527841 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2356364431458137310, guid: 68ec5f46de2e7964e82d87731bf2de15,
@@ -229,7 +232,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 405527841}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -465,6 +468,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: DialogueCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 1352656917685115195, guid: 68ec5f46de2e7964e82d87731bf2de15,
+        type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1352656917685115195, guid: 68ec5f46de2e7964e82d87731bf2de15,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 1352656917685115195, guid: 68ec5f46de2e7964e82d87731bf2de15,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1352656917685115195, guid: 68ec5f46de2e7964e82d87731bf2de15,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1352656917685115195, guid: 68ec5f46de2e7964e82d87731bf2de15,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2356364431458137310, guid: 68ec5f46de2e7964e82d87731bf2de15,
         type: 3}
       propertyPath: m_IsActive
@@ -483,6 +511,7 @@ GameObject:
   - component: {fileID: 1311001300}
   - component: {fileID: 1311001302}
   - component: {fileID: 1311001301}
+  - component: {fileID: 1311001303}
   m_Layer: 5
   m_Name: BattleText
   m_TagString: Untagged
@@ -527,7 +556,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: You feel like you're going to have a bad time.
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 54bc4f4cd06f75e4d9b882992ca65e15, type: 2}
   m_sharedMaterial: {fileID: 8813994419268937592, guid: 54bc4f4cd06f75e4d9b882992ca65e15,
@@ -597,13 +626,13 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 1311001301}
-    characterCount: 46
+    characterCount: 0
     spriteCount: 0
-    spaceCount: 9
-    wordCount: 10
+    spaceCount: 0
+    wordCount: 0
     linkCount: 0
-    lineCount: 1
-    pageCount: 1
+    lineCount: 0
+    pageCount: 0
     materialCount: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
@@ -628,6 +657,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1311001299}
   m_CullTransparentMesh: 0
+--- !u!114 &1311001303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1311001299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40868536fcc3c2c458788a1cd1298e8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shakeLibrary: {fileID: 11400000, guid: 9a6156b25fcccac4e97ef1c8d23def06, type: 2}
+  curveLibrary: {fileID: 11400000, guid: 1807857dbc33603469f5046b18ae0aae, type: 2}
+  printCompleted:
+    m_PersistentCalls:
+      m_Calls: []
+  characterPrinted:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1345311976
 GameObject:
   m_ObjectHideFlags: 0

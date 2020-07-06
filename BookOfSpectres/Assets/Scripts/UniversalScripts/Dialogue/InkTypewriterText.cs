@@ -40,7 +40,7 @@ public class InkTypewriterText : MonoBehaviour
     private Queue<string> dialogueLines = new Queue<string>();
 
     [SerializeField]
-    private TextTyperSimple textTyper;
+    private TextTyper textTyper;
 
     int currentLineNumber;
 
@@ -144,9 +144,12 @@ public class InkTypewriterText : MonoBehaviour
 
         objectPooler = ObjectPooler.Instance;
 
-
-        this.textTyper.PrintCompleted.AddListener(this.HandlePrintCompleted);
-        this.textTyper.CharacterPrinted.AddListener(this.HandleCharacterPrinted);
+        if (textTyper.listenersAdded == false)
+        {
+            this.textTyper.PrintCompleted.AddListener(this.HandlePrintCompleted);
+            this.textTyper.CharacterPrinted.AddListener(this.HandleCharacterPrinted);
+            this.textTyper.listenersAdded = true;
+        }
 
         //this.printNextButton.onClick.AddListener(this.HandlePrintNextClicked);
         //this.printNoSkipButton.onClick.AddListener(this.HandlePrintNoSkipClicked);
@@ -185,6 +188,8 @@ public class InkTypewriterText : MonoBehaviour
 
     void MenuPaused()
     {
+        GameObject.Find("BattleText").GetComponent<TextMeshProUGUI>().text = "";
+        StartSimpleText(GameObject.Find("BattleText").GetComponent<TextTyper>(), "battleFlavourText");
         unpauseAfterEnd = false;
     }
 
@@ -289,6 +294,29 @@ public class InkTypewriterText : MonoBehaviour
 
         StartCoroutine(DelayType());
         SetExpression();
+    }
+
+    public void StartSimpleText(TextTyper tTyper, string knot = "")
+    {
+        story.ChoosePathString(knot);
+        if (story.canContinue)
+        {           
+            // Continue gets the next line of the story
+            string text = story.Continue();
+            // This removes any white space from the text.
+            text = text.Trim();
+            // Display the text on screen!
+            //dialogueLines.Enqueue(ParseTextLine(text));
+           text = (ParseTextLine(text));
+
+            if (tTyper.listenersAdded == false)
+            {
+                tTyper.PrintCompleted.AddListener(this.HandlePrintCompleted);
+                tTyper.CharacterPrinted.AddListener(this.HandleCharacterPrinted);
+                tTyper.listenersAdded = true;
+            }
+            tTyper.TypeText(text, this);
+        }
     }
 
 

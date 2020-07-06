@@ -9,11 +9,12 @@
 
     using EnumScript;
 
+
     /// <summary>
     /// Type text component types out Text one character at a time. Heavily adapted from synchrok's GitHub project.
     /// </summary>
     [RequireComponent(typeof(TextMeshProUGUI))]
-    public sealed class TextTyperSimple : MonoBehaviour
+    public sealed class TextTyper : MonoBehaviour
     {
         /// <summary>
         /// The print delay setting. Could make this an option some day, for fast readers.
@@ -71,6 +72,8 @@
 
         private List<bool> refreshTriggers;
 
+        public bool listenersAdded = false;
+
         string currentText = "";
         //Replace with AdvancedTypewriterText if InkTypewriterText messes up
         InkTypewriterText advancedTypewriterText;
@@ -99,7 +102,7 @@
         }
 
         /// <summary>
-        /// Gets a value indicating whether this <see cref="TextTyperSimple"/> is currently printing text.
+        /// Gets a value indicating whether this <see cref="TextTyper"/> is currently printing text.
         /// </summary>
         /// <value><c>true</c> if printing; otherwise, <c>false</c>.</value>
         public bool IsTyping
@@ -136,12 +139,13 @@
 
             this.CleanupCoroutine();
 
-            
+
 
             // Remove all existing TextAnimations
             // TODO - Would be better to pool/reuse these components
-            foreach ( var anim in GetComponents<TextAnimation>( ) ) {
-                Destroy( anim );
+            foreach (var anim in GetComponents<TextAnimation>())
+            {
+                Destroy(anim);
             }
 
             this.defaultPrintDelay = printDelay > 0 ? printDelay : PrintDelaySetting;
@@ -205,8 +209,9 @@
             typewriterText.TagSetAlignment(this.alignmentTriggers[currPrintedChars]);
             typewriterText.RefreshSpeaker();
 
-            do {
-                
+            do
+            {
+
 
                 this.TextComponent.maxVisibleCharacters = currPrintedChars;
                 this.UpdateMeshAndAnims();
@@ -228,10 +233,10 @@
                     typewriterText.TagSetAlignment(this.alignmentTriggers[currPrintedChars - 1]);
                 }
 
-                if(this.invokeTriggers[currPrintedChars - 1] != null)
+                if (this.invokeTriggers[currPrintedChars - 1] != null)
                 {
                     typewriterText.Invoke(this.invokeTriggers[currPrintedChars - 1], 0);
-                    
+
                 }
 
                 if (this.refreshTriggers[currPrintedChars - 1] != false)
@@ -263,7 +268,7 @@
 
             this.OnCharacterPrinted(taglessText[totalPrintedChars - 1].ToString());
 
-            
+
 
             if (this.speakerAssetTriggers[totalPrintedChars - 1] != typewriterText.changeSpeaker)
             {
@@ -291,7 +296,7 @@
             }
         }
 
-        private void UpdateMeshAndAnims() 
+        private void UpdateMeshAndAnims()
         {
             // This must be done here rather than in each TextAnimation's OnTMProChanged
             // b/c we must cache mesh data for all animations before animating any of them
@@ -301,7 +306,7 @@
 
             // Force animate calls on all TextAnimations because TMPro has reset the mesh to its base state
             // NOTE: This must happen immediately. Cannot wait until end of frame, or the base mesh will be rendered
-            for (int i = 0; i < this.animations.Count; i++) 
+            for (int i = 0; i < this.animations.Count; i++)
             {
                 this.animations[i].AnimateAllChars();
             }
@@ -314,7 +319,7 @@
         /// the appropriate TextAnimation components
         /// </summary>
         /// <param name="text">Full text string with tags</param>
-        private void ProcessCustomTags(string text) 
+        private void ProcessCustomTags(string text)
         {
             this.characterPrintDelays = new List<float>(text.Length);
             this.speakerAssetTriggers = new List<int>(text.Length);
@@ -339,29 +344,30 @@
             string nextInvoke = this.defaultInvoke;
             bool nextTrigger = false;
 
-            foreach (var symbol in textAsSymbolList) 
+            foreach (var symbol in textAsSymbolList)
             {
                 if (symbol.IsTag)
                 {
                     // TODO - Verification that custom tags are not nested, b/c that will not be handled gracefully
-                    if (symbol.Tag.TagType == TextTagParser.CustomTags.Delay) 
+                    if (symbol.Tag.TagType == TextTagParser.CustomTags.Delay)
                     {
-                        if (symbol.Tag.IsClosingTag) 
+                        if (symbol.Tag.IsClosingTag)
                         {
                             nextDelay = this.defaultPrintDelay;
-                        } 
-                        else 
+                        }
+                        else
                         {
                             nextDelay = symbol.GetFloatParameter(this.defaultPrintDelay);
                         }
                     }
                     else if (symbol.Tag.TagType == TextTagParser.CustomTags.Anim ||
-                             symbol.Tag.TagType == TextTagParser.CustomTags.Animation) 
+                             symbol.Tag.TagType == TextTagParser.CustomTags.Animation)
                     {
-                        if (symbol.Tag.IsClosingTag) {
+                        if (symbol.Tag.IsClosingTag)
+                        {
                             // Add a TextAnimation component to process this animation
                             TextAnimation anim = null;
-                            if(this.IsAnimationShake(customTagParam))
+                            if (this.IsAnimationShake(customTagParam))
                             {
                                 anim = gameObject.AddComponent<ShakeAnimation>();
                                 ((ShakeAnimation)anim).LoadPreset(this.shakeLibrary, customTagParam);
@@ -379,14 +385,14 @@
                             anim.SetCharsToAnimate(customTagOpenIndex, printedCharCount - 1);
                             anim.enabled = true;
                             this.animations.Add(anim);
-                        } 
-                        else 
+                        }
+                        else
                         {
                             customTagOpenIndex = printedCharCount;
                             customTagParam = symbol.Tag.Parameter;
                         }
                     }
-                    else if(symbol.Tag.TagType == TextTagParser.CustomTags.Expression)
+                    else if (symbol.Tag.TagType == TextTagParser.CustomTags.Expression)
                     {
                         nextExpression = symbol.GetIntParameter(this.defaultExpression);
                         nextTrigger = true;
@@ -412,17 +418,17 @@
                         // Unrecognized CustomTag Type. Should we error here?
                     }
 
-                } 
-                else 
+                }
+                else
                 {
                     printedCharCount++;
 
 
-                    if (punctutationCharacters.Contains(symbol.Character)) 
+                    if (punctutationCharacters.Contains(symbol.Character))
                     {
                         this.characterPrintDelays.Add(nextDelay * PunctuationDelayMultiplier);
-                    } 
-                    else 
+                    }
+                    else
                     {
                         this.characterPrintDelays.Add(nextDelay);
                     }
