@@ -41,7 +41,7 @@
                 LoadPreset(this.curveLibrary, this.curvePresetKey);
             }
 
-            this.timeAnimationStarted = Time.time;
+            this.timeAnimationStarted = Time.unscaledTime;
             base.OnEnable();
         }
 
@@ -61,7 +61,7 @@
             {
                 // Calculate a t based on time since the animation started, 
                 // but offset per character (to produce wave effects)
-                float t = Time.time - this.timeAnimationStarted + (characterIndex * this.curvePreset.timeOffsetPerChar);
+                float t = Time.unscaledTime - this.timeAnimationStarted + (characterIndex * this.curvePreset.timeOffsetPerChar);
 
                 float xPos = this.curvePreset.xPosCurve.Evaluate(t) * this.curvePreset.xPosMultiplier;
                 float yPos = this.curvePreset.yPosCurve.Evaluate(t) * this.curvePreset.yPosMultiplier;
@@ -70,6 +70,7 @@
 
                 rotation = this.curvePreset.rotationCurve.Evaluate(t) * this.curvePreset.rotationMultiplier;
                 scale += this.curvePreset.scaleCurve.Evaluate(t) * this.curvePreset.scaleMultiplier;
+
             }
         }
     }

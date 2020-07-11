@@ -107,7 +107,7 @@
 
         protected virtual void Update()
         {
-            if (Time.time > this.lastAnimateTime + timeBetweenAnimates)
+            if (Time.unscaledTime > this.lastAnimateTime + timeBetweenAnimates)
             {
                 this.AnimateAllChars();
             }
@@ -128,7 +128,7 @@
         /// </summary>
         public void AnimateAllChars()
         {
-            this.lastAnimateTime = Time.time;
+            this.lastAnimateTime = Time.unscaledTime;
 
             int characterCount = this.textInfo.characterCount;
 

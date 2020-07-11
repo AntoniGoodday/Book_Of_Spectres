@@ -18,6 +18,11 @@ MonoBehaviour:
     yPosStrength: 2
     RotationStrength: 0
     ScaleStrength: 0
+  - Name: SubtlePos
+    xPosStrength: 0.5
+    yPosStrength: 1
+    RotationStrength: 0
+    ScaleStrength: 0
   - Name: LightRot
     xPosStrength: 0
     yPosStrength: 0

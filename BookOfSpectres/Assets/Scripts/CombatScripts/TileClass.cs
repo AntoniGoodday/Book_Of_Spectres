@@ -18,10 +18,17 @@ public class TileClass : MonoBehaviour
     public bool occupied = false;
     [SerializeField]
     public int occupierPriority = 0;
+
+    int colourID;
     [SerializeField]
     public Color initialMaterialColour;
     [SerializeField]
     public Color currentColour;
+    [SerializeField, ColorUsage(true, true)]
+    public Color initialGlowColour;
+    [SerializeField, ColorUsage(true, true)]
+    public Color currentGlowColour;
+
     [SerializeField]
     public int column;
     [SerializeField]
@@ -45,18 +52,23 @@ public class TileClass : MonoBehaviour
     Vector3 initialPosition;
 
     ObjectPooler objectPooler;
+    BattlefieldScript battlefieldScript;
 
     float initialWait = 10;
     float bonusWait = 0;
 
     float timeSinceStart = 0;
 
+    Coroutine updateRealTime;
+
     public bool EffectResetIsRunning { get => effectResetIsRunning; set => effectResetIsRunning = value; }
+    public int ColourID { get => colourID; set => colourID = value; }
 
     // Use this for initialization
     private void Awake()
     {
         objectPooler = ObjectPooler.Instance;
+        battlefieldScript = BattlefieldScript.Instance;
         audioSource = GetComponent<AudioSource>();
         tileEffect = initialTileEffect;
         initialPosition = transform.localPosition;
@@ -64,11 +76,12 @@ public class TileClass : MonoBehaviour
         sRend = GetComponentInChildren<SpriteRenderer>(true);
         sRend.enabled = false;
         sRend.gameObject.SetActive(true);
+
         //rend = gameObject.GetComponent<Renderer>();
     }
     void Start()
     {
-        StartCoroutine(UpdateRealTime());
+        updateRealTime = StartCoroutine(UpdateRealTime());
     }
     public void SetColour(Color c, bool setup = false, bool overrideColour = false, bool affectsCracked = false, int priority = 10)
     {
@@ -77,7 +90,7 @@ public class TileClass : MonoBehaviour
             occupierPriority = priority;
             rend = gameObject.GetComponent<Renderer>();
             currentColour = c;
-
+            SetGlow(setup);
             var tempMaterial = new Material(rend.sharedMaterial)
             {
                 color = c
@@ -121,9 +134,10 @@ public class TileClass : MonoBehaviour
 
     }
 
-    
-   
-    
+    public void SetGlow(bool setup = false)
+    {
+        rend.material.SetColor("_GlowColor", currentGlowColour);
+    }
 
     public void Occupy()
     {
@@ -299,6 +313,7 @@ public class TileClass : MonoBehaviour
         tileEffect = initialTileEffect;
 
         gameObject.layer = 0;
+
     }
 
     void Standard()

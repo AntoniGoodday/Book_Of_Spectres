@@ -26,7 +26,9 @@ public class BattlefieldScript : MonoBehaviour
     TileColour t;
     [SerializeField]
     public List<Color> standardColours;
-    
+    [SerializeField,ColorUsage(true,true)]
+    public List<Color> standardGlowColours;
+
     [Header("Tile Alignement")]
     public List<GameObject> playerTiles = new List<GameObject>();
     public List<GameObject> neutralTiles = new List<GameObject>();
@@ -128,7 +130,6 @@ public class BattlefieldScript : MonoBehaviour
                 //battleTiles[currentTile].GetComponent<Renderer>().material.color = Color.cyan;
                 SetTileAlignment(playerTiles, 0, TileAlignment.Friendly, _tileID);
                 initialPlayerTiles.Add(battleTiles[_tileID]);
-
             }
             else if (_tileID >= _playerColumnID && _tileID <= _enemyColumnID)
             {
@@ -143,12 +144,16 @@ public class BattlefieldScript : MonoBehaviour
             }
         }
     }
-    void SetTileAlignment(List<GameObject> _alignmentList, int _standardColoursID, TileAlignment _tileAlignment, int _tileID )
+    void SetTileAlignment(List<GameObject> _alignmentList, int _colourID, TileAlignment _tileAlignment, int _tileID )
     {
-        battleTiles[_tileID].GetComponent<TileClass>().initialMaterialColour = standardColours[_standardColoursID];
-        battleTiles[_tileID].GetComponent<TileClass>().SetColour(standardColours[_standardColoursID], true);
-        battleTiles[_tileID].GetComponent<TileClass>().tileAlignment = _tileAlignment;
-        battleTiles[_tileID].GetComponent<TileClass>().SetVariables();
+        TileClass _tc = battleTiles[_tileID].GetComponent<TileClass>();
+        _tc.ColourID = _colourID;
+        _tc.initialMaterialColour = standardColours[_colourID];
+        _tc.initialGlowColour = standardGlowColours[_colourID];
+        _tc.currentGlowColour = standardGlowColours[_colourID];
+        _tc.SetColour(standardColours[_colourID], true);
+        _tc.tileAlignment = _tileAlignment;
+        _tc.SetVariables();
         _alignmentList.Add(battleTiles[_tileID]);
     }
     void AddNeighbours()
