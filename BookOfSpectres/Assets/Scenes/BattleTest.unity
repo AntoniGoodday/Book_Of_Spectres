@@ -1046,7 +1046,7 @@ GameObject:
   - component: {fileID: 62356748}
   - component: {fileID: 62356747}
   - component: {fileID: 62356746}
-  m_Layer: 8
+  m_Layer: 2
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22937,6 +22937,49 @@ MonoBehaviour:
   tileEffect: 0
   crackSound: {fileID: 8300000, guid: 97f270dce8ff48a43abb69d859ca3d40, type: 3}
   explosionSound: {fileID: 8300000, guid: 97f270dce8ff48a43abb69d859ca3d40, type: 3}
+--- !u!1 &1566563990
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1566563992}
+  - component: {fileID: 1566563991}
+  m_Layer: 0
+  m_Name: DevCommands
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1566563991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1566563990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c67c3e2afe57f348a422dc0c4b276bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1566563992
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1566563990}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1571269948
 GameObject:
   m_ObjectHideFlags: 0
@@ -28520,6 +28563,24 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1974052677 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8479646226808807810, guid: 1c9de29c967bc9c4aae23a7ef82d99fd,
+    type: 3}
+  m_PrefabInstance: {fileID: 8479646226728533380}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1974052678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1974052677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ec90235f5e0afd4fa4d2f02e7d87fae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!21 &1976142980
 Material:
   serializedVersion: 6

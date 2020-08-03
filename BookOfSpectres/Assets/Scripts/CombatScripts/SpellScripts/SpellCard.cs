@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using EnumScript;
-[CreateAssetMenu(menuName = "SpellCard")]
+[CreateAssetMenu(menuName = "SpellCard"), System.Serializable]
 public class SpellCard : ScriptableObject
 {
     [SerializeField]
@@ -10,6 +10,7 @@ public class SpellCard : ScriptableObject
     public SpellType spellType;
     public bool exileOnUse = false;
     public List<SpellProperties> properties;
+
     
 
     [System.Serializable]

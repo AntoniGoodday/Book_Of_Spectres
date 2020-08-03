@@ -97,6 +97,8 @@ public class InkTypewriterText : MonoBehaviour
 
     public static InkTypewriterText Instance;
 
+
+
     private void Awake()
     {
         //playerControl = new PlayerControl();

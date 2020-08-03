@@ -155,20 +155,23 @@ public class ProjectileScript : MonoBehaviour, IpooledObject
                 }
                 else if(currentTile != _hitTile | currentTileClass.currentColour != Color.yellow)
                 {
-                    if (_hitTile.GetComponent<TileClass>().occupied != true)
+                    if (_hitTile != null)
                     {
-                        if (currentTile.GetComponent<TileClass>().occupied != true)
+                        if (_hitTile.GetComponent<TileClass>().occupied != true)
                         {
-                            previousTile = currentTile;
-                            previousTileClass = previousTile.GetComponent<TileClass>();
-                            previousTileClass.SetColour(previousTileClass.initialMaterialColour);
-                        }
-                        currentTile = _hitTile;
-                    
-                        currentTileClass = currentTile.GetComponent<TileClass>();
+                            if (currentTile.GetComponent<TileClass>().occupied != true)
+                            {
+                                previousTile = currentTile;
+                                previousTileClass = previousTile.GetComponent<TileClass>();
+                                previousTileClass.SetColour(previousTileClass.initialMaterialColour);
+                            }
+                            currentTile = _hitTile;
 
-                        currentTileClass.SetColour(Color.yellow, false, true, false, 5);
-                        tr.sortingOrder = -(int)currentTileClass.gridLocation.y + 5;
+                            currentTileClass = currentTile.GetComponent<TileClass>();
+
+                            currentTileClass.SetColour(Color.yellow, false, true, false, 5);
+                            tr.sortingOrder = -(int)currentTileClass.gridLocation.y + 5;
+                        }
                     }
                 }
 

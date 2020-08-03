@@ -65,12 +65,12 @@ public class CombatMenu : MonoBehaviour
 
     public static CombatMenu Instance;
 
+
     private void Awake()
     {
         //playerControl = new PlayerControl();
         //playerControl.DefaultControls.Enable();
 
-        
     }
 
     private void Start()
@@ -97,6 +97,14 @@ public class CombatMenu : MonoBehaviour
         {
             UILoadEvent?.Invoke();
             LoadPlayerStats();
+        }
+
+        if(SceneManager.GetActiveScene().name ==("BattleTest"))
+        {          
+            Debug.Log("Jackpot");
+            canvasAnimator.Rebind();
+
+
         }
     }
 
