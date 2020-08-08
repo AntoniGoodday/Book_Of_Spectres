@@ -197,6 +197,7 @@ public class InkTypewriterText : MonoBehaviour
 
     void MenuUnPaused()
     {
+        GameObject.Find("BattleText").GetComponent<TextMeshProUGUI>().text = "";
         unpauseAfterEnd = true;
     }
 

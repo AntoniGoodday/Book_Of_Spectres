@@ -8,6 +8,8 @@ public class LoadUI : MonoBehaviour
 
     public delegate void UILoadDelegate();
     public static event UILoadDelegate UILoadEvent;
+
+    public bool loadExternalScene = false;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -18,8 +20,11 @@ public class LoadUI : MonoBehaviour
     {
 
         if (!CombatMenu.Instance && !InkTypewriterText.Instance)
-        { 
-            StartCoroutine(WaitTillLoad());
+        {
+            if (loadExternalScene == true)
+            {
+                StartCoroutine(WaitTillLoad());
+            }
         }
     }
 
@@ -31,11 +36,6 @@ public class LoadUI : MonoBehaviour
         while (!scene.isDone)
         {
             yield return null;
-        }
-        if (SceneManager.GetActiveScene().buildIndex > 2)
-        {
-            UILoadEvent?.Invoke();
-            CombatMenu.Instance.LoadPlayerStats();
         }
         SceneManager.UnloadSceneAsync("BattleUIScene");
     }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using EnumScript;
+using UnityEngine.UI;
+using DG.Tweening;
 public class ChosenSpells : MonoBehaviour
 {
     [SerializeField]
@@ -14,11 +16,15 @@ public class ChosenSpells : MonoBehaviour
 
     public SpellAdvance spellAdvance;
 
+    [SerializeField]
+    CanvasGroup darkness;
+
     ObjectPooler objectPooler;
     PlayerScript playerScript;
     CardHolder cardHolder;
     Animator canvasAnim;
     CombatMenu combatMenu;
+
 
     bool canAdvanceSpell = false;
 
@@ -214,7 +220,18 @@ public class ChosenSpells : MonoBehaviour
         //spellAdvance.SetSpellNames();
         if (canAdvanceSpell == true)
         {
-            canvasAnim.Play("SpellAdvance");
+            DOTween.Init();
+
+            Sequence tweenSequence = DOTween.Sequence();
+
+            CanvasGroup _visual = spellAdvance.GetComponent<CanvasGroup>();
+
+            tweenSequence.Append(DOTween.To(() => _visual.alpha, x => _visual.alpha = x, 1, 0.5f))
+                .Join(DOTween.To(() => darkness.alpha, x => darkness.alpha = x, 0.5f, 0.5f))
+                .OnComplete(() => spellAdvance.SetSpellNames())
+                .SetUpdate(true)
+                .Play();
+            //canvasAnim.Play("SpellAdvance");
         }
         else
         {

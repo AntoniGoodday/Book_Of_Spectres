@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using DG.Tweening;
+using UnityEngine.UI;
 public class SpellAdvance : MonoBehaviour
 {
     ObjectPooler objectPooler;
+    [SerializeField]
+    Color flashColour;
 
     public List<SpellCard> spellRecipes;
     public List<TextMeshProUGUI> spellNames;
@@ -20,7 +24,10 @@ public class SpellAdvance : MonoBehaviour
     CardHolder cardHolder;
     int currentSpell = 0;
 
-    
+    [SerializeField]
+    CanvasGroup darkness;
+
+
     private void Start()
     {
         
@@ -53,7 +60,9 @@ public class SpellAdvance : MonoBehaviour
             text.color = new Color(1, 1, 1, 1);
             text.gameObject.SetActive(false);
         }
-        canvasAnim.Play("Flash");
+
+        CombatMenu.Instance.FlashScreen("MenuClosed");
+        //canvasAnim.Play("Flash");
 
         string _names = afterMerge;
         string[] _separatedNames = _names.Split(new string[] { " " }, System.StringSplitOptions.None);
@@ -99,13 +108,19 @@ public class SpellAdvance : MonoBehaviour
 
     IEnumerator ExpandList()
     {
-         
-        
+        float flashTime = 0.3f * whichFlashing.Count + 1;
+        DOTween.Init();
         foreach(int num in whichFlashing)
         {
-            spellNames[num].gameObject.SetActive(true);
-            spellNames[num].gameObject.GetComponent<Animator>().SetBool("isFlashing", true);
-            spellNames[num].gameObject.GetComponent<Animator>().Play("FlashingText");
+            GameObject _currentText = spellNames[num].gameObject;
+
+            _currentText.SetActive(true);
+
+
+
+            _currentText.GetComponent<Animator>().SetBool("isFlashing", true);
+
+            _currentText.GetComponent<Animator>().Play("FlashingText");
 
         }
 
@@ -115,10 +130,13 @@ public class SpellAdvance : MonoBehaviour
         
         for (int j = 0; j < _separatedNames.Length - 1; j++)
         {
-            spellNames[j].gameObject.SetActive(true);
+            GameObject _currentText = spellNames[j].gameObject;
+            _currentText.SetActive(true);
+
+            _currentText.gameObject.GetComponent<Animator>().Play("Visible",1);
+
             
-            spellNames[j].gameObject.GetComponent<Animator>().Play("Visible",1);
-            
+
             spellNames[j].text = _separatedNames[j];
             yield return new WaitForSecondsRealtime(0.3f);
         }
@@ -142,7 +160,21 @@ public class SpellAdvance : MonoBehaviour
 
         cardHolder.SetSpellName();
 
-        canvasAnim.Play("SpellAdvanceEnd");
+        /*DOTween.Init();
+        Sequence _spellAdvanceSequence = DOTween.Sequence();
+        CombatMenu _cm = CombatMenu.Instance;
+
+        CanvasGroup _visual = this.GetComponent<CanvasGroup>();
+
+        _spellAdvanceSequence.Append(DOTween.To(() => _visual.alpha, x => _visual.alpha = x, 0, 0.5f))
+                .Join(DOTween.To(() => darkness.alpha, x => darkness.alpha = x, 0f, 0.5f))
+                .OnComplete(() => _cm.MenuUnPause())
+                .SetUpdate(true)
+                .Play();*/
+
+        //CombatMenu.Instance.TweenAction = () => CombatMenu.Instance.UnDarkenScreen();
+        CombatMenu.Instance.UnDarkenScreen("MenuUnPause");
+        //canvasAnim.Play("SpellAdvanceEnd");
         
         //objectPooler.UnPauseAll();
     }

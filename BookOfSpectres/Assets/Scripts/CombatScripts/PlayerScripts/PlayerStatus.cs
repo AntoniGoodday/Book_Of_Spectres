@@ -80,7 +80,7 @@ public class PlayerStatus : EntityStatus
     public override void ProgressWave()
     {
         //playerScript.Paused();
-        playerScript.isPaused = true;
+        playerScript.IsPaused = true;
     }
 
     ////DELETE LATER

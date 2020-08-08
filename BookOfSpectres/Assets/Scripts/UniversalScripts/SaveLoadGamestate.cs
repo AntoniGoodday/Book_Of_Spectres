@@ -1,8 +1,10 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class SaveLoadGamestate : MonoBehaviour
 {
     public static SaveLoadGamestate Instance;
@@ -24,6 +26,7 @@ public class SaveLoadGamestate : MonoBehaviour
 
             Instance = this;
 
+            
             //GameData _tempGD = new GameData();
             //currentGameData = _tempGD;
 
@@ -44,8 +47,15 @@ public class SaveLoadGamestate : MonoBehaviour
 
     public void SaveGameState()
     {
+        //currentGameData.pData.spellDeck.Add("h");
+        if(!File.Exists(Application.dataPath + "/SaveData/" + "saveFile.txt"))
+        {
+            currentGameData.pData = new PlayerData();
+            currentGameData.wData = new WorldData();
+            currentGameData.pData.spellDeck = new List<string>();
+        }
         SaveEvent?.Invoke();
-        //currentGameData.spellDeck.Add("h");
+
         string json = JsonUtility.ToJson(currentGameData, true);
         Debug.Log(json);
         SaveSystem.Save(json);
@@ -67,20 +77,20 @@ public class SaveLoadGamestate : MonoBehaviour
         Application.Quit();
     }
 
-    [System.Serializable]
+    [Serializable]
     public class GameData
     {
-        public PlayerData pData = new PlayerData();
+        public PlayerData pData;
 
-        public WorldData wData = new WorldData();
+        public WorldData wData;
 
     }
-
+    [Serializable]
     public class PlayerData
     {
-        public List<string> spellDeck = new List<string>();
+        public List<string> spellDeck;
     }
-
+    [Serializable]
     public class WorldData
     {
 

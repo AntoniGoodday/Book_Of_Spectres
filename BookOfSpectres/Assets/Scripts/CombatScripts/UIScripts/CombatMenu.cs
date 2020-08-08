@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
@@ -7,6 +8,8 @@ using EnumScript;
 
 using UnityEngine.UI;
 using DG.Tweening;
+using System;
+
 //using PlayerControlNamespace;
 
 public class CombatMenu : MonoBehaviour
@@ -16,6 +19,18 @@ public class CombatMenu : MonoBehaviour
     PlayerDeck playerDeck;
     PlayerAttributes playerAttributes;
 
+    [SerializeField]
+    Vector3 destinationPosition;
+    [SerializeField]
+    Vector3 initialPosition;
+
+    [SerializeField]
+    CanvasGroup darkness;
+    [SerializeField]
+    CanvasGroup light;
+
+
+    bool hasSlid = false;
 
     [SerializeField]
     List<SpellCard> playerCombatDeck = new List<SpellCard>();
@@ -51,9 +66,16 @@ public class CombatMenu : MonoBehaviour
     [SerializeField]
     GameObject visuals;
 
+    [SerializeField]
+    CanvasGroup flavourVisuals;
+
+    [SerializeField]
+    GameObject turnBar;
+
     int minimumSpellsChosen = 0;
 
     public int MinimumSpellsChosen { get => minimumSpellsChosen; set => minimumSpellsChosen = value; }
+
 
     public delegate void MenuPauseDelegate();
     public static event MenuPauseDelegate MenuPauseEvent;
@@ -65,9 +87,15 @@ public class CombatMenu : MonoBehaviour
 
     public static CombatMenu Instance;
 
+    bool hasToRestart = false;
 
     private void Awake()
     {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        initialPosition = visuals.GetComponent<RectTransform>().localPosition;
+        destinationPosition = initialPosition + new Vector3(850, 0, 0);
+
+        //TweenMenu();
         //playerControl = new PlayerControl();
         //playerControl.DefaultControls.Enable();
 
@@ -75,37 +103,38 @@ public class CombatMenu : MonoBehaviour
 
     private void Start()
     {
+        SceneManager.UnloadSceneAsync("BattleUIScene");
         if (Instance == null)
         {
             DontDestroyOnLoad(this);
             Instance = this;
+            GetComponent<Canvas>().worldCamera = Camera.main;
+            LoadPlayerStats();
+            UILoadEvent?.Invoke();
         }
         else
         {
             Destroy(this);
         }
-
-
-        SceneManager.sceneLoaded += OnSceneLoaded;
-
-        GetComponent<Canvas>().worldCamera = Camera.main;
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (SceneManager.GetActiveScene().buildIndex > 2)
         {
-            UILoadEvent?.Invoke();
-            LoadPlayerStats();
+            //LoadPlayerStats();
+            //UILoadEvent?.Invoke();
+            if (hasToRestart == true)
+            {
+                canvasAnimator.Rebind();
+                hasToRestart = false;
+            }
+            else
+            {
+                hasToRestart = true;
+            }
         }
 
-        if(SceneManager.GetActiveScene().name ==("BattleTest"))
-        {          
-            Debug.Log("Jackpot");
-            canvasAnimator.Rebind();
-
-
-        }
     }
 
     public void ReadyButton()
@@ -113,8 +142,97 @@ public class CombatMenu : MonoBehaviour
         if (chosenSpells.spellMiniatures.Count >= minimumSpellsChosen)
         {
             EventSystem.current.SetSelectedGameObject(null);
-            canvasAnimator.Play("MenuSlideOut");
+            TweenMenu(false);
+            //canvasAnimator.Play("MenuSlideOut");
         }
+    }
+
+    public void TweenMenu(bool tweenIn = true)
+    {
+        DOTween.Init();
+        RectTransform _visualsTransform = visuals.GetComponent<RectTransform>();
+        Debug.Log(_visualsTransform.localPosition);
+
+        CanvasGroup _turnBar = turnBar.GetComponent<CanvasGroup>();
+        
+        if (tweenIn == true)
+        {
+            if (hasSlid == false)
+            {
+                Sequence _tweenSequence = DOTween.Sequence();
+                _tweenSequence.Append(DOTween.To(() => _visualsTransform.localPosition, x => _visualsTransform.localPosition = x, destinationPosition, 0.5f)
+                    .SetEase(Ease.OutBack));
+                _tweenSequence.Insert(0, DOTween.To(() => _turnBar.alpha, x => _turnBar.alpha = x, 0, 0.1f));
+                _tweenSequence.Insert(0.25f, DOTween.To(() => flavourVisuals.alpha, x => flavourVisuals.alpha = x, 1, 0.25f))
+                     .SetUpdate(true)
+                     .OnStart(() => MenuPause())
+                     .OnComplete(() => MenuOpened());
+
+                _tweenSequence.PlayForward();
+
+                hasSlid = true;
+            }
+        }
+        else
+        {
+            if (hasSlid == true)
+            {
+
+
+                Sequence _tweenOut = DOTween.Sequence();
+
+                _tweenOut.Append(DOTween.To(() => _visualsTransform.localPosition, x => _visualsTransform.localPosition = x, initialPosition, 0.5f))
+                    .SetEase(Ease.InBack);
+                _tweenOut.Insert(0, DOTween.To(() => _turnBar.alpha, x => _turnBar.alpha = x, 1, 0.1f));
+                _tweenOut.Insert(0.25f, DOTween.To(() => flavourVisuals.alpha, x => flavourVisuals.alpha = x, 0, 0.25f))
+                    .SetUpdate(true)
+                    .OnComplete(() => CheckForAdvancedSpells())
+                    .Play();
+                hasSlid = false;
+            }
+            else
+            {
+                Debug.Log("Can't slide back");
+            }
+        }
+    }
+
+    public void UnDarkenScreen(string s)
+    {
+
+        DOTween.Init();
+        Sequence _darkenScreen = DOTween.Sequence();
+
+        CanvasGroup _visual = spellAdvance.GetComponent<CanvasGroup>();
+
+
+
+        _darkenScreen.Append(DOTween.To(() => _visual.alpha, x => _visual.alpha = x, 0, 0.5f))
+                .Join(DOTween.To(() => darkness.alpha, x => darkness.alpha = x, 0f, 0.5f))
+                .OnComplete(() => Invoke(s, 0))
+                .SetUpdate(true)
+                .Play();
+
+        
+
+        
+    }
+
+ 
+
+
+    public void FlashScreen(string s)
+    {
+        DOTween.Init();
+        //tweenAction = endAction;
+        Sequence _flashScreen = DOTween.Sequence();
+
+        CanvasGroup _visual = spellAdvance.GetComponent<CanvasGroup>();
+
+        _flashScreen.Append(DOTween.To(() => light.alpha, x => light.alpha = x, 1f, 0.1f).SetEase(Ease.InFlash, 2, 0.1f))
+                .OnComplete(() => Invoke(s, 0))
+                .SetUpdate(true)
+                .Play();
     }
 
     public void MenuPause()
@@ -271,7 +389,7 @@ public class CombatMenu : MonoBehaviour
 
         GetComponent<Canvas>().worldCamera = GameObject.Find("MainVirtualCam").GetComponent<Camera>();
 
-        Random.seed = System.Environment.TickCount;
+        UnityEngine.Random.seed = System.Environment.TickCount;
         objectPooler = ObjectPooler.Instance;
         playerDeck = PlayerDeck.Instance;
         playerAttributes = PlayerAttributes.Instance;
@@ -285,12 +403,14 @@ public class CombatMenu : MonoBehaviour
             playerCombatDeck.Add(d);
         }
 
+        Debug.Log(playerDeck.pDeck);
+
         if (shuffleDeck == true)
         {
             for (int i = 0; i < playerCombatDeck.Count; i++)
             {
                 SpellCard temp = playerCombatDeck[i];
-                int randomIndex = Random.Range(i, playerCombatDeck.Count);
+                int randomIndex = UnityEngine.Random.Range(i, playerCombatDeck.Count);
                 playerCombatDeck[i] = playerCombatDeck[randomIndex];
                 playerCombatDeck[randomIndex] = temp;
             }

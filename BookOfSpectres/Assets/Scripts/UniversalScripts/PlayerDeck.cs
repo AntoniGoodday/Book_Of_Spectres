@@ -25,7 +25,7 @@ public class PlayerDeck : MonoBehaviour
             DontDestroyOnLoad(this);
             Instance = this;
 
-            LoadFromSave();
+            //LoadFromSave();
             SaveLoadGamestate.LoadEvent += LoadFromSave;
             SaveLoadGamestate.SaveEvent += Save;
             
@@ -38,11 +38,14 @@ public class PlayerDeck : MonoBehaviour
 
     void LoadFromSave()
     {
-        pDeck.Clear();
-        foreach(string s in SaveLoadGamestate.Instance.currentGameData.pData.spellDeck)
+        if (SaveLoadGamestate.Instance.currentGameData.pData.spellDeck.Count > 0)
         {
-            SpellCard spell = (SpellCard)(Resources.Load("SpellCards/" + s));
-            pDeck.Add(spell);
+            pDeck.Clear();
+            foreach (string s in SaveLoadGamestate.Instance.currentGameData.pData.spellDeck)
+            {
+                SpellCard spell = (SpellCard)(Resources.Load("SpellCards/" + s));
+                pDeck.Add(spell);
+            }
         }
     }
 

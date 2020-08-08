@@ -412,6 +412,55 @@ namespace PlayerControlNamespace
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""UIControls"",
+            ""id"": ""108520f5-512d-42a4-a6f7-af7cf7dd70a4"",
+            ""actions"": [
+                {
+                    ""name"": ""HorizontalChoice"",
+                    ""type"": ""Button"",
+                    ""id"": ""6577910d-8499-42ef-a91e-2d85d7a69478"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""ad3569c8-d1d5-4f0f-ae95-dca848a7656c"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""HorizontalChoice"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""d835a0d2-66c8-4e61-87d8-b88f5b09dece"",
+                    ""path"": ""*/{Submit}"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""HorizontalChoice"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""1947006e-51af-4872-bdfd-3bfa33bed4e1"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""HorizontalChoice"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -447,6 +496,9 @@ namespace PlayerControlNamespace
             m_DefaultControls_Shoot = m_DefaultControls.FindAction("Shoot", throwIfNotFound: true);
             m_DefaultControls_Spell = m_DefaultControls.FindAction("Spell", throwIfNotFound: true);
             m_DefaultControls_Menu = m_DefaultControls.FindAction("Menu", throwIfNotFound: true);
+            // UIControls
+            m_UIControls = asset.FindActionMap("UIControls", throwIfNotFound: true);
+            m_UIControls_HorizontalChoice = m_UIControls.FindAction("HorizontalChoice", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -565,6 +617,39 @@ namespace PlayerControlNamespace
             }
         }
         public DefaultControlsActions @DefaultControls => new DefaultControlsActions(this);
+
+        // UIControls
+        private readonly InputActionMap m_UIControls;
+        private IUIControlsActions m_UIControlsActionsCallbackInterface;
+        private readonly InputAction m_UIControls_HorizontalChoice;
+        public struct UIControlsActions
+        {
+            private @PlayerControl m_Wrapper;
+            public UIControlsActions(@PlayerControl wrapper) { m_Wrapper = wrapper; }
+            public InputAction @HorizontalChoice => m_Wrapper.m_UIControls_HorizontalChoice;
+            public InputActionMap Get() { return m_Wrapper.m_UIControls; }
+            public void Enable() { Get().Enable(); }
+            public void Disable() { Get().Disable(); }
+            public bool enabled => Get().enabled;
+            public static implicit operator InputActionMap(UIControlsActions set) { return set.Get(); }
+            public void SetCallbacks(IUIControlsActions instance)
+            {
+                if (m_Wrapper.m_UIControlsActionsCallbackInterface != null)
+                {
+                    @HorizontalChoice.started -= m_Wrapper.m_UIControlsActionsCallbackInterface.OnHorizontalChoice;
+                    @HorizontalChoice.performed -= m_Wrapper.m_UIControlsActionsCallbackInterface.OnHorizontalChoice;
+                    @HorizontalChoice.canceled -= m_Wrapper.m_UIControlsActionsCallbackInterface.OnHorizontalChoice;
+                }
+                m_Wrapper.m_UIControlsActionsCallbackInterface = instance;
+                if (instance != null)
+                {
+                    @HorizontalChoice.started += instance.OnHorizontalChoice;
+                    @HorizontalChoice.performed += instance.OnHorizontalChoice;
+                    @HorizontalChoice.canceled += instance.OnHorizontalChoice;
+                }
+            }
+        }
+        public UIControlsActions @UIControls => new UIControlsActions(this);
         private int m_KeyboardSchemeIndex = -1;
         public InputControlScheme KeyboardScheme
         {
@@ -591,6 +676,10 @@ namespace PlayerControlNamespace
             void OnShoot(InputAction.CallbackContext context);
             void OnSpell(InputAction.CallbackContext context);
             void OnMenu(InputAction.CallbackContext context);
+        }
+        public interface IUIControlsActions
+        {
+            void OnHorizontalChoice(InputAction.CallbackContext context);
         }
     }
 }
