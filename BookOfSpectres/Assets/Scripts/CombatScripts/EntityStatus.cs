@@ -42,6 +42,7 @@ public class EntityStatus : MonoBehaviour
     public event DieDelegate dieEvent;
 
     public List<StatusEffect> StatusEffects { get => statusEffects; set => statusEffects = value; }
+    public List<int> HitLayers { get => hitLayers; set => hitLayers = value; }
 
     public virtual void Start()
     {
@@ -78,19 +79,8 @@ public class EntityStatus : MonoBehaviour
         
         if (hitParticles != null)
         {
-            
-            hitLocation.transform.localPosition = new Vector3(0, zPos + 1.4f, 0);
-            foreach (int h in hitLayers)
-            {
-                anim.Play("Hit", h, 0f);
-            }
-            impulseSource.m_ImpulseDefinition.m_AmplitudeGain = damage * amplitudeModifier;
-            impulseSource.GenerateImpulse();
-            hitParticles.Emit(_clampedDamage);
 
-
-
-            StartCoroutine("PauseGame", damage);
+            GetHit(damage, zPos, amplitudeModifier, _clampedDamage);
 
         }
 
@@ -110,6 +100,26 @@ public class EntityStatus : MonoBehaviour
             }
             UpdateUI();
         }
+    }
+
+    public virtual void GetHit(int damage, float zPos, float amplitudeModifier, int _clampedDamage)
+    {
+        hitLocation.transform.localPosition = new Vector3(0, zPos + 1.4f, 0);
+
+        PlayHitAnim(damage);
+        
+        impulseSource.m_ImpulseDefinition.m_AmplitudeGain = damage * amplitudeModifier;
+        impulseSource.GenerateImpulse();
+        hitParticles.Emit(_clampedDamage);
+
+
+
+        StartCoroutine("PauseGame", damage);
+    }
+
+    public virtual void PlayHitAnim(int damage)
+    {
+
     }
 
     public virtual void UpdateUI()

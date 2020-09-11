@@ -40,6 +40,8 @@ namespace EnumScript
 
     public enum ValueType { Int = 0, String = 1}
 
+    public enum AIType { Axolotl }
+
     public class EnumMethods
     {
         public static Vector2Int DirectionToCoords(Direction d)

@@ -52,6 +52,8 @@ public class PlayerMovement : MonoBehaviour, ICombatMove
 
     PlayerControl.DefaultControlsActions movementControls;
 
+    Sequence moveSequence;
+
     private void Start()
     {
         playerScript = GetComponent<PlayerScript>();
@@ -284,6 +286,10 @@ public class PlayerMovement : MonoBehaviour, ICombatMove
         if (playerScript.Dying == false)
         {
             playerScript.playerSprite.sortingOrder = i;
+            foreach(ParticleSystemRenderer p in playerScript.playerSprite.transform.GetComponentsInChildren<ParticleSystemRenderer>())
+            {
+                p.sortingOrder = i + 1;
+            }
         }
     }
 
@@ -311,7 +317,7 @@ public class PlayerMovement : MonoBehaviour, ICombatMove
         //currentTileClass.DebugCurrentTile();
     }
 
-    public void UpdatePlayer() => MovePlayer();
+    public void UpdatePlayer() => TweenPlayer();
 
 
     IEnumerator LerpPlayer(float time)
@@ -359,17 +365,18 @@ public class PlayerMovement : MonoBehaviour, ICombatMove
         yield return new WaitForSeconds(0);
     }
 
-    void MovePlayer()
+    void TweenPlayer()
     {
-        float time = movementSpeed;     
+        float time = movementSpeed;
 
         Vector3 pT = new Vector3(previousTile.transform.position.x, previousTile.transform.position.y, heightAboveGround);
         Vector3 cT = new Vector3(currentTile.transform.position.x, currentTile.transform.position.y, heightAboveGround);
 
-        var tweener = DOTween.To(() => transform.position, x => transform.position = x, cT, time)
+        moveSequence.Join(DOTween.To(() => transform.position, x => transform.position = x, cT, time)
             .SetEase(Ease.OutBack)
             .OnStart(() => playerScript.IsLerping = true)
-            .OnComplete(() => playerScript.IsLerping = false);
+            .OnComplete(() => { playerScript.IsLerping = false; playerScript.EndMove(); }));
+   
         
     }
 
@@ -396,6 +403,8 @@ public class PlayerMovement : MonoBehaviour, ICombatMove
                     currentRaycastTile = hit.transform.gameObject;
                     currentRaycastTile.GetComponent<TileClass>().SetColour(PlayerTileColour);
                     previousRaycastTile = currentRaycastTile;
+
+                    SetSortingOrder(-(int)currentTileClass.gridLocation.y + 5);
                 }
             }
 

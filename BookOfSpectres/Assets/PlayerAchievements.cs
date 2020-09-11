@@ -25,12 +25,17 @@ public class PlayerAchievements : MonoBehaviour
     public int ShotBasicAttacks { get => shotBasicAttacks; set => shotBasicAttacks = value; }
     public int ConsecutiveProjectilesDodged { get => consecutiveProjectilesDodged; set => consecutiveProjectilesDodged = value; }
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
+    }
 
-        
+    private void Start()
+    {
+        FindObjectOfType<PlayerScript>().playerShoot.ShootEvent += OnPlayerShot;
+        FindObjectOfType<PlayerScript>().playerShoot.ChargedShootEvent += OnPlayerChargedShot;
+        //FindObjectOfType<PlayerScript>().MoveEvent += OnPlayerMove;
+        FindObjectOfType<PlayerStatus>().hitEvent += OnPlayerHit;
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -39,9 +44,10 @@ public class PlayerAchievements : MonoBehaviour
         {
             case ("BattleScene"):
                 {
-                    FindObjectOfType<PlayerScript>().ShootEvent += OnPlayerShot;
-                    FindObjectOfType<PlayerScript>().ChargedShootEvent += OnPlayerChargedShot;
-                    FindObjectOfType<PlayerScript>().MoveEvent += OnPlayerMove;
+                    Debug.Log("Battle Achievs");
+                    FindObjectOfType<PlayerScript>().playerShoot.ShootEvent += OnPlayerShot;
+                    FindObjectOfType<PlayerScript>().playerShoot.ChargedShootEvent += OnPlayerChargedShot;
+                    //FindObjectOfType<PlayerScript>().MoveEvent += OnPlayerMove;
                     FindObjectOfType<PlayerStatus>().hitEvent += OnPlayerHit;
                     break;
                 }

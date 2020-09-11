@@ -8,55 +8,28 @@ using UnityEngine.InputSystem;
 using PlayerControlNamespace;
 public class PlayerScript : MonoBehaviour
 {
-    #region delegates
-    public delegate void ShootDelegate();
-    public event ShootDelegate ShootEvent;
-    public delegate void ChargedShootDelegate();
-    public event ShootDelegate ChargedShootEvent;
-
-
-    public delegate void MoveDelegate(MoveDirection direction);
-    public event MoveDelegate MoveEvent;
-    #endregion
-
     public static PlayerScript Instance;
     ObjectPooler objectPooler;
 
-
     [SerializeField]
-    float maxShotChargeTime = 2;
+    public List<ParticleSystem> chargeParticles;
     [SerializeField]
-    float shotChargeAmount = 0;
-    [SerializeField]
-    bool shotFullyCharged = false;
-    [SerializeField]
-    List<ParticleSystem> chargeParticles;
-    [SerializeField]
-    ParticleSystem spellParticles;
+    public ParticleSystem spellParticles;
 
 
-    bool isLerping = false;
-    bool isPaused = false;
-
-
-    [SerializeField]
-    StandardPlayerShot standardShot;
-    [SerializeField]
-    ChargedPlayerShot chargedShot;
-
-    bool canShoot = true;
+    
     /*Spell origin:
     0 - Regular Slot
     */
     [SerializeField]
-    List<GameObject> spellOrigin;
+    public List<GameObject> spellOrigin;
     [SerializeField]
-    Animator anim;
+    public Animator anim;
 
 
     public Animator emotionAnim;
     public Animator canvasAnim;
-    CombatMenu combatMenu;
+    public CombatMenu combatMenu;
 
     public Canvas playerCanvas;
     GameObject firstButton;
@@ -70,17 +43,21 @@ public class PlayerScript : MonoBehaviour
 
 
 
-
+    bool isLerping = false;
+    bool isPaused = false;
     bool dying = false;
-    bool shootIsHeld = false;
     bool bufferedAttack = false;
     bool bufferedSpell = false;
 
     public bool Dying { get => dying; set => dying = value; }
     public bool IsLerping { get => isLerping; set => isLerping = value; }
     public bool IsPaused { get => isPaused; set => isPaused = value; }
+    public bool BufferedAttack { get => bufferedAttack; set => bufferedAttack = value; }
+    public bool BufferedSpell { get => bufferedSpell; set => bufferedSpell = value; }
 
-    ICombatMove playerMove;
+    public ICombatMove playerMove;
+    public ICombatShoot playerShoot;
+    public ICombatSpell playerSpell;
 
     public PlayerControl playerControl;
 
@@ -93,6 +70,10 @@ public class PlayerScript : MonoBehaviour
         Instance = this;
 
         playerMove = GetComponent<ICombatMove>();
+
+        playerShoot = GetComponent<ICombatShoot>();
+
+        playerSpell = GetComponent<ICombatSpell>();
     }
 
     private void OnEnable()
@@ -105,21 +86,10 @@ public class PlayerScript : MonoBehaviour
         playerControl.Disable();
     }
 
-    private void Shoot_performed(InputAction.CallbackContext obj)
-    {
-        throw new System.NotImplementedException();
-    }
-
     private void Start()
     {
-
         objectPooler = ObjectPooler.Instance;
         //objectPooler.allPooledObjects.Add(gameObject);
-        
-
-        standardShot = GetComponent<StandardPlayerShot>();
-        chargedShot = GetComponent<ChargedPlayerShot>();
-
     }
 
     // Update is called once per frame
@@ -129,26 +99,6 @@ public class PlayerScript : MonoBehaviour
         if (IsPaused == false && Dying == false)
         {
             PlayerControls();
-
-            if(shootIsHeld == true)
-            {
-                shotChargeAmount += Time.deltaTime;
-                if (shotChargeAmount < maxShotChargeTime && shotChargeAmount > 0.05f)
-                {
-                    if (chargeParticles[0].isPlaying == false)
-                    {
-                        chargeParticles[0].Play();
-                    }
-                }
-                else if (shotChargeAmount >= maxShotChargeTime && shotFullyCharged == false)
-                {
-
-                    chargeParticles[0].Stop();
-                    chargeParticles[1].Play();
-                    shotFullyCharged = true;
-
-                }
-            }      
         }
 
        
@@ -157,21 +107,13 @@ public class PlayerScript : MonoBehaviour
     void PlayerControls()
     {
         playerMove.Move();
+        playerShoot.ChargeUpdate();
+        //playerSpell.UseSpell();
 
-        if(Input.GetButtonDown("Shoot"))
-        {
-            shootIsHeld = true;
-        }
-
-        if(Input.GetButtonUp("Shoot"))
-        {
-            PlayerShot();
-        }
-
-        if (Input.GetButtonUp("Use"))
+        /*if (Input.GetButtonUp("Use"))
         {
             PlayerSpell();
-        }
+        }*/
 
         if (Input.GetButtonUp("StartTurn"))
         {
@@ -184,50 +126,32 @@ public class PlayerScript : MonoBehaviour
 
     public void Paused()
     {
-        /*anim.enabled = false;
-        emotionAnim.enabled = false;
-        ParticleSystem _pSys = status.hitParticles;
-        if (_pSys.isPlaying)
-        {
-            _pSys.Pause();
-        }*/
         IsPaused = true;
-
     }
 
     public void UnPaused()
     {
-        /*
-        ParticleSystem _pSys = status.hitParticles;
-        if (_pSys.isPaused)
-        {
-            _pSys.Play();
-        }
-        anim.enabled = true;
-        emotionAnim.enabled = true;
-        */
         IsPaused = false;
 
-        if(shotChargeAmount >= maxShotChargeTime)
+        if(playerShoot.PauseHold && playerShoot.IsHeld == false && playerShoot.ShotChargeAmount > 0)
         {
-            ShootCharged();
-            ClearChargeParticles();
-            shotChargeAmount = 0;
-            shootIsHeld = false;
+            Debug.Log("Held Shot Released");
+            playerShoot.Shoot();
         }
-        else if(shotChargeAmount <= maxShotChargeTime)
-        {
-            ClearChargeParticles();
-            shotChargeAmount = 0;
-            shootIsHeld = false;
-        }
-
     }
 
     
     #endregion
 
-    void ClearChargeParticles()
+    public void EndMove()
+    {
+        if(bufferedAttack)
+        {
+            playerShoot.Shoot();
+        }
+    }
+
+    public void ClearChargeParticles()
     {
         foreach (ParticleSystem ps in chargeParticles)
         {
@@ -238,26 +162,9 @@ public class PlayerScript : MonoBehaviour
             }
         }
 
-        shotChargeAmount = 0;
     }
 
-    void ShootCharged()
-    {
-        chargedShot.ShootCharged(spellOrigin[0].transform, gameObject);
-        shotFullyCharged = false;
-
-        anim.Play("Spell");
-
-        spellParticles.Play();
-
-        ChargedShootEvent?.Invoke();
-    }
-
-    IEnumerator ShotDelay()
-    {
-        yield return new WaitForSeconds(0.2f);
-        canShoot = true;
-    }
+    
 
     void PlayerSpell()
     {
@@ -270,41 +177,6 @@ public class PlayerScript : MonoBehaviour
                 spellParticles.Play();
             }
         }
-    }
-
-    void PlayerShot()
-    {
-        shootIsHeld = false;
-        if (!IsPaused && !Dying)
-        {
-            if (canShoot)
-            {
-                canShoot = false;
-
-                ClearChargeParticles();
-
-                if (shotFullyCharged == false)
-                {
-
-                    standardShot.Shoot(spellOrigin[0].transform, gameObject);
-
-                    anim.Play("Attack");
-
-                    //objectPooler.SpawnFromPool("PlayerBullet", spellOrigin.transform.position, Quaternion.Euler(0, 0, 90), gameObject.transform);
-                }
-                else
-                {
-                    //objectPooler.SpawnFromPool("ChargedPlayerBullet", spellOrigin.transform.position, Quaternion.Euler(0, 0, 90), gameObject.transform);
-                    ShootCharged();
-                }
-                ShootEvent?.Invoke();
-
-                shotChargeAmount = 0;
-
-                StartCoroutine(ShotDelay());
-            }
-        }
-       
     }
 
     public void SpellMenu()
@@ -330,20 +202,15 @@ public class PlayerScript : MonoBehaviour
                     _tempCombatMenu.MoveCardToDestination(s, CardDestination.Combat, CardDestination.Graveyard);
                 }
 
-                cardHolder.Purge();
+                playerSpell.CardHolder.Purge();
                 turnBarScript.Pause(false);
 
                 combatMenu.TweenMenu();
-                //canvasAnim.Play("MenuSlideIn");
-
-
                 //EventSystem.current.SetSelectedGameObject(null);
                 //EventSystem.current.SetSelectedGameObject(firstButton);
             }
             else
             {
-                //canvasAnim.Play("MenuSlideOut");
-
                 //EventSystem.current.SetSelectedGameObject(null);
                 //objectPooler.UnPauseAll();
             }
@@ -359,12 +226,13 @@ public class PlayerScript : MonoBehaviour
         combatMenu = canvasAnim.GetComponent<CombatMenu>();
         firstButton = GameObject.Find("Slot1");
         turnBarScript = GameObject.Find("TurnBar").GetComponent<TurnBarScript>();
-        cardHolder = GameObject.Find("PlayerCanvas").GetComponent<CardHolder>();
+        //cardHolder = GameObject.Find("PlayerCanvas").GetComponent<CardHolder>();
 
         CombatMenu.MenuUnPauseEvent += UnPaused;
         CombatMenu.MenuPauseEvent += Paused;
 
-        cardHolder.Initialize();
+        playerSpell.InitializeSpell();
+        //cardHolder.Initialize();
         status.Initialize();
 
         CombatMenu _tempCombatMenu = canvasAnim.gameObject.GetComponent<CombatMenu>();
@@ -381,7 +249,7 @@ public class PlayerScript : MonoBehaviour
             _tempCombatMenu.MoveCardToDestination(s, CardDestination.Combat, CardDestination.Graveyard);
         }
 
-        cardHolder.Purge();
+        //cardHolder.Purge();
         turnBarScript.Pause(false);
 
         combatMenu.TweenMenu();

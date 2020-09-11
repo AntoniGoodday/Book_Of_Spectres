@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using EnumScript;
+using DG.Tweening;
 public class EnemyScript : MonoBehaviour
 {
     ObjectPooler objectPooler;
@@ -16,7 +17,7 @@ public class EnemyScript : MonoBehaviour
 
     public float movmentSpeed;
 
-    TileClass currentTileClass;
+    public TileClass currentTileClass;
     [SerializeField]
     BattlefieldScript bfs;
     [SerializeField]
@@ -24,7 +25,7 @@ public class EnemyScript : MonoBehaviour
     [SerializeField]
     List<TileAlignment> alignedTiles;
     [SerializeField]
-    Animator anim;
+    public Animator anim;
 
     EntityStatus status;
 
@@ -40,6 +41,26 @@ public class EnemyScript : MonoBehaviour
     bool coroutineIsOn = false;
     bool isPaused = false;
     bool isRaycasting = true;
+
+    float actionCooldown = 0.5f;
+    bool isMoving = false;
+    float interruptedAnimationTime = 0;
+    [SerializeField]
+    bool isInterrupted = false;
+    [SerializeField]
+    bool canBeCountered = false;
+    [SerializeField]
+    bool animationEnd = false;
+    [SerializeField]
+    SpriteRenderer visuals;
+
+    public float ActionCooldown { get => actionCooldown; set => actionCooldown = value; }
+    public bool IsMoving { get => isMoving; set => isMoving = value; }
+    public float InterruptedAnimationTime { get => interruptedAnimationTime; set => interruptedAnimationTime = value; }
+    public bool IsInterrupted { get => isInterrupted; set => isInterrupted = value; }
+    public bool CanBeCountered { get => canBeCountered; set => canBeCountered = value; }
+    public bool AnimationEnd { get => animationEnd; set => animationEnd = value; }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -129,7 +150,10 @@ public class EnemyScript : MonoBehaviour
 
     }
 
-    public IEnumerator LerpMovement(float time)
+
+
+
+    /*public IEnumerator LerpMovement(float time)
     {
         if (coroutineIsOn == false)
         {
@@ -162,9 +186,11 @@ public class EnemyScript : MonoBehaviour
         enemySprite.sortingOrder = -(int)currentTileClass.gridLocation.y + 5;
 
         yield return new WaitForSeconds(0);
-    }
+    }*/
     public void Shoot()
     {
+        
+
         ProjectileScript _pScript = objectPooler.SpawnFromPool(projectile.name, shotLocation.position, Quaternion.Euler(0, 0, 90), gameObject.transform).GetComponent<ProjectileScript>();
         if (status.directionFacing == Facing.Left)
         {
@@ -240,4 +266,29 @@ public class EnemyScript : MonoBehaviour
             previousTile.GetComponent<TileClass>().UnOccupy(true);
         }
     }
+
+    public void Counterable()
+    {
+        canBeCountered = true;
+        anim.Play("Counterable",1);
+    }
+
+    public void EndCounter()
+    {
+        anim.Play("DefaultState", 1);
+        canBeCountered = false;
+    }
+
+    public void EndAnimation()
+    {
+        animationEnd = true;
+    }
+
+    public void CounterFlashes()
+    {
+        var tweener = DOTween.To(() => transform.position, x => transform.position = x, transform.position, 3)
+            .OnStart(() => { anim.SetFloat("AttackSpeed", 0f); anim.Play("CounterState", 1); })
+            .OnComplete(() => { anim.SetFloat("AttackSpeed", 1f); GetComponent<EnemyAI>().isInCounterState = false; IsInterrupted = false; anim.Play("DefaultState", 1); });
+    }
+
 }

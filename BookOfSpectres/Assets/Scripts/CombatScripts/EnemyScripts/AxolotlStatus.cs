@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using DG.Tweening;
 public class AxolotlStatus : EntityStatus
 {
     [SerializeField]
     TextMeshPro hpText;
+
+    [SerializeField]
+    Transform visuals;
 
     public override void Start()
     {
@@ -26,5 +30,28 @@ public class AxolotlStatus : EntityStatus
         {
             hpText.color = Color.red;
         }
+    }
+
+    public override void PlayHitAnim(int damage)
+    {
+        anim.Play("HitJoltRight", 2);
+        if (damage > 40)
+        {
+            foreach (int h in HitLayers)
+            {
+                anim.Play("Hit", h, 0f);
+            }
+
+            EnemyScript _eScript = GetComponent<EnemyScript>();
+            if (_eScript.CanBeCountered == true)
+            {
+                _eScript.IsInterrupted = true;
+            }
+
+
+        }
+
+        
+
     }
 }

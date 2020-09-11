@@ -44,7 +44,7 @@ public class TutorialScript : MonoBehaviour
 
 
 
-        FindObjectOfType<PlayerScript>().MoveEvent += OnPlayerMove;
+        //FindObjectOfType<PlayerScript>().MoveEvent += OnPlayerMove;
         objectPooler = ObjectPooler.Instance;
 
         GameObject.Find("PlayerCombat").GetComponent<EntityStatus>().StatusEffects.Add(StatusEffect.Endure);
@@ -66,7 +66,7 @@ public class TutorialScript : MonoBehaviour
                     //Attack check
                     if (doOnce == false)
                     {
-                        FindObjectOfType<PlayerScript>().ShootEvent += AttackCheck;
+                        //FindObjectOfType<PlayerScript>().ShootEvent += AttackCheck;
                         doOnce = true;
                     }
                     break;
@@ -76,7 +76,7 @@ public class TutorialScript : MonoBehaviour
                     //Charge Attack check
                     if (doOnce == false)
                     {
-                        FindObjectOfType<PlayerScript>().ChargedShootEvent += ChargeAttackCheck;
+                        //FindObjectOfType<PlayerScript>().ChargedShootEvent += ChargeAttackCheck;
                         doOnce = true;
                     }
                     break;
@@ -150,7 +150,7 @@ public class TutorialScript : MonoBehaviour
 
     void ExecuteMovementCheck()
     {
-        FindObjectOfType<PlayerScript>().MoveEvent -= OnPlayerMove;
+        //FindObjectOfType<PlayerScript>().MoveEvent -= OnPlayerMove;
 
         inkTypewriterText.story.ChoosePathString("tutorial_2");
         objectPooler.StartWave();
@@ -208,7 +208,7 @@ public class TutorialScript : MonoBehaviour
     void ExecuteAttackCheck()
     {
 
-        FindObjectOfType<PlayerScript>().ShootEvent -= AttackCheck;
+        //FindObjectOfType<PlayerScript>().ShootEvent -= AttackCheck;
 
         inkTypewriterText.story.ChoosePathString("tutorial_4");
         inkTypewriterText.StartDialogue();
@@ -231,7 +231,7 @@ public class TutorialScript : MonoBehaviour
     void ExecuteChargeAttackCheck()
     {
 
-        FindObjectOfType<PlayerScript>().ChargedShootEvent -= ChargeAttackCheck;
+        //FindObjectOfType<PlayerScript>().ChargedShootEvent -= ChargeAttackCheck;
 
         inkTypewriterText.story.ChoosePathString("tutorial_5");
         inkTypewriterText.StartDialogue();

@@ -36,6 +36,14 @@ public class PlayerStatus : EntityStatus
         base.DealDamage(damage, zPos, amplitudeModifier, damageSource);
     }
 
+    public override void PlayHitAnim(int damage)
+    {
+        foreach (int h in HitLayers)
+        {
+            anim.Play("Hit", h, 0f);
+        }
+    }
+
     public override void Die()
     {
         
