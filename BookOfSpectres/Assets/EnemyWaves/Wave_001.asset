@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Wave_001
   m_EditorClassIdentifier: 
   enemies:
-  - {fileID: 1696991335855640315, guid: 8e4558bcd78ea71458e0be097a1fa686, type: 3}
+  - {fileID: 1531375180866872749, guid: 14f3d17fc5ce98f46851816f137c9dd4, type: 3}
   enemyPosition:
   - {x: 8, y: 2}
-  waveBGM: {fileID: 0}
+  waveBGM: {fileID: 8300000, guid: 956f93ba30770d34bb6aa60f0e1eaa53, type: 3}

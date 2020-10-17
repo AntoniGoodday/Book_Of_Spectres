@@ -10,11 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 1531375180866872738}
   - component: {fileID: 5463173782609893791}
-  - component: {fileID: 1531375180866872742}
   - component: {fileID: 1531375180866872739}
   - component: {fileID: 1531375180866872736}
   - component: {fileID: 3018162456049971562}
   - component: {fileID: 6836776739152974794}
+  - component: {fileID: 953968636}
+  - component: {fileID: 953968637}
   m_Layer: 0
   m_Name: AxolotlGhostRedux
   m_TagString: Untagged
@@ -62,29 +63,7 @@ MonoBehaviour:
   impulseSource: {fileID: 0}
   aiMastermind: {fileID: 0}
   hpText: {fileID: 0}
---- !u!114 &1531375180866872742
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1531375180866872749}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 095daf1291b12ce4cba1ca99557ad163, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentTile: {fileID: 0}
-  previousTile: {fileID: 0}
-  projectile: {fileID: 3420883151847970981, guid: d7c716c273855f64987f1e167558125c,
-    type: 3}
-  shotLocation: {fileID: 1531375182147401864}
-  movmentSpeed: 0.5
-  bfs: {fileID: 0}
-  enemyTileColour: {r: 0.5, g: 0, b: 0.5, a: 0}
-  alignedTiles: 0000000002000000
-  anim: {fileID: 0}
-  currentGridPosition: {x: 0, y: 0}
+  visuals: {fileID: 1531375182809301283}
 --- !u!95 &1531375180866872739
 Animator:
   serializedVersion: 3
@@ -95,7 +74,7 @@ Animator:
   m_GameObject: {fileID: 1531375180866872749}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 1da98b87d76fba7489928d064ff9109e, type: 2}
+  m_Controller: {fileID: 9100000, guid: 3902da838d8c7934ca4bdb55980ee811, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -256,6 +235,53 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &953968636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1531375180866872749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7678192541577a45bfe69283514dbea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isInCounterState: 0
+  canBeCounteredAgain: 1
+  stateName: 
+  aiType: 0
+--- !u!114 &953968637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1531375180866872749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7713f4311b0fbd4ab428996e54e349c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentTile: {fileID: 0}
+  previousTile: {fileID: 0}
+  projectile: {fileID: 3420883151847970981, guid: d7c716c273855f64987f1e167558125c,
+    type: 3}
+  shotLocation: {fileID: 1531375182147401864}
+  movmentSpeed: 0
+  currentTileClass: {fileID: 0}
+  bfs: {fileID: 0}
+  enemyTileColour: {r: 0.5, g: 0, b: 0.5, a: 0}
+  alignedTiles: 0000000002000000
+  anim: {fileID: 0}
+  currentGridPosition: {x: 0, y: 0}
+  isInterrupted: 0
+  canBeCountered: 0
+  animationEnd: 0
+  visuals: {fileID: 1531375182809301280}
+  movementRange: 1
+  movementSpeed: 0.16
+  heightAboveGround: -1.4
 --- !u!1 &1531375182147401867
 GameObject:
   m_ObjectHideFlags: 0

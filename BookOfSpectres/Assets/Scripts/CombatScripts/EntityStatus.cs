@@ -44,10 +44,14 @@ public class EntityStatus : MonoBehaviour
     public List<StatusEffect> StatusEffects { get => statusEffects; set => statusEffects = value; }
     public List<int> HitLayers { get => hitLayers; set => hitLayers = value; }
 
+    public virtual void OnEnable()
+    {
+        GetComponent<Collider>().enabled = true;
+        //UpdateUI();
+    }
+
     public virtual void Start()
     {
-
-
         objectPooler = ObjectPooler.Instance;
         aiMastermind = AiMastermind.Instance;
 
@@ -61,6 +65,8 @@ public class EntityStatus : MonoBehaviour
         UpdateUI();
         
     }
+
+   
 
     public virtual void DealDamage(int damage, float zPos = -1.4f, float amplitudeModifier = 0.05f, BulletAlignement damageSource = BulletAlignement.Enemy)
     {
@@ -134,13 +140,13 @@ public class EntityStatus : MonoBehaviour
     }
     public virtual void StartDying()
     {
-        anim.SetBool("isDying", true);
+        //anim.SetBool("isDying", true);
     }
 
     public virtual void Die()
     {
         aiMastermind.enemies.Remove(gameObject);
-        if(anim.GetBool("AttackToken") == true)
+        if(GetComponent<EnemyAI>().hasAttackToken == true)
         {
             for (int i = 0; i < aiMastermind.attackTokens.Count; i++)
             {
@@ -151,9 +157,11 @@ public class EntityStatus : MonoBehaviour
                     break;
                 }
             }
-            anim.SetBool("AttackToken", false);
+            GetComponent<EnemyAI>().hasAttackToken = false;
         }
         dieEvent?.Invoke();
+        GetComponent<EnemyAI>().die = true;
+        GetComponent<Collider>().enabled = false;
         anim.Play("Die");    
     }
 

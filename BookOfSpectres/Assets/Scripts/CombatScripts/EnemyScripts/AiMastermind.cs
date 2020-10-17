@@ -36,9 +36,9 @@ public class AiMastermind : MonoBehaviour
                 {
                     for (int j = 0; j < attackTokens.Count; j++)
                     {
-                        if (enemies[j].GetComponent<Animator>().GetBool("AttackToken") == false)
+                        if (enemies[j].GetComponent<EnemyAI>().hasAttackToken == false)
                         {
-                            enemies[j].GetComponent<Animator>().SetBool("AttackToken", true);
+                            enemies[j].GetComponent<EnemyAI>().hasAttackToken = true;
                             attackTokens[i] = false;
                             i = attackTokens.Count;
                             GameObject previousEnemy = enemies[j];

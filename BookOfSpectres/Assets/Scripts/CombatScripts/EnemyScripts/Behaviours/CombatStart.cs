@@ -24,8 +24,9 @@ public class StartCombat : State
         {
 
             //nextState = new EnemyIdle(enemy, bfs, anim, player, ai);
-            Type stateType = Type.GetType("EnemyIdle");
-            nextState = ai.customStates[stateType];
+            //Type stateType = Type.GetType("EnemyIdle");
+            //nextState = ai.customStates[stateType];
+            nextState = new ActionCooldown(enemy, bfs, anim, player, ai);
             stage = EVENT.EXIT;
         }
     }

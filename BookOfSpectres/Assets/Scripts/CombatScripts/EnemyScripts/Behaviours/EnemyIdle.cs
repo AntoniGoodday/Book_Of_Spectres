@@ -20,21 +20,27 @@ public class EnemyIdle : State
 
     public override void Update()
     {
-        if(IsOnSameRow())
+        if (!ai.wait)
         {
-            //nextState = new Attack(enemy, bfs, anim, player, ai);
-            ai.canBeCounteredAgain = true;
-            Type stateType = Type.GetType("Attack");
-            nextState = ai.customStates[stateType];
-            stage = EVENT.EXIT;
-        }
-        else
-        {
-            //nextState = new MoveVertical(enemy, bfs, anim, player, ai);
-            Type stateType = Type.GetType("Move");
-            nextState =  ai.customStates[stateType];
+            if (IsOnSameRow())
+            {
+                if (ai.hasAttackToken)
+                {
+                    //nextState = new Attack(enemy, bfs, anim, player, ai);
+                    ai.canBeCounteredAgain = true;
+                    Type stateType = Type.GetType("Attack");
+                    nextState = ai.customStates[stateType];
+                    stage = EVENT.EXIT;
+                }
+            }
+            else
+            {
+                //nextState = new MoveVertical(enemy, bfs, anim, player, ai);
+                Type stateType = Type.GetType("Move");
+                nextState = ai.customStates[stateType];
 
-            stage = EVENT.EXIT;
+                stage = EVENT.EXIT;
+            }
         }
     }
 

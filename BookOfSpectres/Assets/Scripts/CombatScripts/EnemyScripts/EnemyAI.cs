@@ -11,9 +11,14 @@ public class EnemyAI : MonoBehaviour
     BattlefieldScript bfs;
     Animator anim;
     State currentState;
+    public AiMastermind aiMastermind;
 
     public bool isInCounterState = false;
     public bool canBeCounteredAgain = true;
+    public bool wait = false;
+    public bool die = false;
+
+    public bool hasAttackToken = false;
 
     [SerializeField]
     string stateName;
@@ -46,16 +51,26 @@ public class EnemyAI : MonoBehaviour
         player = PlayerScript.Instance;
         bfs = BattlefieldScript.Instance;
         anim = this.GetComponent<Animator>();
+        aiMastermind = AiMastermind.Instance;
 
         InitializeStateMachine();
 
         currentState = new StartCombat(enemy, bfs, anim, player, this);
     }
 
+    public void Die()
+    {
+        currentState = new StartCombat(enemy, bfs, anim, player, this);
+        stateName = currentState.name.ToString();
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {
-        currentState = currentState.Process();
-        stateName = currentState.name.ToString();
+        if (die == false)
+        {
+            currentState = currentState.Process();
+            stateName = currentState.name.ToString();
+        }
     }
 }

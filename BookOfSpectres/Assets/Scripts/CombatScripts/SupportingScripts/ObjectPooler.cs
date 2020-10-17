@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Linq;
 using UnityEngine.Audio;
+using PlayerControlNamespace;
 public class ObjectPooler : MonoBehaviour
 {
 
@@ -230,22 +231,65 @@ public class ObjectPooler : MonoBehaviour
 
         ///REDO LATER
         //StartWave();
+        //StartCoroutine(WaveStart());
 
         //previousEnemyTypes.Clear();
     }
 
     public void StartWave()
     {
-
-        foreach(GameObject enemy in eWaves[waveNumber].enemies)
+        StartCoroutine(WaveStart());
+        /*foreach(GameObject enemy in eWaves[waveNumber].enemies)
         {
             
             GameObject _spawnedEnemy;
             _spawnedEnemy = SpawnFromPool(enemy.name, new Vector3(eWaves[waveNumber].enemyPosition[enemiesLeft].x, eWaves[waveNumber].enemyPosition[enemiesLeft].y,-1.4f), Quaternion.identity, transform);
 
             enemiesLeft++;
-        }
+        }*/
 
+    }
+
+    IEnumerator WaveStart()
+    {
+        enemiesLeft += eWaves[waveNumber].enemies.Count;
+
+        int _currentEnemy = 0;
+        float _animationTime = 0.5f;
+
+        List<GameObject> _spawnedEnemies = new List<GameObject>();
+        foreach (GameObject enemy in eWaves[waveNumber].enemies)
+        {
+            GameObject _spawnedEnemy;
+            _spawnedEnemy = SpawnFromPool(enemy.name, new Vector3(eWaves[waveNumber].enemyPosition[_currentEnemy].x, eWaves[waveNumber].enemyPosition[_currentEnemy].y, -1.4f), Quaternion.identity, transform);
+            _spawnedEnemy.GetComponent<EnemyAI>().wait = true;
+            _spawnedEnemies.Add(_spawnedEnemy);
+            _currentEnemy++;     
+            if (_spawnedEnemy.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("StartCombat"))
+            {
+                _animationTime = _spawnedEnemy.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0).Length;
+                yield return new WaitForSecondsRealtime(_animationTime);
+            }
+            else
+            {
+                yield return new WaitForSecondsRealtime(Random.Range(0.3f,0.6f));
+            }
+            if(waveNumber > 0)
+            {
+                _spawnedEnemy.GetComponent<EnemyAI>().wait = false;
+            }
+        }
+        //yield return new WaitForSecondsRealtime(_animationTime);
+
+        if (waveNumber == 0)
+        {
+            CombatMenu.Instance.TweenMenu();
+            PlayerScript.Instance.playerControl.Enable();
+        }
+        foreach(GameObject g in _spawnedEnemies)
+        {
+            g.GetComponent<EnemyAI>().wait = false;
+        }
     }
 
     /*public void SpawnWave()

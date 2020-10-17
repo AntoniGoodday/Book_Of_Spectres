@@ -57,6 +57,17 @@ public class Attack : State
 
     public override void Exit()
     {
+        for (int i = 0; i < ai.aiMastermind.attackTokens.Count; i++)
+        {
+            if (ai.aiMastermind.attackTokens[i] == false)
+            {
+                ai.aiMastermind.attackTokens[i] = true;
+                ai.aiMastermind.StartCoroutine("GiveToken", 1);
+                break;
+            }
+        }
+        ai.hasAttackToken = false;
+
         if (enemy.IsInterrupted)
         {
             enemy.InterruptedAnimationTime = interruptedAnimationTime;

@@ -74,6 +74,9 @@ public class PlayerScript : MonoBehaviour
         playerShoot = GetComponent<ICombatShoot>();
 
         playerSpell = GetComponent<ICombatSpell>();
+
+        playerControl.Disable();
+        isPaused = true;
     }
 
     private void OnEnable()
@@ -252,7 +255,8 @@ public class PlayerScript : MonoBehaviour
         //cardHolder.Purge();
         turnBarScript.Pause(false);
 
-        combatMenu.TweenMenu();
+        objectPooler.StartWave();
+        //combatMenu.TweenMenu();
         //canvasAnim.Play("MenuSlideIn");
     }
 

@@ -25,7 +25,7 @@ public class ActionCooldown : State
 
     public override void Update()
     {
-        if (coolingDown == false)
+        if (coolingDown == false && ai.wait == false)
         {
             nextState = new EnemyIdle(enemy, bfs, anim, player, ai);
             stage = EVENT.EXIT;
