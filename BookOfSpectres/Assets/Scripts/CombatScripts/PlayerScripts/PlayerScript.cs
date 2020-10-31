@@ -44,14 +44,10 @@ public class PlayerScript : MonoBehaviour
 
 
     bool isLerping = false;
-    bool isPaused = false;
-    bool dying = false;
     bool bufferedAttack = false;
     bool bufferedSpell = false;
 
-    public bool Dying { get => dying; set => dying = value; }
     public bool IsLerping { get => isLerping; set => isLerping = value; }
-    public bool IsPaused { get => isPaused; set => isPaused = value; }
     public bool BufferedAttack { get => bufferedAttack; set => bufferedAttack = value; }
     public bool BufferedSpell { get => bufferedSpell; set => bufferedSpell = value; }
 
@@ -65,7 +61,11 @@ public class PlayerScript : MonoBehaviour
     void Awake()
     {
 
-        playerControl = new PlayerControl();
+        //playerControl = new PlayerControl();
+
+        anim = GetComponent<Animator>();
+
+        status = GetComponent<EntityStatus>();
 
         Instance = this;
 
@@ -75,19 +75,10 @@ public class PlayerScript : MonoBehaviour
 
         playerSpell = GetComponent<ICombatSpell>();
 
-        playerControl.Disable();
-        isPaused = true;
+        
     }
 
-    private void OnEnable()
-    {
-        playerControl.Enable();
-    }
-
-    private void OnDisable()
-    {
-        playerControl.Disable();
-    }
+    
 
     private void Start()
     {
@@ -98,12 +89,10 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        if (IsPaused == false && Dying == false)
+        if (status.IsPaused == false && status.IsDying == false)
         {
             PlayerControls();
         }
-
        
     }
 
@@ -111,7 +100,7 @@ public class PlayerScript : MonoBehaviour
     {
         playerMove.Move();
         playerShoot.ChargeUpdate();
-        //playerSpell.UseSpell();
+        playerSpell.UseSpell();
 
         /*if (Input.GetButtonUp("Use"))
         {
@@ -127,7 +116,7 @@ public class PlayerScript : MonoBehaviour
     }
     #region Pausing/Unpausing
 
-    public void Paused()
+    /*public void Paused()
     {
         IsPaused = true;
     }
@@ -141,7 +130,7 @@ public class PlayerScript : MonoBehaviour
             Debug.Log("Held Shot Released");
             playerShoot.Shoot();
         }
-    }
+    }*/
 
     
     #endregion
@@ -151,6 +140,7 @@ public class PlayerScript : MonoBehaviour
         if(bufferedAttack)
         {
             playerShoot.Shoot();
+            bufferedAttack = false;
         }
     }
 
@@ -171,7 +161,7 @@ public class PlayerScript : MonoBehaviour
 
     void PlayerSpell()
     {
-        if (!IsPaused && !Dying)
+        if (!status.IsPaused && !status.IsDying)
         {
             if (cardHolder.spellMiniatures.Count > 0)
             {
@@ -186,7 +176,7 @@ public class PlayerScript : MonoBehaviour
     {
         if (turnBarScript.CurrentTurnTime >= turnBarScript.MaxTurnTime)
         {
-            if (IsPaused == false)
+            if (status.IsPaused == false)
             {
                 //objectPooler.PauseAll();
 
@@ -222,8 +212,6 @@ public class PlayerScript : MonoBehaviour
 
     public void StartCombat()
     {
-        anim = GetComponent<Animator>();
-        status = GetComponent<EntityStatus>();
         emotionAnim = GameObject.Find("PlayerEmotionSprite").GetComponent<Animator>();
         canvasAnim = GameObject.Find("CombatCanvas").GetComponent<Animator>();
         combatMenu = canvasAnim.GetComponent<CombatMenu>();
@@ -231,8 +219,8 @@ public class PlayerScript : MonoBehaviour
         turnBarScript = GameObject.Find("TurnBar").GetComponent<TurnBarScript>();
         //cardHolder = GameObject.Find("PlayerCanvas").GetComponent<CardHolder>();
 
-        CombatMenu.MenuUnPauseEvent += UnPaused;
-        CombatMenu.MenuPauseEvent += Paused;
+        //CombatMenu.MenuUnPauseEvent += UnPaused;
+        //CombatMenu.MenuPauseEvent += Paused;
 
         playerSpell.InitializeSpell();
         //cardHolder.Initialize();

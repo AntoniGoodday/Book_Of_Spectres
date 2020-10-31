@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-using PlayerControlNamespace;
-using UnityEngine.InputSystem;
 using System;
 
 public class PlayerShoot : MonoBehaviour, ICombatShoot
@@ -31,6 +29,7 @@ public class PlayerShoot : MonoBehaviour, ICombatShoot
     [SerializeField]
     ChargedPlayerShot chargedShot;
 
+    [SerializeField]
     bool isCharging = false;
     bool isHeld = false;
     bool canShoot = true;
@@ -38,8 +37,9 @@ public class PlayerShoot : MonoBehaviour, ICombatShoot
     private bool pauseHold = false;
 
     PlayerScript playerScript;
+    PlayerStatus status;
 
-    PlayerControl.DefaultControlsActions shootControls;
+    EntityInputManager inputManager;
 
     public float MaxShotChargeTime { get => maxShotChargeTime; set => maxShotChargeTime = value; }
     public float ShotChargeAmount { get => shotChargeAmount; set => shotChargeAmount = value; }
@@ -47,36 +47,33 @@ public class PlayerShoot : MonoBehaviour, ICombatShoot
     public bool PauseHold { get => pauseHold; set => pauseHold = value; }
     public bool IsHeld { get => isHeld; set => isHeld = value; }
     public bool CanShoot { get => canShoot; set => canShoot = value; }
-    
+    public bool IsCharging { get => isCharging; set => isCharging = value; }
 
     private void Start()
     {
         playerScript = GetComponent<PlayerScript>();
-        shootControls = playerScript.playerControl.DefaultControls;
+        status = GetComponent<PlayerStatus>();
+        inputManager = this.GetComponent<EntityInputManager>();
 
         standardShot = GetComponent<StandardPlayerShot>();
         chargedShot = GetComponent<ChargedPlayerShot>();
-
-      
-
-        shootControls.Shoot.started += context => Charge();
-        shootControls.Shoot.canceled += context => Shoot();
     }
 
 
     public void ChargeUpdate()
     {
-        if (isCharging == true)
+        if(inputManager.attack)
         {
-            shotChargeAmount += Time.deltaTime;
-            if (shotChargeAmount < maxShotChargeTime && shotChargeAmount > 0.05f)
+            IsCharging = true;
+
+            if (inputManager.attackHeldTime < maxShotChargeTime && inputManager.attackHeldTime > 0.05f)
             {
                 if (playerScript.chargeParticles[0].isPlaying == false)
                 {
                     playerScript.chargeParticles[0].Play();
                 }
             }
-            else if (shotChargeAmount >= maxShotChargeTime && shotFullyCharged == false)
+            else if (inputManager.attackHeldTime >= maxShotChargeTime && shotFullyCharged == false)
             {
 
                 playerScript.chargeParticles[0].Stop();
@@ -85,13 +82,19 @@ public class PlayerShoot : MonoBehaviour, ICombatShoot
 
             }
         }
+        else if(!inputManager.attack && IsCharging == true)
+        {
+            Shoot();
+            IsCharging = false;
+        }
     }
+
     public void Charge()
     {
         isHeld = true;
-        if (!playerScript.IsPaused)
+        if (!status.IsPaused)
         {
-            isCharging = true;
+            IsCharging = true;
         }
     }
 
@@ -105,21 +108,20 @@ public class PlayerShoot : MonoBehaviour, ICombatShoot
             return;
         }
 
-        if (!playerScript.IsPaused)
+        if (!status.IsPaused)
         {
-            if (ShotChargeAmount < maxShotChargeTime)
+            if (!shotFullyCharged)
             {
-                isCharging = false;
+                IsCharging = false;
                 ShootBasic();
                 shotChargeAmount = 0;
 
             }
-            else if (ShotChargeAmount >= maxShotChargeTime)
+            else
             {
-                isCharging = false;
+                IsCharging = false;
                 ShootCharged();
                 shotChargeAmount = 0;
-
             }
             playerScript.ClearChargeParticles();
         }

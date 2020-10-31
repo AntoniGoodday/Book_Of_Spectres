@@ -4,24 +4,48 @@ using UnityEngine;
 
 public class MoveVertical : Move
 {
-    bool processing = false;
-    public MoveVertical(EnemyScript _enemy, BattlefieldScript _bfs, Animator _anim, PlayerScript _player, EnemyAI _ai) : base(_enemy, _bfs, _anim, _player, _ai)
-    {
-        name = STATE.MOVE;
-    }
-
-
     public override void Enter()
     {
-
         base.Enter();
-        processing = false;
-        enemy.IsMoving = true;
     }
 
-    public override void Update()
+    public override void Tick()
     {
-        if(enemy.IsMoving == true && processing == false)
+        if (enemy.IsMoving == true && processing == false)
+        {
+            if(ai.entityInput.moveUp)
+            {
+                if(enemy.TileCheck(0, 1))
+                {
+                    processing = true;
+                    enemy.SetTileInfo(0, 1);
+                    enemy.GetComponent<IEnemyCombatMove>().Move();
+
+                }
+                else
+                {
+                    Cooldown();
+                }
+            }
+            else if(ai.entityInput.moveDown)
+            {
+                if (enemy.TileCheck(0, -1))
+                {
+                    processing = true;
+                    enemy.SetTileInfo(0, -1);
+                    enemy.GetComponent<IEnemyCombatMove>().Move();
+                }
+                else
+                {
+                    Cooldown();
+                }
+            }
+        }
+        else
+        {
+            Cooldown();
+        }
+        /*if(enemy.IsMoving == true && processing == false)
         {
             if (enemy.currentGridPosition.y < bfs.playerPosition.y)
             {
@@ -58,7 +82,12 @@ public class MoveVertical : Move
         else
         {
             Cooldown();
-        }
-        //base.Update();
+        }*/
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+
     }
 }

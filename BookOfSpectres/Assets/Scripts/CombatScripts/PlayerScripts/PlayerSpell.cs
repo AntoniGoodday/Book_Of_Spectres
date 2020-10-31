@@ -1,22 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using PlayerControlNamespace;
 public class PlayerSpell : MonoBehaviour, ICombatSpell
 {
     [SerializeField]
     CardHolder cardHolder;
     public CardHolder CardHolder { get => cardHolder; set => cardHolder = value; }
     PlayerScript playerScript;
+    PlayerStatus status;
+    [SerializeField]
+    bool spellCharge = false;
+    [SerializeField]
+    float chargeAmount = 0;
 
-    PlayerControl.DefaultControlsActions spellControls;
+    EntityInputManager inputManager;
     private void Start()
     {
         playerScript = PlayerScript.Instance;
-
-        spellControls = playerScript.playerControl.DefaultControls;
-
-        spellControls.Spell.canceled += context => UseSpell();
+        status = GetComponent<PlayerStatus>();
+        inputManager = GetComponent<EntityInputManager>();
     }
 
     public void InitializeSpell()
@@ -28,16 +30,23 @@ public class PlayerSpell : MonoBehaviour, ICombatSpell
 
     public void UseSpell()
     {
-        Debug.Log("spell");
-        if (!playerScript.IsPaused && !playerScript.Dying)
+        if (inputManager.strongAttack)
         {
-            Debug.Log(cardHolder.spellMiniatures.Count);
-            if (cardHolder.spellMiniatures.Count > 0)
+            spellCharge = true;
+            chargeAmount = inputManager.strongAttackHeldTime;
+        }
+        else
+        {
+            if (spellCharge == true)
             {
-                Debug.Log("spell used");
-                cardHolder.UseSpell(gameObject, playerScript.status, playerScript.spellOrigin[0].transform);
-                playerScript.anim.Play("Spell");
-                playerScript.spellParticles.Play();
+                if (cardHolder.spellMiniatures.Count > 0)
+                {
+                    cardHolder.UseSpell(gameObject, playerScript.status, playerScript.spellOrigin[0].transform);
+                    playerScript.anim.Play("Spell");
+                    playerScript.spellParticles.Play();
+                    chargeAmount = 0;
+                    spellCharge = false;
+                }
             }
         }
     }

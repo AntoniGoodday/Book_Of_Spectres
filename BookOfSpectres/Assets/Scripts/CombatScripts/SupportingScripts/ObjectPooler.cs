@@ -284,7 +284,6 @@ public class ObjectPooler : MonoBehaviour
         if (waveNumber == 0)
         {
             CombatMenu.Instance.TweenMenu();
-            PlayerScript.Instance.playerControl.Enable();
         }
         foreach(GameObject g in _spawnedEnemies)
         {

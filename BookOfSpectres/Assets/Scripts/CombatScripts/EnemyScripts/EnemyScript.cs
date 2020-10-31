@@ -39,7 +39,7 @@ public class EnemyScript : MonoBehaviour
     private RaycastHit hit;
     SpriteRenderer enemySprite;
     bool coroutineIsOn = false;
-    bool isPaused = false;
+    //bool isPaused = false;
     bool isRaycasting = true;
 
     float actionCooldown = 0.5f;
@@ -89,6 +89,8 @@ public class EnemyScript : MonoBehaviour
         enemySprite.sortingOrder = -(int)currentTileClass.gridLocation.y + 5;
 
         currentTileClass.occupied = true;
+
+        previousRaycastTile = currentRaycastTile;
 
     }
 
@@ -150,43 +152,6 @@ public class EnemyScript : MonoBehaviour
 
     }
 
-
-
-
-    /*public IEnumerator LerpMovement(float time)
-    {
-        if (coroutineIsOn == false)
-        {
-            coroutineIsOn = true;
-            float _elapsedTime = 0f;
-
-            //Set which tile the entity is on before it moves, so that it won't clip into another entity
-            previousTile.GetComponent<TileClass>().occupied = false;
-            currentTileClass.occupied = true;
-
-            Vector3 pT = new Vector3(previousTile.transform.position.x, previousTile.transform.position.y, -1.4f);
-            Vector3 cT = new Vector3(currentTile.transform.position.x, currentTile.transform.position.y, -1.4f);
-
-            while (_elapsedTime <= time)
-            {
-                if (isPaused == false)
-                {
-                    transform.position = Vector3.Lerp(pT, cT, (_elapsedTime / time));
-                    _elapsedTime += Time.deltaTime;
-                }
-                yield return new WaitForEndOfFrame();
-            }
-            transform.position = cT;
-            coroutineIsOn = false;
-        }
-
-        
-        //For continuous movement, resetting the delay
-        anim.SetBool("isMoving", false);
-        enemySprite.sortingOrder = -(int)currentTileClass.gridLocation.y + 5;
-
-        yield return new WaitForSeconds(0);
-    }*/
     public void Shoot()
     {
         
@@ -214,27 +179,27 @@ public class EnemyScript : MonoBehaviour
         previousRaycastTileClass.SetColour(previousRaycastTileClass.initialMaterialColour);
     }
 
-    public void Paused()
+    /*public void Paused()
     {
-        /*anim.enabled = false;
+        anim.enabled = false;
         ParticleSystem _pSys = status.hitParticles;
         if (_pSys.isPlaying)
         {
             _pSys.Pause();
-        }*/
+        }
         isPaused = true;
     }
     public void UnPaused()
     {
-        /*
+        
         anim.enabled = true;
         ParticleSystem _pSys = status.hitParticles;
         if (_pSys.isPaused)
         {
             _pSys.Play();
-        }*/
+        }
         isPaused = false;
-    }
+    }*/
 
     public bool TileCheck(int movementRangeX = 0, int movementRangeY = 0)
     {

@@ -51,8 +51,8 @@ public class PlayerDeck : MonoBehaviour
 
     void Save()
     {
-        GameObject _pStats = GameObject.Find("PlayerStats");
-        List<string> _spelldeck = _pStats.GetComponent<SaveLoadGamestate>().currentGameData.pData.spellDeck;
+
+        List<string> _spelldeck = SaveLoadGamestate.Instance.currentGameData.pData.spellDeck;
         _spelldeck.Clear();
         foreach (SpellCard s in pDeck)
         {

@@ -41,8 +41,19 @@ public class EntityStatus : MonoBehaviour
     public delegate void DieDelegate();
     public event DieDelegate dieEvent;
 
+    [SerializeField]
+    bool isPaused = false;
+    [SerializeField]
+    bool isDying = false;
+
+
+
+
     public List<StatusEffect> StatusEffects { get => statusEffects; set => statusEffects = value; }
     public List<int> HitLayers { get => hitLayers; set => hitLayers = value; }
+
+    public bool IsDying { get => isDying; set => isDying = value; }
+    public bool IsPaused { get => isPaused; set => isPaused = value; }
 
     public virtual void OnEnable()
     {
@@ -190,5 +201,15 @@ public class EntityStatus : MonoBehaviour
     public virtual void Initialize()
     {
 
+    }
+
+    public virtual void Paused()
+    {
+        IsPaused = true;
+    }
+
+    public virtual void UnPaused()
+    {
+        IsPaused = false;
     }
 }

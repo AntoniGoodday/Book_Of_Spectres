@@ -4,8 +4,6 @@ using EnumScript;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using DG.Tweening;
-
-using PlayerControlNamespace;
 public class PlayerMovement : MonoBehaviour, ICombatMove
 {
     public delegate void MoveDelegate(MoveDirection direction);
@@ -43,6 +41,7 @@ public class PlayerMovement : MonoBehaviour, ICombatMove
     private bool instantMove = true;
 
     PlayerScript playerScript;
+    PlayerStatus status;
 
     public int MovementRange { get => movementRange; set => movementRange = value; }
     public float MovementSpeed { get => movementSpeed; set => movementSpeed = value; }
@@ -50,14 +49,16 @@ public class PlayerMovement : MonoBehaviour, ICombatMove
     public List<TileAlignment> AlignedTiles { get => alignedTiles; set => alignedTiles = value; }
     public Color PlayerTileColour { get => playerTileColour; set => playerTileColour = value; }
 
-    PlayerControl.DefaultControlsActions movementControls;
+
+    EntityInputManager inputManager;
 
     Sequence moveSequence;
 
     private void Start()
     {
         playerScript = GetComponent<PlayerScript>();
-        movementControls = playerScript.playerControl.DefaultControls;
+        inputManager = this.GetComponent<EntityInputManager>();
+        status = GetComponent<PlayerStatus>();
 
         bfs = BattlefieldScript.Instance;
 
@@ -84,7 +85,7 @@ public class PlayerMovement : MonoBehaviour, ICombatMove
    
     public void Move()
     {
-         Vector2 _movementInput =  movementControls.Move.ReadValue<Vector2>();
+        Vector2 _movementInput = inputManager.movementVector;
 
         if (_movementInput.x != 0 || _movementInput.y != 0)
         {
@@ -99,56 +100,6 @@ public class PlayerMovement : MonoBehaviour, ICombatMove
             }
 
         }
-        #region LegacyInput
-        /*if (Input.GetButtonDown("MoveUp"))
-        {
-            if (playerScript.IsLerping == true)
-            {
-                lastMove = new Vector2(0, 1);
-                bufferedMove = true;
-            }
-            else
-            {
-                MovePlayer(new Vector2(0, 1));
-            }
-        }
-        else if (Input.GetButtonDown("MoveDown"))
-        {
-            if (playerScript.IsLerping == true)
-            {
-                lastMove = new Vector2(0, -1);
-                bufferedMove = true;
-            }
-            else
-            {
-                MovePlayer(new Vector2(0, -1));
-            }
-        }
-        else if (Input.GetButtonDown("MoveLeft"))
-        {
-            if (playerScript.IsLerping == true)
-            {
-                lastMove = new Vector2(-1, 0);
-                bufferedMove = true;
-            }
-            else
-            {
-                MovePlayer(new Vector2(-1, 0));
-            }
-        }
-        else if (Input.GetButtonDown("MoveRight"))
-        {
-            if (playerScript.IsLerping == true)
-            {
-                lastMove = new Vector2(1, 0);
-                bufferedMove = true;
-            }
-            else
-            {
-                MovePlayer(new Vector2(1, 0));
-            }
-        }*/
-        #endregion
     }
 
     private void MovePlayer(Vector2 direction)
@@ -283,7 +234,7 @@ public class PlayerMovement : MonoBehaviour, ICombatMove
 
     public void SetSortingOrder(int i)
     {
-        if (playerScript.Dying == false)
+        if (status.IsDying == false)
         {
             playerScript.playerSprite.sortingOrder = i;
             foreach(ParticleSystemRenderer p in playerScript.playerSprite.transform.GetComponentsInChildren<ParticleSystemRenderer>())
@@ -338,7 +289,7 @@ public class PlayerMovement : MonoBehaviour, ICombatMove
 
         while (_elapsedTime <= time)
         {
-            if (playerScript.IsPaused == false)
+            if (status.IsPaused == false)
             {
                 transform.position = Vector3.Lerp(pT, cT, (_elapsedTime / time));
                 _elapsedTime += Time.deltaTime;

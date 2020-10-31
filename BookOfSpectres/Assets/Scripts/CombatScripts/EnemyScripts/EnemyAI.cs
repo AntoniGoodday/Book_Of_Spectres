@@ -6,12 +6,13 @@ using System;
 public class EnemyAI : MonoBehaviour
 {
     
-    EnemyScript enemy;
-    PlayerScript player;
-    BattlefieldScript bfs;
-    Animator anim;
-    State currentState;
+    public EnemyScript enemy;
+    public PlayerScript player;
+    public BattlefieldScript bfs;
+    public Animator anim;
+    public State currentState;
     public AiMastermind aiMastermind;
+    public EntityInputManager entityInput;
 
     public bool isInCounterState = false;
     public bool canBeCounteredAgain = true;
@@ -20,29 +21,44 @@ public class EnemyAI : MonoBehaviour
 
     public bool hasAttackToken = false;
 
-    [SerializeField]
-    string stateName;
 
-    [SerializeField]
-    AIType aiType =  new AIType();
+    [SerializeField] private State initialState = null;
 
-    [SerializeField]
-    public Dictionary<Type, State> customStates;
+    public GameObject stateParent;
 
+    private StateMachine stateMachine;
 
-    public void InitializeStateMachine()
+    private StateMachine StateMachine
     {
-        var commonStates = new Dictionary<Type, State>()
+        get
         {
+            if(stateMachine != null)
+            {
+                return stateMachine;
+            }
 
-            {typeof(EnemyIdle), new EnemyIdle(enemy, bfs, anim, player, this) },
-            {typeof(Move), new MoveVertical(enemy, bfs, anim, player, this) },
-            {typeof(Attack), new Attack(enemy, bfs, anim, player, this) }
-            
-        };
+            stateMachine = new StateMachine(initialState);
 
-        customStates = commonStates;
+            return stateMachine;
+        }
+
     }
+
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+        currentState = StateMachine.CurrentState;
+        if (die == false)
+        {
+            StateMachine.StateMachineTick();
+        }
+    }
+
+    public void ChangeState(State state)
+    {
+        StateMachine.ChangeState(state);
+    }
+
 
     // Start is called before the first frame update
     void Start()
@@ -51,26 +67,14 @@ public class EnemyAI : MonoBehaviour
         player = PlayerScript.Instance;
         bfs = BattlefieldScript.Instance;
         anim = this.GetComponent<Animator>();
+        entityInput = this.GetComponent<EntityInputManager>();
         aiMastermind = AiMastermind.Instance;
-
-        InitializeStateMachine();
-
-        currentState = new StartCombat(enemy, bfs, anim, player, this);
     }
 
     public void Die()
     {
-        currentState = new StartCombat(enemy, bfs, anim, player, this);
-        stateName = currentState.name.ToString();
+        stateMachine.ChangeState(initialState);
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        if (die == false)
-        {
-            currentState = currentState.Process();
-            stateName = currentState.name.ToString();
-        }
-    }
+    
 }

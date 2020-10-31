@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class MoveHorizontal : Move
 {
-    bool processing = false;
-    public MoveHorizontal(EnemyScript _enemy, BattlefieldScript _bfs, Animator _anim, PlayerScript _player, EnemyAI _ai) : base(_enemy, _bfs, _anim, _player, _ai)
+    new bool processing = false;
+    /*public MoveHorizontal(EnemyScript _enemy, BattlefieldScript _bfs, Animator _anim, PlayerScript _player, EnemyAI _ai) : base(_enemy, _bfs, _anim, _player, _ai)
     {
         name = STATE.MOVE;
-    }
+    }*/
 
 
     public override void Enter()
@@ -18,7 +18,7 @@ public class MoveHorizontal : Move
         enemy.IsMoving = true;
     }
 
-    public override void Update()
+    public override void Tick()
     {
         if (enemy.IsMoving == true && processing == false)
         {

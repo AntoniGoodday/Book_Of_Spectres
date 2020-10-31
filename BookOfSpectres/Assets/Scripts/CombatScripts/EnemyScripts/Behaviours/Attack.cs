@@ -5,10 +5,13 @@ using DG.Tweening;
 public class Attack : State
 {
     float interruptedAnimationTime = 0;
-    public Attack(EnemyScript _enemy, BattlefieldScript _bfs, Animator _anim, PlayerScript _player, EnemyAI _ai) : base(_enemy, _bfs, _anim, _player, _ai)
+
+    [SerializeField] private State counterState;
+    [SerializeField] private State cooldownState;
+    /*public Attack(EnemyScript _enemy, BattlefieldScript _bfs, Animator _anim, PlayerScript _player, EnemyAI _ai) : base(_enemy, _bfs, _anim, _player, _ai)
     {
         name = STATE.ATTACK;
-    }
+    }*/
 
     public override void Enter()
     {
@@ -31,7 +34,7 @@ public class Attack : State
 
     }
 
-    public override void Update()
+    public override void Tick()
     {
 
         //interruptedAnimationTime = anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
@@ -39,15 +42,17 @@ public class Attack : State
         if (enemy.IsInterrupted == true && enemy.CanBeCountered)
         {
             ai.canBeCounteredAgain = false;
-            nextState = new CounterState(enemy, bfs, anim, player, ai);
-            previousState = this;
-            stage = EVENT.EXIT;
+            //nextState = new CounterState(enemy, bfs, anim, player, ai);
+            //previousState = this;
+            //stage = EVENT.EXIT;
+            ai.ChangeState(counterState);
         }
 
         if (enemy.AnimationEnd)
         {
-            nextState = new ActionCooldown(enemy, bfs, anim, player, ai);
-            stage = EVENT.EXIT;
+            //nextState = new ActionCooldown(enemy, bfs, anim, player, ai);
+            //stage = EVENT.EXIT;
+            ai.ChangeState(cooldownState);
         }
 
         //base.Update();

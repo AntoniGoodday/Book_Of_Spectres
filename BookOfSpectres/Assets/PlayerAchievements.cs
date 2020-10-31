@@ -6,6 +6,7 @@ using EnumScript;
 using UnityEngine.SceneManagement;
 public class PlayerAchievements : MonoBehaviour
 {
+    public static PlayerAchievements Instance;
 
     [SerializeField]
     private int shotBasicAttacks = 0;
@@ -32,10 +33,7 @@ public class PlayerAchievements : MonoBehaviour
 
     private void Start()
     {
-        FindObjectOfType<PlayerScript>().playerShoot.ShootEvent += OnPlayerShot;
-        FindObjectOfType<PlayerScript>().playerShoot.ChargedShootEvent += OnPlayerChargedShot;
-        //FindObjectOfType<PlayerScript>().MoveEvent += OnPlayerMove;
-        FindObjectOfType<PlayerStatus>().hitEvent += OnPlayerHit;
+        Instance = this;
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -51,6 +49,14 @@ public class PlayerAchievements : MonoBehaviour
                     FindObjectOfType<PlayerStatus>().hitEvent += OnPlayerHit;
                     break;
                 }
+        }
+
+        if (FindObjectOfType<PlayerScript>())
+        {
+            FindObjectOfType<PlayerScript>().playerShoot.ShootEvent += OnPlayerShot;
+            FindObjectOfType<PlayerScript>().playerShoot.ChargedShootEvent += OnPlayerChargedShot;
+            //FindObjectOfType<PlayerScript>().MoveEvent += OnPlayerMove;
+            FindObjectOfType<PlayerStatus>().hitEvent += OnPlayerHit;
         }
     }
 

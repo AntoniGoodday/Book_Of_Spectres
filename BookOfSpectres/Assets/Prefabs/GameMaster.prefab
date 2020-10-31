@@ -159,6 +159,145 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &1423921564489454640
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4029062528497439590}
+  - component: {fileID: 7542704809804043798}
+  m_Layer: 0
+  m_Name: Achievements
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4029062528497439590
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1423921564489454640}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8479646226808807820}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7542704809804043798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1423921564489454640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cf4722b8765f3a43aa93b76db400ea8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shotBasicAttacks: 0
+  shotChargedAttacks: 0
+  numberOfMoves: 0
+  projectilesDodged: 0
+  consecutiveProjectilesDodged: 0
+  recordConsecutiveProjectilesDodged: 0
+  timesHit: 0
+--- !u!1 &4443191697411779831
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6434030139479787665}
+  - component: {fileID: 3790272799319950461}
+  m_Layer: 0
+  m_Name: BattleInfo
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6434030139479787665
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4443191697411779831}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8479646226808807820}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3790272799319950461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4443191697411779831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 417c416ba868f064c83c3c6babbe7863, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &4445094145749971730
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1391374803788476651}
+  - component: {fileID: 8188568972542167207}
+  m_Layer: 0
+  m_Name: SaveLoadGamestate
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1391374803788476651
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4445094145749971730}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8479646226808807820}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8188568972542167207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4445094145749971730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ec90235f5e0afd4fa4d2f02e7d87fae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentGameData:
+    pData:
+      spellDeck: []
 --- !u!1 &8479646226412965300
 GameObject:
   m_ObjectHideFlags: 0
@@ -216,12 +355,11 @@ GameObject:
   - component: {fileID: 8479646226808807821}
   - component: {fileID: 6844711825799347675}
   - component: {fileID: 8170526102394778283}
-  - component: {fileID: 8479646226808807822}
   - component: {fileID: 1805342357}
   - component: {fileID: 1805342358}
   - component: {fileID: 7553983665879934601}
   m_Layer: 0
-  m_Name: PlayerStats
+  m_Name: GameMaster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -240,6 +378,9 @@ Transform:
   m_Children:
   - {fileID: 8479646226412965301}
   - {fileID: 248726685}
+  - {fileID: 1391374803788476651}
+  - {fileID: 4029062528497439590}
+  - {fileID: 6434030139479787665}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -326,25 +467,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfcd3867473246641b5eaa476b2939dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8479646226808807822
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8479646226808807810}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8cf4722b8765f3a43aa93b76db400ea8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shotBasicAttacks: 0
-  shotChargedAttacks: 0
-  numberOfMoves: 0
-  projectilesDodged: 0
-  consecutiveProjectilesDodged: 0
-  recordConsecutiveProjectilesDodged: 0
-  timesHit: 0
 --- !u!82 &1805342357
 AudioSource:
   m_ObjectHideFlags: 0
@@ -359,7 +481,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: 919a28fe73adcd848aeae0bac234ada0, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
-  m_Pitch: 0.99872375
+  m_Pitch: 1
   Loop: 0
   Mute: 0
   Spatialize: 0
@@ -467,3 +589,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa8abe3a169902645a665e0568b9b751, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  loadExternalScene: 1

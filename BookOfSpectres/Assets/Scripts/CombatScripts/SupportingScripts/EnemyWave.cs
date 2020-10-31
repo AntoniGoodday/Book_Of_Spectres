@@ -5,7 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Enemy Wave", menuName = "EnemyWave")]
 public class EnemyWave : ScriptableObject
 {
-
     public List<GameObject> enemies = new List<GameObject>();
 
     public List<Vector2> enemyPosition = new List<Vector2>();

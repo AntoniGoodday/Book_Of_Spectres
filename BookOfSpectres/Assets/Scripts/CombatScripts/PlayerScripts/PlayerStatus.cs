@@ -15,6 +15,8 @@ public class PlayerStatus : EntityStatus
 
     Animator canvasAnim;
 
+    CombatMenu combatMenu;
+
     [SerializeField]
     GameObject zoomInCam;
 
@@ -23,8 +25,11 @@ public class PlayerStatus : EntityStatus
 
     public override void Start()
     {
-       
-        
+        combatMenu = CombatMenu.Instance;
+
+        CombatMenu.MenuUnPauseEvent += UnPaused;
+        CombatMenu.MenuPauseEvent += Paused;
+
     }
 
     public override void DealDamage(int damage, float zPos = -1.4f, float amplitudeModifier = 0.05f, BulletAlignement damageSource = BulletAlignement.Enemy)
@@ -50,7 +55,7 @@ public class PlayerStatus : EntityStatus
         anim.Play("Die");
         vCamAnim.Play("PlayerDie");
         canvasAnim.Play("FadeOut", 2);
-        playerScript.Dying = true;
+        IsDying = true;
         playerScript.playerSprite.sortingOrder = 10;
         vCamAnim.gameObject.transform.GetComponentInChildren<Renderer>().sortingOrder = 9;
         zoomInCam.SetActive(true);
@@ -88,7 +93,7 @@ public class PlayerStatus : EntityStatus
     public override void ProgressWave()
     {
         //playerScript.Paused();
-        playerScript.IsPaused = true;
+        IsPaused = true;
     }
 
     ////DELETE LATER

@@ -22589,15 +22589,17 @@ GameObject:
   - component: {fileID: 1036179514}
   - component: {fileID: 7053574891365827749}
   - component: {fileID: 1036179515}
+  - component: {fileID: 1036179521}
   - component: {fileID: 1036179517}
   - component: {fileID: 3294384379806685978}
   - component: {fileID: 6352192671727343797}
+  - component: {fileID: 1036179518}
+  - component: {fileID: 1036179519}
+  - component: {fileID: 1036179520}
   - component: {fileID: 1036179516}
   - component: {fileID: 5349219370809265821}
   - component: {fileID: 5349219372277705827}
   - component: {fileID: 5349219371619477383}
-  - component: {fileID: 1036179518}
-  - component: {fileID: 1036179519}
   m_Layer: 0
   m_Name: PlayerCombat
   m_TagString: Player
@@ -22701,6 +22703,7 @@ MonoBehaviour:
   shotFullyCharged: 0
   standardShot: {fileID: 3294384379806685978}
   chargedShot: {fileID: 6352192671727343797}
+  isCharging: 0
 --- !u!114 &1036179519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22714,6 +22717,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardHolder: {fileID: 5349219371788696453}
+--- !u!114 &1036179520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1036179513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32351626cffca4d419ca63fcc3e9de25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1036179521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1036179513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a867b47cbf0fe354fb865715175e1ba8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveUp: 0
+  moveDown: 0
+  moveLeft: 0
+  moveRight: 0
+  movementVector: {x: 0, y: 0}
+  attack: 0
+  attackHeldTime: 0
+  strongAttack: 0
+  strongAttackHeldTime: 0
 --- !u!1 &1036687212
 GameObject:
   m_ObjectHideFlags: 0
@@ -38247,27 +38283,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &1974052677 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8479646226808807810, guid: 1c9de29c967bc9c4aae23a7ef82d99fd,
-    type: 3}
-  m_PrefabInstance: {fileID: 8479646226728533380}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1974052678
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1974052677}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ec90235f5e0afd4fa4d2f02e7d87fae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentGameData:
-    pData:
-      spellDeck: []
 --- !u!21 &1976142980
 Material:
   serializedVersion: 6
@@ -55649,7 +55664,7 @@ PrefabInstance:
         type: 3}
       propertyPath: eWaves.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 91d0df5ee7f35ae4da1f1a65e427c08f,
+      objectReference: {fileID: 11400000, guid: 111859d407efe7745a914ccade0469e6,
         type: 2}
     - target: {fileID: 6049951110725802973, guid: f1580f2bf5ed7804e94a49774b4f596d,
         type: 3}
@@ -55877,19 +55892,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1204157659, guid: 1c9de29c967bc9c4aae23a7ef82d99fd, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7553983665879934601, guid: 1c9de29c967bc9c4aae23a7ef82d99fd,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8479646226808807810, guid: 1c9de29c967bc9c4aae23a7ef82d99fd,
         type: 3}
       propertyPath: m_Name
-      value: PlayerStats
+      value: GameMaster
       objectReference: {fileID: 0}
     - target: {fileID: 8479646226808807820, guid: 1c9de29c967bc9c4aae23a7ef82d99fd,
         type: 3}

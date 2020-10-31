@@ -50,7 +50,7 @@ public class ProjectileScript : MonoBehaviour, IpooledObject
     private void Start()
     {
         
-        GameObject.Find("PlayerStats").GetComponent<PlayerAchievements>().AddProjectileToTrack(this);
+        PlayerAchievements.Instance.AddProjectileToTrack(this);
     }
 
     // Start is called before the first frame update

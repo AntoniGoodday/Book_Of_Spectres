@@ -4,29 +4,23 @@ using UnityEngine;
 using EnumScript;
 using System;
 [System.Serializable]
-public class State
+public class State : MonoBehaviour, IState
 {
-    public enum STATE
-    {
-        COMBAT_START, IDLE, MOVE, ATTACK, HIT, INTERRUPT, ACTION_COOLDOWN, COUNTER
-    };
-
     public enum EVENT
     {
         ENTER, UPDATE, EXIT
     };
 
-    public STATE name;
     public EVENT stage;
     protected EnemyScript enemy;
     protected PlayerScript player;
     protected BattlefieldScript bfs;
     protected Animator anim;
-    protected EnemyAI ai;
+    public EnemyAI ai;
     protected State nextState;
     protected State previousState;
 
-    public  State(EnemyScript _enemy, BattlefieldScript _bfs, Animator _anim, PlayerScript _player, EnemyAI _ai)
+    /*public  State(EnemyScript _enemy, BattlefieldScript _bfs, Animator _anim, PlayerScript _player, EnemyAI _ai)
     {
         enemy = _enemy;
         bfs = _bfs;
@@ -34,23 +28,38 @@ public class State
         player = _player;
         anim = _anim;
         ai = _ai;
+    }*/
+
+
+    private void Start()
+    {
+        if (ai != null)
+        {
+            enemy = ai.enemy;
+            bfs = ai.bfs;
+            stage = EVENT.ENTER;
+            player = ai.player;
+            anim = ai.anim;
+        }
     }
+
 
     public virtual void Enter()
     {
-        ai.InitializeStateMachine();
         stage = EVENT.UPDATE;
     }
 
-    public virtual void Update()
+    public virtual void Tick()
     {
-        stage = EVENT.UPDATE;
+        stage = EVENT.EXIT;
     }
 
     public virtual void Exit()
     {
-        stage = EVENT.EXIT;
+        stage = EVENT.ENTER;
     }
+
+
 
     public State Process()
     {
@@ -60,7 +69,7 @@ public class State
         }
         if(stage == EVENT.UPDATE)
         {
-            Update();
+            Tick();
         }
         if(stage == EVENT.EXIT)
         {
@@ -69,6 +78,9 @@ public class State
         }
         return this;
     }
+
+    
+
 
     public bool IsOnSameRow()
     {

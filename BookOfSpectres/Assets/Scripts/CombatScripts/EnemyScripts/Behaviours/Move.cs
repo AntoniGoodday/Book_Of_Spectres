@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class Move : State
 {
-    bool processing = false;
-    public Move(EnemyScript _enemy, BattlefieldScript _bfs, Animator _anim, PlayerScript _player, EnemyAI _ai) : base(_enemy, _bfs, _anim, _player, _ai)
+    public bool processing = false;
+
+    [SerializeField] private State cooldownState;
+    /*public Move(EnemyScript _enemy, BattlefieldScript _bfs, Animator _anim, PlayerScript _player, EnemyAI _ai) : base(_enemy, _bfs, _anim, _player, _ai)
     {
         name = STATE.MOVE;
-    }
+    }*/
 
 
     public override void Enter()
@@ -18,9 +20,9 @@ public class Move : State
         enemy.IsMoving = true;
     }
 
-    public override void Update()
+    public override void Tick()
     {
-        Debug.Log("Base Move");
+        
     }
 
     public override void Exit()
@@ -30,7 +32,9 @@ public class Move : State
 
     public void Cooldown()
     {
-        nextState = new ActionCooldown(enemy, bfs, anim, player, ai);
-        stage = EVENT.EXIT;
+        ai.ChangeState(cooldownState);
+        //nextState = cooldownState;
+        //nextState.stage = EVENT.ENTER;
+        //stage = EVENT.EXIT;
     }
 }
