@@ -65,7 +65,7 @@ public class PlayerMovement : MonoBehaviour, ICombatMove
         currentTile = bfs.battleTilesGrid[(int)bfs.playerSpawn.x, (int)bfs.playerSpawn.y];
         currentTileClass = currentTile.GetComponent<TileClass>();
 
-        transform.position = new Vector3(currentTile.transform.position.x, currentTile.transform.position.y, heightAboveGround);
+        transform.position = CombatCalculations.EntityPostition(currentTile,heightAboveGround);
         bfs.playerPosition = new Vector2Int((int)currentTileClass.gridLocation.x, (int)currentTileClass.gridLocation.y);
         previousTile = currentTile;
 
@@ -284,20 +284,20 @@ public class PlayerMovement : MonoBehaviour, ICombatMove
         currentTileClass.occupied = true;
 
 
-        Vector3 pT = new Vector3(previousTile.transform.position.x, previousTile.transform.position.y, heightAboveGround);
-        Vector3 cT = new Vector3(currentTile.transform.position.x, currentTile.transform.position.y, heightAboveGround);
+        Vector3 _previousTilePos = CombatCalculations.EntityPostition(previousTile, heightAboveGround);
+        Vector3 _currentTilePos = CombatCalculations.EntityPostition(currentTile, heightAboveGround);
 
         while (_elapsedTime <= time)
         {
             if (status.IsPaused == false)
             {
-                transform.position = Vector3.Lerp(pT, cT, (_elapsedTime / time));
+                transform.position = Vector3.Lerp(_previousTilePos, _currentTilePos, (_elapsedTime / time));
                 _elapsedTime += Time.deltaTime;
 
             }
             yield return new WaitForEndOfFrame();
         }
-        transform.position = cT;
+        transform.position = _currentTilePos;
 
         SetSortingOrder(-(int)currentTileClass.gridLocation.y + 5);
 
@@ -316,14 +316,16 @@ public class PlayerMovement : MonoBehaviour, ICombatMove
         yield return new WaitForSeconds(0);
     }
 
+    
+
     void TweenPlayer()
     {
-        float time = movementSpeed;
+        float _time = movementSpeed;
 
-        Vector3 pT = new Vector3(previousTile.transform.position.x, previousTile.transform.position.y, heightAboveGround);
-        Vector3 cT = new Vector3(currentTile.transform.position.x, currentTile.transform.position.y, heightAboveGround);
+        Vector3 _previousTilePos = CombatCalculations.EntityPostition(previousTile, heightAboveGround);
+        Vector3 _currentTilePos = CombatCalculations.EntityPostition(currentTile, heightAboveGround);
 
-        moveSequence.Join(DOTween.To(() => transform.position, x => transform.position = x, cT, time)
+        moveSequence.Join(DOTween.To(() => transform.position, x => transform.position = x, _currentTilePos, _time)
             .SetEase(Ease.OutBack)
             .OnStart(() => playerScript.IsLerping = true)
             .OnComplete(() => { playerScript.IsLerping = false; playerScript.EndMove(); }));
@@ -369,4 +371,6 @@ public class PlayerMovement : MonoBehaviour, ICombatMove
             }
         }
     }
+
+    
 }

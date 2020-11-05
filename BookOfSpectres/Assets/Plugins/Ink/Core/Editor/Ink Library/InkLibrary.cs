@@ -13,6 +13,7 @@ using Debug = UnityEngine.Debug;
 /// </summary>
 namespace Ink.UnityIntegration {
 	public class InkLibrary : ScriptableObject, IEnumerable<InkFile> {
+		public static System.Version versionCurrent = new System.Version(0,9,4);
 		public static bool created {
 			get {
 				// If it's null, there's no InkLibrary asset in the project
@@ -234,7 +235,7 @@ namespace Ink.UnityIntegration {
 
 		public static void Save () {
 			EditorUtility.SetDirty(Instance);
-			AssetDatabase.SaveAssets();
+			// AssetDatabase.SaveAssets();
 			EditorApplication.RepaintProjectWindow();
 		}
 
@@ -270,11 +271,17 @@ namespace Ink.UnityIntegration {
 		/// <param name="path">Path.</param>
 		public static InkFile GetInkFileWithFile (DefaultAsset file) {
 			if(InkLibrary.Instance.inkLibrary == null) return null;
-			InkFile inkFile = null;
-            if(!Instance.inkLibraryDictionary.TryGetValue(file, out inkFile)) {
-                Debug.LogWarning (file + " missing from ink library. Please rebuild.");
-            }
-			return inkFile;
+            if(Instance.inkLibraryDictionary == null) {
+				Debug.LogWarning("GetInkFileWithFile: inkLibraryDictionary was null! This should never occur, but is handled following a user reported bug. If this has never been seen long after 12/08/2020, it can be safely removed");
+				CreateDictionary();
+			}
+			foreach(InkFile inkFile in Instance.inkLibrary) {
+				if(inkFile.inkAsset == file) {
+					return inkFile;
+				}
+			}
+			Debug.LogWarning (file + " missing from ink library. Please rebuild.");
+			return null;
 		}
 
 		/// <summary>
@@ -307,6 +314,14 @@ namespace Ink.UnityIntegration {
 			return null;
 		}
 
+		public static int NumFilesInCompilingStackInState (InkCompiler.CompilationStackItem.State state) {
+			int count = 0;
+			foreach(var x in Instance.compilationStack) {
+				if(x.state == state) 
+					count++;
+			}
+			return count;
+		}
 		public static List<InkCompiler.CompilationStackItem> FilesInCompilingStackInState (InkCompiler.CompilationStackItem.State state) {
 			List<InkCompiler.CompilationStackItem> items = new List<InkCompiler.CompilationStackItem>();
 			foreach(var x in Instance.compilationStack) {

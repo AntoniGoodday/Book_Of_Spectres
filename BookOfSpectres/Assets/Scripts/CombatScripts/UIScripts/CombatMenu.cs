@@ -30,6 +30,8 @@ public class CombatMenu : MonoBehaviour
     CanvasGroup light;
 
 
+
+
     bool hasSlid = false;
 
     [SerializeField]
@@ -64,7 +66,7 @@ public class CombatMenu : MonoBehaviour
     ManaManager manaManager;
 
     [SerializeField]
-    GameObject visuals;
+    CanvasGroup visuals;
 
     [SerializeField]
     CanvasGroup flavourVisuals;
@@ -76,14 +78,17 @@ public class CombatMenu : MonoBehaviour
 
     public int MinimumSpellsChosen { get => minimumSpellsChosen; set => minimumSpellsChosen = value; }
 
-
+    #region delegates
     public delegate void MenuPauseDelegate();
-    public static event MenuPauseDelegate MenuPauseEvent;
+    public static event MenuPauseDelegate OnMenuPaused;
+    //public delegate void MenuOpenDelegate();
+    //public static event MenuOpenDelegate OnMenuOpen;
     public delegate void MenuUnPauseDelegate();
-    public static event MenuUnPauseDelegate MenuUnPauseEvent;
+    public static event MenuUnPauseDelegate OnMenuUnpaused;
 
     public delegate void UILoadDelegate();
     public static event UILoadDelegate UILoadEvent;
+    #endregion
 
     public static CombatMenu Instance;
 
@@ -91,9 +96,24 @@ public class CombatMenu : MonoBehaviour
 
     private void Awake()
     {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-        initialPosition = visuals.GetComponent<RectTransform>().localPosition;
-        destinationPosition = initialPosition + new Vector3(850, 0, 0);
+        
+        if (Instance == null)
+        {
+            DontDestroyOnLoad(this);
+            Instance = this;
+            GetComponent<Canvas>().worldCamera = Camera.main;
+            SceneManager.sceneLoaded += OnSceneLoaded;
+            EncounterManager.OnSceneChange += OnActiveScene;
+            initialPosition = visuals.GetComponent<RectTransform>().localPosition;
+            destinationPosition = initialPosition + new Vector3(850, 0, 0);
+            SceneManager.UnloadSceneAsync("UIScene");
+        }
+        else
+        {
+            SceneManager.UnloadSceneAsync("UIScene");
+            Destroy(this);
+        }
+        
 
         //TweenMenu();
         //playerControl = new PlayerControl();
@@ -103,38 +123,47 @@ public class CombatMenu : MonoBehaviour
 
     private void Start()
     {
-        SceneManager.UnloadSceneAsync("BattleUIScene");
-        if (Instance == null)
-        {
-            DontDestroyOnLoad(this);
-            Instance = this;
-            GetComponent<Canvas>().worldCamera = Camera.main;
-            LoadPlayerStats();
-            UILoadEvent?.Invoke();
-        }
-        else
-        {
-            Destroy(this);
-        }
+        
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (SceneManager.GetActiveScene().buildIndex > 2)
+        Debug.Log(scene.name);
+        if(scene.name.ToLower() == "uiscene")
         {
-            //LoadPlayerStats();
-            //UILoadEvent?.Invoke();
-            if (hasToRestart == true)
+            if(SceneManager.GetActiveScene().name.ToLower().Contains("battle"))
             {
-                canvasAnimator.Rebind();
-                hasToRestart = false;
-            }
-            else
-            {
-                hasToRestart = true;
+                Debug.Log("in battle");
+                visuals.alpha = 1;
+                LoadPlayerStats();
+                UILoadEvent?.Invoke();
+                return;
             }
         }
 
+        if (scene.name.ToLower().Contains("battle"))
+        {
+            Debug.Log("in battle");
+            visuals.alpha = 1;
+            LoadPlayerStats();
+        }
+        else
+        {
+            Debug.Log("out of battle");
+            visuals.alpha = 0;
+        }
+        UILoadEvent?.Invoke();
+    }
+
+    void OnActiveScene()
+    {
+        string _sceneName = SceneManager.GetActiveScene().name.ToLower();
+        if (_sceneName.Contains("battle"))
+        {
+            Debug.Log("in battle");
+            visuals.alpha = 1;
+            LoadPlayerStats();
+        }
     }
 
     public void ReadyButton()
@@ -211,16 +240,9 @@ public class CombatMenu : MonoBehaviour
                 .Join(DOTween.To(() => darkness.alpha, x => darkness.alpha = x, 0f, 0.5f))
                 .OnComplete(() => Invoke(s, 0))
                 .SetUpdate(true)
-                .Play();
-
-        
-
-        
+                .Play(); 
     }
-
  
-
-
     public void FlashScreen(string s)
     {
         DOTween.Init();
@@ -235,11 +257,30 @@ public class CombatMenu : MonoBehaviour
                 .Play();
     }
 
+    public void FadeOut()
+    {
+        DOTween.Init();
+
+        Sequence _fadeOut = DOTween.Sequence();
+
+        CanvasGroup _visual = visuals;
+
+
+
+        _fadeOut.Append(DOTween.To(() => _visual.alpha, x => _visual.alpha = x, 0, 0.5f))
+            .Play();
+    }
+
     public void MenuPause()
     {
         //playerControl.DefaultControls.Submit.Enable();
 
         //WIP MANA< CHANGE LATER
+        if(objectPooler == null)
+        {
+            objectPooler = ObjectPooler.Instance;
+        }
+
         if (objectPooler.isPaused == false)
         {
             objectPooler.PauseAll();
@@ -373,30 +414,38 @@ public class CombatMenu : MonoBehaviour
 
     public void MenuOpened()
     {
-        MenuPauseEvent?.Invoke();
+        OnMenuPaused?.Invoke();
         this.GetComponent<CanvasGroup>().interactable = true;
     }
 
     public void MenuClosed()
     {
-        MenuUnPauseEvent?.Invoke();
+        OnMenuUnpaused?.Invoke();
         this.GetComponent<CanvasGroup>().interactable = false;
     }
 
     public void LoadPlayerStats()
     {
-        visuals.SetActive(true);
+        visuals.alpha = 1;
 
-        GetComponent<Canvas>().worldCamera = GameObject.Find("MainVirtualCam").GetComponent<Camera>();
+        //GetComponent<Canvas>().worldCamera = GameObject.Find("MainVirtualCam").GetComponent<Camera>();
 
         UnityEngine.Random.seed = System.Environment.TickCount;
         objectPooler = ObjectPooler.Instance;
-        playerDeck = PlayerDeck.Instance;
+        
         playerAttributes = PlayerAttributes.Instance;
 
         firstButton = GameObject.Find("Slot1");
 
-        canvasAnimator = gameObject.GetComponent<Animator>();
+        //canvasAnimator = gameObject.GetComponent<Animator>();
+        if(PlayerDeck.Instance != null)
+        {
+            playerDeck = PlayerDeck.Instance;
+        }
+        else
+        {
+            Debug.Log("no player deck");
+        }
 
         foreach (SpellCard d in playerDeck.pDeck)
         {

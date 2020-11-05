@@ -16,9 +16,7 @@ public class PlayerDeck : MonoBehaviour
 
     public List<SpellCard> pDeck = new List<SpellCard>();
 
-    
-
-    private void Start()
+    private void Awake()
     {
         if (Instance == null)
         {
@@ -28,13 +26,15 @@ public class PlayerDeck : MonoBehaviour
             //LoadFromSave();
             SaveLoadGamestate.LoadEvent += LoadFromSave;
             SaveLoadGamestate.SaveEvent += Save;
-            
+
         }
         else
         {
             Destroy(this);
         }
     }
+
+   
 
     void LoadFromSave()
     {

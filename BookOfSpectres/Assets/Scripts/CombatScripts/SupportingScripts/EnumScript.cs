@@ -34,7 +34,7 @@ namespace EnumScript
 
     public enum DialogueBoxPosition { Left = 0, Right = 1}
 
-    public enum Expression { Neutral = 0, Angry = 1, Smug = 2, Think = 3, Annoyed = 4, Surprised = 5, Flustered = 6 }
+    public enum Expression { neutral = 0, angry = 1, smug = 2, think = 3, annoyed = 4, surprised = 5, flustered = 6 }
 
     public enum Speaker { Phoebe = 0, Axolotl = 1}
 

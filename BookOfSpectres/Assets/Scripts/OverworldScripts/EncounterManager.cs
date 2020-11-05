@@ -10,6 +10,12 @@ public class EncounterManager : MonoBehaviour
 
     public static EncounterManager Instance;
 
+    public delegate void EncounterStarted();
+    public static event EncounterStarted OnEncounterStart;
+
+    public delegate void ActiveSceneChanged();
+    public static event ActiveSceneChanged OnSceneChange;
+
     private void Start()
     {
         Instance = this;
@@ -31,12 +37,33 @@ public class EncounterManager : MonoBehaviour
         if (_c != null)
         {
             BattleInfo.Instance.currentEncounter = _c;
+            StartEncounter();
         }
     }
 
     public void GenerateEncounter(CombatEncounter encounter)
     {
         BattleInfo.Instance.currentEncounter = encounter;
+        StartEncounter();
+    }
+
+    void StartEncounter()
+    {
+        OnEncounterStart();
+        bool _sceneLoaded = false;
+        if (_sceneLoaded == false)
+        {
+            SceneManager.LoadScene("BattleTest", LoadSceneMode.Additive);
+        }
+
+        StartCoroutine(SetActiveScene());
+    }
+
+    IEnumerator SetActiveScene()
+    {
+        yield return null;
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName("BattleTest"));
+        OnSceneChange();
     }
 }
 

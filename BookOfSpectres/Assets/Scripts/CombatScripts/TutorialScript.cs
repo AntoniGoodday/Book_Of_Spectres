@@ -85,7 +85,7 @@ public class TutorialScript : MonoBehaviour
                 {
                     if (doOnce == false)
                     {
-                        CombatMenu.MenuPauseEvent += MenuCheck;
+                        CombatMenu.OnMenuPaused += MenuCheck;
                         doOnce = true;
                     }
                     break;
@@ -94,7 +94,7 @@ public class TutorialScript : MonoBehaviour
                 {
                     if (doOnce == false)
                     {
-                        CombatMenu.MenuUnPauseEvent += MenuEndCheck;
+                        CombatMenu.OnMenuUnpaused += MenuEndCheck;
                         doOnce = true;
                     }
                     break;
@@ -256,7 +256,7 @@ public class TutorialScript : MonoBehaviour
 
     void ExecuteMenuCheck()
     {
-        CombatMenu.MenuPauseEvent -= MenuCheck;
+        CombatMenu.OnMenuPaused -= MenuCheck;
 
         inkTypewriterText.story.ChoosePathString("tutorial_6");
         inkTypewriterText.StartDialogue();
@@ -281,7 +281,7 @@ public class TutorialScript : MonoBehaviour
     void ExecuteEndMenuCheck()
     {
 
-        CombatMenu.MenuUnPauseEvent -= MenuEndCheck;
+        CombatMenu.OnMenuUnpaused -= MenuEndCheck;
 
         inkTypewriterText.story.ChoosePathString("tutorial_7");
         inkTypewriterText.StartDialogue();

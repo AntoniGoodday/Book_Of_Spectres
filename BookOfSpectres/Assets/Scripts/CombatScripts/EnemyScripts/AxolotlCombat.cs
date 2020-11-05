@@ -23,15 +23,15 @@ public class AxolotlCombat : EnemyScript, IEnemyCombatMove
 
     public void Move()
     {
-        float time = movementSpeed;
+        float _time = movementSpeed;
 
         previousTile.GetComponent<TileClass>().occupied = false;
         currentTileClass.occupied = true;
 
-        Vector3 pT = new Vector3(previousTile.transform.position.x, previousTile.transform.position.y, heightAboveGround);
-        Vector3 cT = new Vector3(currentTile.transform.position.x, currentTile.transform.position.y, heightAboveGround);
+        Vector3 pT = CombatCalculations.EntityPostition(previousTile, heightAboveGround);
+        Vector3 cT = CombatCalculations.EntityPostition(currentTile, heightAboveGround);
 
-        moveTween = DOTween.To(() => transform.position, x => transform.position = x, cT, time)
+        moveTween = DOTween.To(() => transform.position, x => transform.position = x, cT, _time)
             .SetEase(Ease.OutBack)
             //.OnStart(() => playerScript.IsLerping = true)
             .OnComplete(() => { IsMoving = false; });

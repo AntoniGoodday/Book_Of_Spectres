@@ -27,8 +27,8 @@ public class PlayerStatus : EntityStatus
     {
         combatMenu = CombatMenu.Instance;
 
-        CombatMenu.MenuUnPauseEvent += UnPaused;
-        CombatMenu.MenuPauseEvent += Paused;
+        CombatMenu.OnMenuUnpaused += UnPaused;
+        CombatMenu.OnMenuPaused += Paused;
 
     }
 
@@ -54,7 +54,8 @@ public class PlayerStatus : EntityStatus
         
         anim.Play("Die");
         vCamAnim.Play("PlayerDie");
-        canvasAnim.Play("FadeOut", 2);
+        //canvasAnim.Play("FadeOut", 2);
+        combatMenu.FadeOut();
         IsDying = true;
         playerScript.playerSprite.sortingOrder = 10;
         vCamAnim.gameObject.transform.GetComponentInChildren<Renderer>().sortingOrder = 9;

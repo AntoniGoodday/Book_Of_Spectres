@@ -181,18 +181,17 @@ public class PlayerScript : MonoBehaviour
                 //objectPooler.PauseAll();
 
 
-                CombatMenu _tempCombatMenu = canvasAnim.gameObject.GetComponent<CombatMenu>();
 
                 List<SpellCard> _tempSpellList = new List<SpellCard>();
 
-                foreach (SpellCard s in _tempCombatMenu.playerCombatInUse)
+                foreach (SpellCard s in combatMenu.playerCombatInUse)
                 {
                     _tempSpellList.Add(s);
                 }
 
                 foreach (SpellCard s in _tempSpellList)
                 {
-                    _tempCombatMenu.MoveCardToDestination(s, CardDestination.Combat, CardDestination.Graveyard);
+                    combatMenu.MoveCardToDestination(s, CardDestination.Combat, CardDestination.Graveyard);
                 }
 
                 playerSpell.CardHolder.Purge();
@@ -213,8 +212,7 @@ public class PlayerScript : MonoBehaviour
     public void StartCombat()
     {
         emotionAnim = GameObject.Find("PlayerEmotionSprite").GetComponent<Animator>();
-        canvasAnim = GameObject.Find("CombatCanvas").GetComponent<Animator>();
-        combatMenu = canvasAnim.GetComponent<CombatMenu>();
+        combatMenu = CombatMenu.Instance;
         firstButton = GameObject.Find("Slot1");
         turnBarScript = GameObject.Find("TurnBar").GetComponent<TurnBarScript>();
         //cardHolder = GameObject.Find("PlayerCanvas").GetComponent<CardHolder>();
@@ -226,18 +224,16 @@ public class PlayerScript : MonoBehaviour
         //cardHolder.Initialize();
         status.Initialize();
 
-        CombatMenu _tempCombatMenu = canvasAnim.gameObject.GetComponent<CombatMenu>();
-
         List<SpellCard> _tempSpellList = new List<SpellCard>();
 
-        foreach (SpellCard s in _tempCombatMenu.playerCombatInUse)
+        foreach (SpellCard s in combatMenu.playerCombatInUse)
         {
             _tempSpellList.Add(s);
         }
 
         foreach (SpellCard s in _tempSpellList)
         {
-            _tempCombatMenu.MoveCardToDestination(s, CardDestination.Combat, CardDestination.Graveyard);
+            combatMenu.MoveCardToDestination(s, CardDestination.Combat, CardDestination.Graveyard);
         }
 
         //cardHolder.Purge();

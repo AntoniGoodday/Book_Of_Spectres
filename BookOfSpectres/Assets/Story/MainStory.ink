@@ -1,11 +1,11 @@
-EXTERNAL GoToScene(x)
+//EXTERNAL GoToScene(x)
 VAR controllerConnected = false
 
 
-
+=== expression_test ===
 Phoebe: Neutral
-<expression=Angry>Angry
-<expression=Smug>Smug
+Phoebe-imageright: <expression=Angry>Excellent point miss Phoebe, however...
+<expression=Smug><clearspeakers=others>Smug
 <expression=Think>Think
 <expression=Annoyed>Annoyed
 <expression=Surprised>Surprised
@@ -20,7 +20,15 @@ Phoebe: Neutral
     <expression=Smug>We can use them for big pits!
 - <expression=Neutral>End of dialogue for now.
 ->DONE
-
+//<endaction=changescene,MenuScene>
+=== simple_test ===
+Phoebe: Never
+Gonna
+Give
+You
+Up
+-
+->END
 
 === tutorial_1 ===
 Phoebe: Hello!
@@ -119,7 +127,7 @@ I think this is th-{GoToScene("CreditsScene")}
 -> END
 
 === battleFlavourText ===
-{~<animation=subtlepos>You feel like you're going to have a bad time.</animation>|<animation=subtlepos>You felt your sins crawling on your back.</animation>}
+{~<bounce>You feel like you're going to have a bad time.</bounce>|<bounce>You felt your sins crawling on your back.</bounce>}
 -> battleFlavourText
 
 === function GoToScene(x) ===

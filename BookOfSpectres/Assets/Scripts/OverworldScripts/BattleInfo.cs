@@ -8,8 +8,11 @@ public class BattleInfo : MonoBehaviour
     public static BattleInfo Instance;
     public CombatEncounter currentEncounter;
 
-    private void Start()
+    private void Awake()
     {
-        Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+        }
     }
 }

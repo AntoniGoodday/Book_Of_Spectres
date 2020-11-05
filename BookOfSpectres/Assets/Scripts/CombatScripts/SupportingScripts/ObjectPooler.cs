@@ -54,6 +54,8 @@ public class ObjectPooler : MonoBehaviour
     public string DialogueKnot { get => dialogueKnot; set => dialogueKnot = value; }
     public string SceneName { get => sceneName; set => sceneName = value; }
 
+    CombatEncounter currentEncounter;
+
     private void Awake()
     {
         LoadUI.UILoadEvent += UILoaded;
@@ -67,11 +69,13 @@ public class ObjectPooler : MonoBehaviour
         Instance = this;
 
 
-        
 
+        currentEncounter = BattleInfo.Instance.currentEncounter;
         LevelStart();
 
     }
+
+    
 
     void UILoaded()
     {
@@ -113,6 +117,7 @@ public class ObjectPooler : MonoBehaviour
             objectToSpawn = Instantiate(peekObjectToSpawn.gameObject);
             objectToSpawn.name = peekObjectToSpawn.name;
             allPooledObjects.Add(objectToSpawn);
+            //objectToSpawn.transform.position = position;
             objectToSpawn.transform.position = position;
             objectToSpawn.transform.rotation = rotation;
             objectToSpawn.transform.parent = parent;
@@ -150,9 +155,11 @@ public class ObjectPooler : MonoBehaviour
         return objectToSpawn;
     }
 
-    void LevelStart()
+    public void LevelStart()
     {
         poolDictionary = new Dictionary<string, Queue<GameObject>>();
+
+        eWaves = currentEncounter.enemyWaves;
 
         for (int i = 0; i < eWaves.Count; i++)
         {
@@ -261,7 +268,8 @@ public class ObjectPooler : MonoBehaviour
         foreach (GameObject enemy in eWaves[waveNumber].enemies)
         {
             GameObject _spawnedEnemy;
-            _spawnedEnemy = SpawnFromPool(enemy.name, new Vector3(eWaves[waveNumber].enemyPosition[_currentEnemy].x, eWaves[waveNumber].enemyPosition[_currentEnemy].y, -1.4f), Quaternion.identity, transform);
+            //_spawnedEnemy = SpawnFromPool(enemy.name, new Vector3(eWaves[waveNumber].enemyPosition[_currentEnemy].x, eWaves[waveNumber].enemyPosition[_currentEnemy].y, -1.4f), Quaternion.identity, transform);
+            _spawnedEnemy = SpawnFromPool(enemy.name, CombatCalculations.EntityPostition(eWaves[waveNumber].enemyPosition[_currentEnemy], this.transform.position.z + -1.4f), Quaternion.identity, transform);
             _spawnedEnemy.GetComponent<EnemyAI>().wait = true;
             _spawnedEnemies.Add(_spawnedEnemy);
             _currentEnemy++;     
@@ -391,7 +399,10 @@ public class ObjectPooler : MonoBehaviour
             {
                 if (dialogueKnot == "")
                 {
-                    SceneManager.LoadScene(sceneName);
+                    if (sceneName != "")
+                    {
+                        SceneManager.LoadScene(sceneName);
+                    }
                 }
                 else
                 {

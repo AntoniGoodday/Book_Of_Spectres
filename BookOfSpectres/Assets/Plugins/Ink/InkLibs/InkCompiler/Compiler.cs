@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.IO;
 using System.Collections.Generic;
 using Ink;
 
@@ -15,21 +15,33 @@ namespace Ink
             public Ink.IFileHandler fileHandler;
         }
 
-        public List<string> errors {
-            get {
-                return _errors;
-            }
-        }
+        
 
-        public List<string> warnings {
-            get {
-                return _warnings;
-            }
-        }
+		// Utility class for the ink compiler, used to work out how to find include files and their contents
+		public class UnityInkFileHandler : IFileHandler
+		{
+			private readonly string rootDirectory;
 
-        public List<string> authorMessages {
+			public UnityInkFileHandler(string rootDirectory)
+			{
+				this.rootDirectory = rootDirectory;
+			}
+			
+			public string ResolveInkFilename(string includeName)
+			{
+				// Convert to Unix style, and then use FileInfo.FullName to parse any ..\
+				return new FileInfo(Path.Combine(rootDirectory, includeName).Replace('\\', '/')).FullName;
+			}
+
+			public string LoadInkFileContents(string fullFilename)
+			{
+				return File.ReadAllText(fullFilename);
+			}
+		}
+
+        public Parsed.Story parsedStory {
             get {
-                return _authorMessages;
+                return _parsedStory;
             }
         }
 
@@ -41,20 +53,25 @@ namespace Ink
                 _pluginManager = new PluginManager (_options.pluginNames);
         }
 
+        public Parsed.Story Parse()
+        {
+            _parser = new InkParser(_inputString, _options.sourceFilename, OnParseError, _options.fileHandler);
+            _parsedStory = _parser.Parse();
+            return _parsedStory;
+        }
+
         public Runtime.Story Compile ()
         {
-            _parser = new InkParser (_inputString, _options.sourceFilename, OnError, _options.fileHandler);
-
-            _parsedStory = _parser.Parse ();
+            Parse();
 
             if( _pluginManager != null )
                 _pluginManager.PostParse(_parsedStory);
 
-            if (_parsedStory != null && _errors.Count == 0) {
+            if (_parsedStory != null && !_hadParseError) {
 
                 _parsedStory.countAllVisits = _options.countAllVisits;
 
-                _runtimeStory = _parsedStory.ExportRuntime (OnError);
+                _runtimeStory = _parsedStory.ExportRuntime (_options.errorHandler);
 
                 if( _pluginManager != null )
                     _pluginManager.PostExport (_parsedStory, _runtimeStory);
@@ -191,31 +208,24 @@ namespace Ink
             return null;
         }
 
-        internal struct DebugSourceRange
+        public struct DebugSourceRange
         {
             public int length;
             public Runtime.DebugMetadata debugMetadata;
             public string text;
         }
 
-        void OnError (string message, ErrorType errorType)
+        // Need to wrap the error handler so that we know
+        // when there was a critical error between parse and codegen stages
+        void OnParseError (string message, ErrorType errorType)
         {
-        	switch (errorType) {
-        	case ErrorType.Author:
-        		_authorMessages.Add (message);
-        		break;
-
-        	case ErrorType.Warning:
-        		_warnings.Add (message);
-        		break;
-
-        	case ErrorType.Error:
-        		_errors.Add (message);
-        		break;
-        	}
-
+            if( errorType == ErrorType.Error )
+                _hadParseError = true;
+            
             if (_options.errorHandler != null)
                 _options.errorHandler (message, errorType);
+            else
+                throw new System.Exception(message);
         }
 
         string _inputString;
@@ -228,9 +238,7 @@ namespace Ink
 
         PluginManager _pluginManager;
 
-        List<string> _errors = new List<string> ();
-        List<string> _warnings = new List<string> ();
-        List<string> _authorMessages = new List<string> ();
+        bool _hadParseError;
 
         List<DebugSourceRange> _debugSourceRanges = new List<DebugSourceRange> ();
     }

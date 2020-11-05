@@ -23,8 +23,35 @@ public class OverworldPlayerMovement : MonoBehaviour
     [SerializeField]
     Transform facingTest;
 
-    private void Start()
+    public bool canMove = true;
+
+
+    private void OnEnable()
     {
+        InkDialogueManager.OnDialogueStarted += StopMovement;
+        EncounterManager.OnEncounterStart += StopMovement;
+        InkDialogueManager.OnDialogueEnded += StartMovement;
+    }
+
+    private void OnDisable()
+    {
+        InkDialogueManager.OnDialogueStarted += StopMovement;
+        InkDialogueManager.OnDialogueEnded += StartMovement;
+    }
+
+    void Start()
+    {
+        cam = GameObject.Find("MainCameraBrain").GetComponent<Camera>();
+    }
+
+    void StopMovement()
+    {
+        canMove = false;
+    }
+
+    void StartMovement()
+    {
+        canMove = true;
     }
 
     private void Update()
@@ -38,17 +65,19 @@ public class OverworldPlayerMovement : MonoBehaviour
 
         inputDir = input.normalized;
 
-        if (inputDir != Vector2.zero)
+        if (canMove == true)
         {
-            float targetRotation = Mathf.Atan2(inputDir.x, inputDir.y) * Mathf.Rad2Deg + cam.transform.eulerAngles.y;
-            //facingTest.eulerAngles = Vector3.up * Mathf.Atan2(inputDir.x, inputDir.y) * Mathf.Rad2Deg;
-            facingTest.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(facingTest.eulerAngles.y, targetRotation, ref turnSmoothVelocity, turnSmoothTime);
+            if (inputDir != Vector2.zero)
+            {
+                float targetRotation = Mathf.Atan2(inputDir.x, inputDir.y) * Mathf.Rad2Deg + cam.transform.eulerAngles.y;
+                //facingTest.eulerAngles = Vector3.up * Mathf.Atan2(inputDir.x, inputDir.y) * Mathf.Rad2Deg;
+                facingTest.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(facingTest.eulerAngles.y, targetRotation, ref turnSmoothVelocity, turnSmoothTime);
+            }
+            if (Mathf.Abs(input.x) > 0 || Mathf.Abs(input.y) > 0)
+            {
+                transform.Translate(facingTest.forward * speed * Time.deltaTime, Space.World);
+            }
         }
-        if (Mathf.Abs(input.x) > 0 || Mathf.Abs(input.y) > 0)
-        {
-            transform.Translate(facingTest.forward * speed * Time.deltaTime, Space.World);
-        }
-
         /*Vector3 camF = cam.transform.forward;
         camF.y = 0;
         camF = camF.normalized;

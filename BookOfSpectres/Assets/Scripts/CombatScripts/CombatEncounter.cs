@@ -6,7 +6,7 @@ using UnityEngine;
 public class CombatEncounter : ScriptableObject
 {
     [SerializeField]
-    List<EnemyWave> enemyWaves = new List<EnemyWave>();
+    public List<EnemyWave> enemyWaves = new List<EnemyWave>();
     [SerializeField]
-    string flavourText = "";
+    public string flavourText = "";
 }

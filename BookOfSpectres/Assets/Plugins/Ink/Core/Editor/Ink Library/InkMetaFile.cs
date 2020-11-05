@@ -10,7 +10,7 @@ using System.Collections.Generic;
 namespace Ink.UnityIntegration {
 	// Information about the current state of an ink file
 	[System.Serializable]
-	public sealed class InkMetaFile {
+	public class InkMetaFile {
 
 		public DefaultAsset inkAsset;
 		// Used for when the data gets lost.
@@ -36,21 +36,21 @@ namespace Ink.UnityIntegration {
 		}
 
 		// Fatal errors caused by errors in the user's ink script.
-		public List<InkFileLog> errors = new List<InkFileLog>();
+		public List<InkCompilerLog> errors = new List<InkCompilerLog>();
 		public bool hasErrors {
 			get {
 				return errors.Count > 0;
 			}
 		}
 
-		public List<InkFileLog> warnings = new List<InkFileLog>();
+		public List<InkCompilerLog> warnings = new List<InkCompilerLog>();
 		public bool hasWarnings {
 			get {
 				return warnings.Count > 0;
 			}
 		}
 
-		public List<InkFileLog> todos = new List<InkFileLog>();
+		public List<InkCompilerLog> todos = new List<InkCompilerLog>();
 		public bool hasTodos {
 			get {
 				return todos.Count > 0;
@@ -63,6 +63,10 @@ namespace Ink.UnityIntegration {
 				if(masterInkFileIncludingSelf.jsonAsset == null || masterInkFileIncludingSelf.metaInfo == null) 
 					return true;
 
+				if(masterInkFileIncludingSelf.metaInfo.lastEditDate > lastCompileDate) {
+					return true;
+				}
+				
 				var inkFilesInIncludeHierarchy = masterInkFileIncludingSelf.metaInfo.inkFilesInIncludeHierarchy;
 				// This should never happen, but would indicate that the meta file isn't properly loaded by the system.
 				if (inkFilesInIncludeHierarchy == null)
@@ -70,8 +74,6 @@ namespace Ink.UnityIntegration {
 				
 				foreach(InkFile inkFile in inkFilesInIncludeHierarchy) {
 					if(inkFile.metaInfo.hasUnhandledCompileErrors) {
-						return true;
-					} else if(inkFile.metaInfo.lastEditDate > lastCompileDate) {
 						return true;
 					}
 				}
@@ -100,16 +102,7 @@ namespace Ink.UnityIntegration {
 			}
 		}
 
-		[System.Serializable]
-		public class InkFileLog {
-			public string content;
-			public int lineNumber;
-
-			public InkFileLog (string content, int lineNumber = -1) {
-				this.content = content;
-				this.lineNumber = lineNumber;
-			}
-		}
+		
 
 		public InkMetaFile (InkFile inkFile) {
 			_inkFile = inkFile;
@@ -200,7 +193,7 @@ namespace Ink.UnityIntegration {
 				Debug.LogWarning("Ink file asset is null! Rebuild library using Assets > Rebuild Ink Library");
 				return "";
 			}
-			return File.OpenText(inkFile.absoluteFilePath).ReadToEnd();
+			return File.ReadAllText(inkFile.absoluteFilePath);
 		}
 
 		public void ParseContent () {
@@ -212,14 +205,21 @@ namespace Ink.UnityIntegration {
 			includes.Clear();
 			foreach(string includePath in includePaths) {
 				string localIncludePath = InkEditorUtils.CombinePaths(Path.GetDirectoryName(inkFile.filePath), includePath);
+				// This enables parsing ..\ and the like
+				var fullIncludePath = new FileInfo(localIncludePath).FullName;
+				localIncludePath = InkEditorUtils.AbsoluteToUnityRelativePath(fullIncludePath);
 				DefaultAsset includedInkFileAsset = AssetDatabase.LoadAssetAtPath<DefaultAsset>(localIncludePath);
-				InkFile includedInkFile = InkLibrary.GetInkFileWithFile(includedInkFileAsset);
-				if(includedInkFile == null) {
-					Debug.LogError(inkFile.filePath+ " expected child Ink file at "+localIncludePath+" but file was not found.");
-				} else if (includedInkFile.metaInfo.includes.Contains(inkAsset)) {
-					Debug.LogError("Circular INCLUDE reference between "+inkFile.filePath+" and "+includedInkFile.metaInfo.inkFile.filePath+".");
-				} else
-					includes.Add(includedInkFileAsset);
+				if(includedInkFileAsset == null) {
+					Debug.LogError(inkFile.filePath+ " expected child .ink asset at '"+localIncludePath+"' but file was not found.");
+				} else {
+					InkFile includedInkFile = InkLibrary.GetInkFileWithFile(includedInkFileAsset);
+					if(includedInkFile == null) {
+						Debug.LogError(inkFile.filePath+ " expected child InkFile from .ink asset at '"+localIncludePath+"' but file was not found.");
+					} else if (includedInkFile.metaInfo.includes.Contains(inkAsset)) {
+						Debug.LogError("Circular INCLUDE reference between '"+inkFile.filePath+"' and '"+includedInkFile.metaInfo.inkFile.filePath+"'.");
+					} else
+						includes.Add(includedInkFileAsset);
+				}
 			}
 		}
 

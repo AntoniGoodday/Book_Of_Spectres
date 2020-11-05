@@ -6,14 +6,14 @@ using Debug = UnityEngine.Debug;
 namespace Ink.UnityIntegration {
 	// Helper class for ink files that maintains INCLUDE connections between ink files
 	[System.Serializable]
-	public sealed class InkFile {
+	public class InkFile {
 		
 		public bool compileAutomatically = false;
 		// A reference to the ink file
 		public DefaultAsset inkAsset;
 
         //specify json destination folder (if None, default to same folder as ink file)
-        public DefaultAsset jsonAssetPath;
+        public DefaultAsset jsonAssetDirectory;
 
 		// The compiled json file. Use this to start a story.
 		public TextAsset jsonAsset;
@@ -61,7 +61,7 @@ namespace Ink.UnityIntegration {
                 var _filePath = filePath;
                 Debug.Assert(_filePath != null, "File path for ink file is null! The ink library requires rebuilding.");
 
-                DefaultAsset jsonFolder = jsonAssetPath;
+                DefaultAsset jsonFolder = jsonAssetDirectory;
                 if (jsonFolder == null) // no path specified for this specific file
                 {
                     if(InkSettings.Instance.defaultJsonAssetPath != null) 
