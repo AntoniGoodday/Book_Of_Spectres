@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8554f5d1f64f96d4099ae93d2b1943aa, type: 3}
+  m_Name: CrackTileLogic
+  m_EditorClassIdentifier: 
+  mana: 0
+  power: 00000000
+  showPower: 0
+  offset: {x: 1, y: 0}
+  tileEffect: 2
+  affectShape: 0
+  direction: 0
+  tilesAffected: 0
+  colourToPatterns:
+  - color: {r: 0, g: 1, b: 0, a: 1}
+    patternType: 1
+  - color: {r: 1, g: 0, b: 0, a: 1}
+    patternType: 0
+  colourToDirection:
+  - color: {r: 0.5, g: 0.5, b: 1, a: 1}
+    direction: 0
+  - color: {r: 0, g: 0, b: 1, a: 1}
+    direction: 1
+  - color: {r: 0, g: 1, b: 1, a: 1}
+    direction: 2
+  - color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    direction: 3
+  - color: {r: 0, g: 1, b: 0, a: 1}
+    direction: 4
+  - color: {r: 1, g: 0.5, b: 0.5, a: 1}
+    direction: 5
+  - color: {r: 1, g: 0, b: 0, a: 1}
+    direction: 6
+  - color: {r: 1, g: 1, b: 0, a: 1}
+    direction: 7
+  patternImage: {fileID: 2800000, guid: 5c7665ef8e1d64a4eacf429af43157e5, type: 3}
+  directionImage: {fileID: 2800000, guid: 4338677c6f847994eb8f6cf82d3ffcca, type: 3}

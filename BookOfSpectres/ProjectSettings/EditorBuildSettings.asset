@@ -6,34 +6,34 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/MenuScene.unity
+    path: Assets/Project/Scenes/Menus/MenuScene.unity
     guid: fb0f35af8324db34c9e06db632ac9bd6
   - enabled: 1
-    path: Assets/Scenes/BattleScene.unity
+    path: Assets/Project/Scenes/BattleScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 0
-    path: Assets/Scenes/TestScene.unity
+    path: Assets/Project/Scenes/TestScene.unity
     guid: 3e8806e72b34df845980785dd5e94ef7
   - enabled: 1
-    path: Assets/Scenes/CreditsScene.unity
+    path: Assets/Project/Scenes/Menus/CreditsScene.unity
     guid: c60861d50c2376c4ea3b0e949b7ea288
   - enabled: 1
-    path: Assets/Scenes/BattleS/BattleScene_2.unity
+    path: Assets/Project/Scenes/BattleS/BattleScene_2.unity
     guid: e7da4d9f656ad4f4ca11a448988b9e38
   - enabled: 1
-    path: Assets/Scenes/BattleS/BattleScene_3.unity
+    path: Assets/Project/Scenes/BattleS/BattleScene_3.unity
     guid: 161d9325648455449a618da20f69bbc4
   - enabled: 1
-    path: Assets/Scenes/BattleS/BattleScene_4.unity
+    path: Assets/Project/Scenes/BattleS/BattleScene_4.unity
     guid: 094ad97b7c964274bb5575fa2fd7d481
   - enabled: 1
-    path: Assets/Scenes/BattleS/BattleScene_5.unity
+    path: Assets/Project/Scenes/BattleS/BattleScene_5.unity
     guid: 84d5ca62f51c46342bacf04bdc505155
   - enabled: 1
-    path: Assets/Scenes/UIScene.unity
+    path: Assets/Project/Scenes/Menus/UIScene.unity
     guid: d5810bf6af324f14b8d84faf0702555f
   - enabled: 1
-    path: Assets/Scenes/BattleTest.unity
+    path: Assets/Project/Scenes/Combat/BattleTest.unity
     guid: 3cdab9572ffecbf4e82edf98440eb5c7
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 2402d8c387665ac48bf96e0758bbfd5f,
