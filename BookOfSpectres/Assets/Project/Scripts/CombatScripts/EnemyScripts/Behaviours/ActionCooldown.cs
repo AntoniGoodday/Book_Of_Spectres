@@ -21,7 +21,7 @@ public class ActionCooldown : State
         tweenTime = 0;
 
 
-        var tweener = DOTween.To(() => tweenTime, x => tweenTime = x, 1, enemy.ActionCooldown)
+        var tweener = DOTween.To(() => tweenTime, x => tweenTime = x, 1, entity.ActionCooldown)
            .OnStart(() => coolingDown = true)
            .OnComplete(() => coolingDown = false);
 

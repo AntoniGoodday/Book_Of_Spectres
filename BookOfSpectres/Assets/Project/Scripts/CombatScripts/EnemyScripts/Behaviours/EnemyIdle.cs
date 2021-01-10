@@ -33,6 +33,7 @@ public class EnemyIdle : State
             }
             else if(ai.entityInput.moveUp || ai.entityInput.moveDown)
             {
+                //ai.currentMovementInput = ai.entityInput.movementVector;
                 ai.ChangeState(moveState);
             }
             /*if (IsOnSameRow())

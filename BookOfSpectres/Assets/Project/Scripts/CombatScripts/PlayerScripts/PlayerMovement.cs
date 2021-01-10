@@ -4,7 +4,7 @@ using EnumScript;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using DG.Tweening;
-public class PlayerMovement : MonoBehaviour, ICombatMove
+public class PlayerMovement : CombatMove
 {
     public delegate void MoveDelegate(MoveDirection direction);
     public event MoveDelegate MoveEvent;
@@ -48,7 +48,8 @@ public class PlayerMovement : MonoBehaviour, ICombatMove
     public float HeightAboveGround { get => heightAboveGround; set => heightAboveGround = value; }
     public List<TileAlignment> AlignedTiles { get => alignedTiles; set => alignedTiles = value; }
     public Color PlayerTileColour { get => playerTileColour; set => playerTileColour = value; }
-
+    public GameObject CurrentTile { get => currentTile; set => currentTile = value; }
+    public GameObject PreviousTile { get => previousTile; set => previousTile = value; }
 
     EntityInputManager inputManager;
 
@@ -83,7 +84,7 @@ public class PlayerMovement : MonoBehaviour, ICombatMove
     }
 
    
-    public void Move()
+    public override void Move(int moveX = 0, int moveY = 0)
     {
         Vector2 _movementInput = inputManager.movementVector;
 
@@ -200,7 +201,7 @@ public class PlayerMovement : MonoBehaviour, ICombatMove
                 ZeroOutTheDelays();
                 UpdateBattlefield(_x * movementRange, _y * movementRange);
                 MoveEvent?.Invoke(moveDir);
-                UpdatePlayer();
+                UpdateEntity();
             }
         }
 
@@ -232,7 +233,7 @@ public class PlayerMovement : MonoBehaviour, ICombatMove
         return false;
     }
 
-    public void SetSortingOrder(int i)
+    public override void SetSortingOrder(int i)
     {
         if (status.IsDying == false)
         {
@@ -252,7 +253,7 @@ public class PlayerMovement : MonoBehaviour, ICombatMove
         //tempMovementDelayRight = 0;
     }
 
-    public void UpdateBattlefield(int x = 0, int y = 0)
+    public override void UpdateBattlefield(int x = 0, int y = 0)
     {
 
         //currentTileClass.SetColour(currentTileClass.initialMaterialColour);
@@ -268,7 +269,7 @@ public class PlayerMovement : MonoBehaviour, ICombatMove
         //currentTileClass.DebugCurrentTile();
     }
 
-    public void UpdatePlayer() => TweenPlayer();
+    public override void UpdateEntity() => TweenPlayer();
 
 
     IEnumerator LerpPlayer(float time)

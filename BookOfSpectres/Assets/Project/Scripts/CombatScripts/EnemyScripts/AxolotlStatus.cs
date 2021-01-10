@@ -42,7 +42,7 @@ public class AxolotlStatus : EntityStatus
                 anim.Play("Hit", h, 0f);
             }
 
-            EnemyScript _eScript = GetComponent<EnemyScript>();
+            EntityScript _eScript = GetComponent<EntityScript>();
             if (_eScript.CanBeCountered == true)
             {
                 _eScript.IsInterrupted = true;

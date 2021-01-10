@@ -6,10 +6,10 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using PlayerControlNamespace;
-public class PlayerScript : MonoBehaviour
+public class PlayerScript : EntityScript
 {
     public static PlayerScript Instance;
-    ObjectPooler objectPooler;
+    //ObjectPooler objectPooler;
 
     [SerializeField]
     public List<ParticleSystem> chargeParticles;
@@ -24,7 +24,7 @@ public class PlayerScript : MonoBehaviour
     [SerializeField]
     public List<GameObject> spellOrigin;
     [SerializeField]
-    public Animator anim;
+    //public Animator anim;
 
 
     public Animator emotionAnim;
@@ -38,7 +38,7 @@ public class PlayerScript : MonoBehaviour
     public SpriteRenderer playerSprite;
     CardHolder cardHolder;
 
-    public EntityStatus status;
+    //public EntityStatus status;
 
 
 
@@ -51,25 +51,25 @@ public class PlayerScript : MonoBehaviour
     public bool BufferedAttack { get => bufferedAttack; set => bufferedAttack = value; }
     public bool BufferedSpell { get => bufferedSpell; set => bufferedSpell = value; }
 
-    public ICombatMove playerMove;
+    public CombatMove playerMove;
     public ICombatShoot playerShoot;
     public ICombatSpell playerSpell;
 
     public PlayerControl playerControl;
 
     // Start is called before the first frame update
-    void Awake()
+    public override void Awake()
     {
-
+        base.Awake();
         //playerControl = new PlayerControl();
 
-        anim = GetComponent<Animator>();
+        //anim = GetComponent<Animator>();
 
-        status = GetComponent<EntityStatus>();
+        //status = GetComponent<EntityStatus>();
 
         Instance = this;
 
-        playerMove = GetComponent<ICombatMove>();
+        playerMove = GetComponent<CombatMove>();
 
         playerShoot = GetComponent<ICombatShoot>();
 
@@ -82,14 +82,19 @@ public class PlayerScript : MonoBehaviour
 
     private void Start()
     {
-        objectPooler = ObjectPooler.Instance;
+        //objectPooler = ObjectPooler.Instance;
         //objectPooler.allPooledObjects.Add(gameObject);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (status.IsPaused == false && status.IsDying == false)
+        if(!Status)
+        {
+            Status = GetComponent<EntityStatus>();
+        }
+
+        if (Status.IsPaused == false && Status.IsDying == false)
         {
             PlayerControls();
         }
@@ -107,10 +112,10 @@ public class PlayerScript : MonoBehaviour
             PlayerSpell();
         }*/
 
-        if (Input.GetButtonUp("StartTurn"))
+        /*if (Input.GetButtonUp("StartTurn"))
         {
             SpellMenu();
-        }
+        }*/
 
 
     }
@@ -161,18 +166,18 @@ public class PlayerScript : MonoBehaviour
 
     void PlayerSpell()
     {
-        if (!status.IsPaused && !status.IsDying)
+        if (!Status.IsPaused && !Status.IsDying)
         {
             if (cardHolder.spellMiniatures.Count > 0)
             {
-                cardHolder.UseSpell(gameObject, status, spellOrigin[0].transform);
+                cardHolder.UseSpell(gameObject, Status, spellOrigin[0].transform);
                 anim.Play("Spell");
                 spellParticles.Play();
             }
         }
     }
 
-    public void SpellMenu()
+    /*public void SpellMenu()
     {
         if (turnBarScript.CurrentTurnTime >= turnBarScript.MaxTurnTime)
         {
@@ -207,7 +212,7 @@ public class PlayerScript : MonoBehaviour
                 //objectPooler.UnPauseAll();
             }
         }
-    }
+    }*/
 
     public void StartCombat()
     {
@@ -222,7 +227,7 @@ public class PlayerScript : MonoBehaviour
 
         playerSpell.InitializeSpell();
         //cardHolder.Initialize();
-        status.Initialize();
+        Status.Initialize();
 
         List<SpellCard> _tempSpellList = new List<SpellCard>();
 
@@ -239,7 +244,7 @@ public class PlayerScript : MonoBehaviour
         //cardHolder.Purge();
         turnBarScript.Pause(false);
 
-        objectPooler.StartWave();
+        ObjectPooler.StartWave();
         //combatMenu.TweenMenu();
         //canvasAnim.Play("MenuSlideIn");
     }

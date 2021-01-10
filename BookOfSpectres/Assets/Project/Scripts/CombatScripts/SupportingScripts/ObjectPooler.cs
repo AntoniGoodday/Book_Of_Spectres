@@ -270,7 +270,11 @@ public class ObjectPooler : MonoBehaviour
             GameObject _spawnedEnemy;
             //_spawnedEnemy = SpawnFromPool(enemy.name, new Vector3(eWaves[waveNumber].enemyPosition[_currentEnemy].x, eWaves[waveNumber].enemyPosition[_currentEnemy].y, -1.4f), Quaternion.identity, transform);
             _spawnedEnemy = SpawnFromPool(enemy.name, CombatCalculations.EntityPostition(eWaves[waveNumber].enemyPosition[_currentEnemy], this.transform.position.z + -1.4f), Quaternion.identity, transform);
-            _spawnedEnemy.GetComponent<EnemyAI>().wait = true;
+
+            if (_spawnedEnemy.GetComponent<EnemyAI>())
+            {
+                _spawnedEnemy.GetComponent<EnemyAI>().wait = true;
+            }
             _spawnedEnemies.Add(_spawnedEnemy);
             _currentEnemy++;     
             if (_spawnedEnemy.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("StartCombat"))
@@ -284,7 +288,10 @@ public class ObjectPooler : MonoBehaviour
             }
             if(waveNumber > 0)
             {
-                _spawnedEnemy.GetComponent<EnemyAI>().wait = false;
+                if (_spawnedEnemy.GetComponent<EnemyAI>())
+                {
+                    _spawnedEnemy.GetComponent<EnemyAI>().wait = false;
+                }
             }
         }
         //yield return new WaitForSecondsRealtime(_animationTime);

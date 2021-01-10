@@ -30,7 +30,7 @@ public class DevCommands : MonoBehaviour
 
             if (Input.GetKeyUp(KeyCode.F3))
             {
-                PlayerScript.Instance.status.Die();
+                PlayerScript.Instance.Status.Die();
             }
         }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AxolotlInput : MonoBehaviour
 {
-    EnemyScript enemy;
+    EntityScript enemy;
     EnemyAI ai;
     [SerializeField]
     State idleState;
@@ -16,7 +16,7 @@ public class AxolotlInput : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        enemy = this.GetComponent<EnemyScript>();
+        enemy = this.GetComponent<EntityScript>();
         ai = this.GetComponent<EnemyAI>();
         entityInput = this.GetComponent<EntityInputManager>();
         bfs = BattlefieldScript.Instance;
@@ -46,14 +46,14 @@ public class AxolotlInput : MonoBehaviour
 
     void VerticalMovement()
     {
-
         if (enemy.currentGridPosition.y < bfs.playerPosition.y)
         {
             if (enemy.TileCheck(0, 1))
             {
                 entityInput.moveUp = true;
                 entityInput.moveDown = false;
-                return;
+                entityInput.movementVector = new Vector2(0, 1);
+            return;
             }
         }
         else if (enemy.currentGridPosition.y > bfs.playerPosition.y)
@@ -62,12 +62,18 @@ public class AxolotlInput : MonoBehaviour
             {
                 entityInput.moveDown = true;
                 entityInput.moveUp = false;
-                return;
+                entityInput.movementVector = new Vector2(0, -1);
+            return;
             }
         }
-        
-        entityInput.moveUp = false;
-        entityInput.moveDown = false;
+        else
+        {
+            entityInput.movementVector = new Vector2(0, 0);
+            entityInput.moveUp = false;
+            entityInput.moveDown = false;
+        }
+
+
     }
 
     

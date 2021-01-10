@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/Input/PlayerControl.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/Project/Input/PlayerControl.inputactions'
 
 using System;
 using System.Collections;
@@ -17,7 +17,7 @@ namespace PlayerControlNamespace
     ""name"": ""PlayerControl"",
     ""maps"": [
         {
-            ""name"": ""DefaultControls"",
+            ""name"": ""Combat"",
             ""id"": ""67d2ffa2-3fd1-47ff-b8f9-077871ea8a7a"",
             ""actions"": [
                 {
@@ -488,14 +488,14 @@ namespace PlayerControlNamespace
         }
     ]
 }");
-            // DefaultControls
-            m_DefaultControls = asset.FindActionMap("DefaultControls", throwIfNotFound: true);
-            m_DefaultControls_Move = m_DefaultControls.FindAction("Move", throwIfNotFound: true);
-            m_DefaultControls_Submit = m_DefaultControls.FindAction("Submit", throwIfNotFound: true);
-            m_DefaultControls_DialogueSubmit = m_DefaultControls.FindAction("DialogueSubmit", throwIfNotFound: true);
-            m_DefaultControls_Shoot = m_DefaultControls.FindAction("Shoot", throwIfNotFound: true);
-            m_DefaultControls_Spell = m_DefaultControls.FindAction("Spell", throwIfNotFound: true);
-            m_DefaultControls_Menu = m_DefaultControls.FindAction("Menu", throwIfNotFound: true);
+            // Combat
+            m_Combat = asset.FindActionMap("Combat", throwIfNotFound: true);
+            m_Combat_Move = m_Combat.FindAction("Move", throwIfNotFound: true);
+            m_Combat_Submit = m_Combat.FindAction("Submit", throwIfNotFound: true);
+            m_Combat_DialogueSubmit = m_Combat.FindAction("DialogueSubmit", throwIfNotFound: true);
+            m_Combat_Shoot = m_Combat.FindAction("Shoot", throwIfNotFound: true);
+            m_Combat_Spell = m_Combat.FindAction("Spell", throwIfNotFound: true);
+            m_Combat_Menu = m_Combat.FindAction("Menu", throwIfNotFound: true);
             // UIControls
             m_UIControls = asset.FindActionMap("UIControls", throwIfNotFound: true);
             m_UIControls_HorizontalChoice = m_UIControls.FindAction("HorizontalChoice", throwIfNotFound: true);
@@ -545,54 +545,54 @@ namespace PlayerControlNamespace
             asset.Disable();
         }
 
-        // DefaultControls
-        private readonly InputActionMap m_DefaultControls;
-        private IDefaultControlsActions m_DefaultControlsActionsCallbackInterface;
-        private readonly InputAction m_DefaultControls_Move;
-        private readonly InputAction m_DefaultControls_Submit;
-        private readonly InputAction m_DefaultControls_DialogueSubmit;
-        private readonly InputAction m_DefaultControls_Shoot;
-        private readonly InputAction m_DefaultControls_Spell;
-        private readonly InputAction m_DefaultControls_Menu;
-        public struct DefaultControlsActions
+        // Combat
+        private readonly InputActionMap m_Combat;
+        private ICombatActions m_CombatActionsCallbackInterface;
+        private readonly InputAction m_Combat_Move;
+        private readonly InputAction m_Combat_Submit;
+        private readonly InputAction m_Combat_DialogueSubmit;
+        private readonly InputAction m_Combat_Shoot;
+        private readonly InputAction m_Combat_Spell;
+        private readonly InputAction m_Combat_Menu;
+        public struct CombatActions
         {
             private @PlayerControl m_Wrapper;
-            public DefaultControlsActions(@PlayerControl wrapper) { m_Wrapper = wrapper; }
-            public InputAction @Move => m_Wrapper.m_DefaultControls_Move;
-            public InputAction @Submit => m_Wrapper.m_DefaultControls_Submit;
-            public InputAction @DialogueSubmit => m_Wrapper.m_DefaultControls_DialogueSubmit;
-            public InputAction @Shoot => m_Wrapper.m_DefaultControls_Shoot;
-            public InputAction @Spell => m_Wrapper.m_DefaultControls_Spell;
-            public InputAction @Menu => m_Wrapper.m_DefaultControls_Menu;
-            public InputActionMap Get() { return m_Wrapper.m_DefaultControls; }
+            public CombatActions(@PlayerControl wrapper) { m_Wrapper = wrapper; }
+            public InputAction @Move => m_Wrapper.m_Combat_Move;
+            public InputAction @Submit => m_Wrapper.m_Combat_Submit;
+            public InputAction @DialogueSubmit => m_Wrapper.m_Combat_DialogueSubmit;
+            public InputAction @Shoot => m_Wrapper.m_Combat_Shoot;
+            public InputAction @Spell => m_Wrapper.m_Combat_Spell;
+            public InputAction @Menu => m_Wrapper.m_Combat_Menu;
+            public InputActionMap Get() { return m_Wrapper.m_Combat; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
             public bool enabled => Get().enabled;
-            public static implicit operator InputActionMap(DefaultControlsActions set) { return set.Get(); }
-            public void SetCallbacks(IDefaultControlsActions instance)
+            public static implicit operator InputActionMap(CombatActions set) { return set.Get(); }
+            public void SetCallbacks(ICombatActions instance)
             {
-                if (m_Wrapper.m_DefaultControlsActionsCallbackInterface != null)
+                if (m_Wrapper.m_CombatActionsCallbackInterface != null)
                 {
-                    @Move.started -= m_Wrapper.m_DefaultControlsActionsCallbackInterface.OnMove;
-                    @Move.performed -= m_Wrapper.m_DefaultControlsActionsCallbackInterface.OnMove;
-                    @Move.canceled -= m_Wrapper.m_DefaultControlsActionsCallbackInterface.OnMove;
-                    @Submit.started -= m_Wrapper.m_DefaultControlsActionsCallbackInterface.OnSubmit;
-                    @Submit.performed -= m_Wrapper.m_DefaultControlsActionsCallbackInterface.OnSubmit;
-                    @Submit.canceled -= m_Wrapper.m_DefaultControlsActionsCallbackInterface.OnSubmit;
-                    @DialogueSubmit.started -= m_Wrapper.m_DefaultControlsActionsCallbackInterface.OnDialogueSubmit;
-                    @DialogueSubmit.performed -= m_Wrapper.m_DefaultControlsActionsCallbackInterface.OnDialogueSubmit;
-                    @DialogueSubmit.canceled -= m_Wrapper.m_DefaultControlsActionsCallbackInterface.OnDialogueSubmit;
-                    @Shoot.started -= m_Wrapper.m_DefaultControlsActionsCallbackInterface.OnShoot;
-                    @Shoot.performed -= m_Wrapper.m_DefaultControlsActionsCallbackInterface.OnShoot;
-                    @Shoot.canceled -= m_Wrapper.m_DefaultControlsActionsCallbackInterface.OnShoot;
-                    @Spell.started -= m_Wrapper.m_DefaultControlsActionsCallbackInterface.OnSpell;
-                    @Spell.performed -= m_Wrapper.m_DefaultControlsActionsCallbackInterface.OnSpell;
-                    @Spell.canceled -= m_Wrapper.m_DefaultControlsActionsCallbackInterface.OnSpell;
-                    @Menu.started -= m_Wrapper.m_DefaultControlsActionsCallbackInterface.OnMenu;
-                    @Menu.performed -= m_Wrapper.m_DefaultControlsActionsCallbackInterface.OnMenu;
-                    @Menu.canceled -= m_Wrapper.m_DefaultControlsActionsCallbackInterface.OnMenu;
+                    @Move.started -= m_Wrapper.m_CombatActionsCallbackInterface.OnMove;
+                    @Move.performed -= m_Wrapper.m_CombatActionsCallbackInterface.OnMove;
+                    @Move.canceled -= m_Wrapper.m_CombatActionsCallbackInterface.OnMove;
+                    @Submit.started -= m_Wrapper.m_CombatActionsCallbackInterface.OnSubmit;
+                    @Submit.performed -= m_Wrapper.m_CombatActionsCallbackInterface.OnSubmit;
+                    @Submit.canceled -= m_Wrapper.m_CombatActionsCallbackInterface.OnSubmit;
+                    @DialogueSubmit.started -= m_Wrapper.m_CombatActionsCallbackInterface.OnDialogueSubmit;
+                    @DialogueSubmit.performed -= m_Wrapper.m_CombatActionsCallbackInterface.OnDialogueSubmit;
+                    @DialogueSubmit.canceled -= m_Wrapper.m_CombatActionsCallbackInterface.OnDialogueSubmit;
+                    @Shoot.started -= m_Wrapper.m_CombatActionsCallbackInterface.OnShoot;
+                    @Shoot.performed -= m_Wrapper.m_CombatActionsCallbackInterface.OnShoot;
+                    @Shoot.canceled -= m_Wrapper.m_CombatActionsCallbackInterface.OnShoot;
+                    @Spell.started -= m_Wrapper.m_CombatActionsCallbackInterface.OnSpell;
+                    @Spell.performed -= m_Wrapper.m_CombatActionsCallbackInterface.OnSpell;
+                    @Spell.canceled -= m_Wrapper.m_CombatActionsCallbackInterface.OnSpell;
+                    @Menu.started -= m_Wrapper.m_CombatActionsCallbackInterface.OnMenu;
+                    @Menu.performed -= m_Wrapper.m_CombatActionsCallbackInterface.OnMenu;
+                    @Menu.canceled -= m_Wrapper.m_CombatActionsCallbackInterface.OnMenu;
                 }
-                m_Wrapper.m_DefaultControlsActionsCallbackInterface = instance;
+                m_Wrapper.m_CombatActionsCallbackInterface = instance;
                 if (instance != null)
                 {
                     @Move.started += instance.OnMove;
@@ -616,7 +616,7 @@ namespace PlayerControlNamespace
                 }
             }
         }
-        public DefaultControlsActions @DefaultControls => new DefaultControlsActions(this);
+        public CombatActions @Combat => new CombatActions(this);
 
         // UIControls
         private readonly InputActionMap m_UIControls;
@@ -668,7 +668,7 @@ namespace PlayerControlNamespace
                 return asset.controlSchemes[m_ControllerSchemeIndex];
             }
         }
-        public interface IDefaultControlsActions
+        public interface ICombatActions
         {
             void OnMove(InputAction.CallbackContext context);
             void OnSubmit(InputAction.CallbackContext context);

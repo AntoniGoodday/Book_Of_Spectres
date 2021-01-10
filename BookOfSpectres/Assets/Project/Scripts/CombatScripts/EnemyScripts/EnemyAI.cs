@@ -6,13 +6,15 @@ using System;
 public class EnemyAI : MonoBehaviour
 {
     
-    public EnemyScript enemy;
+    public EntityScript enemy;
     public PlayerScript player;
     public BattlefieldScript bfs;
     public Animator anim;
     public State currentState;
     public AiMastermind aiMastermind;
     public EntityInputManager entityInput;
+
+    public Vector2 currentMovementInput;
 
     public bool isInCounterState = false;
     public bool canBeCounteredAgain = true;
@@ -63,7 +65,7 @@ public class EnemyAI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        enemy = this.GetComponent<EnemyScript>();
+        enemy = this.GetComponent<EntityScript>();
         player = PlayerScript.Instance;
         bfs = BattlefieldScript.Instance;
         anim = this.GetComponent<Animator>();

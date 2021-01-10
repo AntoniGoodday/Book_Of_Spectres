@@ -18,7 +18,7 @@ public class Attack : State
 
         anim.SetTrigger("Attack");
 
-        interruptedAnimationTime = enemy.InterruptedAnimationTime;
+        interruptedAnimationTime = entity.InterruptedAnimationTime;
         //anim.Play("Attack", 0, 0);
         //anim.speed = 1;
         if(ai.canBeCounteredAgain)
@@ -39,7 +39,7 @@ public class Attack : State
 
         //interruptedAnimationTime = anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
 
-        if (enemy.IsInterrupted == true && enemy.CanBeCountered)
+        if (entity.IsInterrupted == true && entity.CanBeCountered)
         {
             ai.canBeCounteredAgain = false;
             //nextState = new CounterState(enemy, bfs, anim, player, ai);
@@ -48,7 +48,7 @@ public class Attack : State
             ai.ChangeState(counterState);
         }
 
-        if (enemy.AnimationEnd)
+        if (entity.AnimationEnd)
         {
             //nextState = new ActionCooldown(enemy, bfs, anim, player, ai);
             //stage = EVENT.EXIT;
@@ -73,14 +73,14 @@ public class Attack : State
         }
         ai.hasAttackToken = false;
 
-        if (enemy.IsInterrupted)
+        if (entity.IsInterrupted)
         {
-            enemy.InterruptedAnimationTime = interruptedAnimationTime;
+            entity.InterruptedAnimationTime = interruptedAnimationTime;
         }
         else
         {
-            enemy.InterruptedAnimationTime = 0;
-            enemy.AnimationEnd = false;
+            entity.InterruptedAnimationTime = 0;
+            entity.AnimationEnd = false;
             anim.ResetTrigger("Attack");
         }
         

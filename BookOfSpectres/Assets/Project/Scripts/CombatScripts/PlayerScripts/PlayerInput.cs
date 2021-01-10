@@ -11,7 +11,7 @@ public class PlayerInput : MonoBehaviour
 
     PlayerControl playerControl;
 
-    PlayerControl.DefaultControlsActions playerInput;
+    PlayerControl.CombatActions playerInput;
 
     private void Awake()
     {
@@ -24,7 +24,7 @@ public class PlayerInput : MonoBehaviour
 
         entityInput = this.GetComponent<EntityInputManager>();
         
-        playerInput =  playerControl.DefaultControls;
+        playerInput =  playerControl.Combat;
 
         playerInput.Shoot.started += context => AttackStart();
         playerInput.Shoot.canceled += context => AttackRelease();

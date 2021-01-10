@@ -180,7 +180,6 @@ public class CombatMenu : MonoBehaviour
     {
         DOTween.Init();
         RectTransform _visualsTransform = visuals.GetComponent<RectTransform>();
-        Debug.Log(_visualsTransform.localPosition);
 
         CanvasGroup _turnBar = turnBar.GetComponent<CanvasGroup>();
         

@@ -15,59 +15,59 @@ public class MoveHorizontal : Move
     {
         base.Enter();
         Debug.Log("Moving Horizontally");
-        enemy.IsMoving = true;
+        entity.IsMoving = true;
     }
 
     public override void Tick()
     {
-        if (enemy.IsMoving == true && processing == false)
+        if (entity.IsMoving == true && processing == false)
         {
-            if (enemy.currentGridPosition.y < bfs.playerPosition.y || enemy.currentGridPosition.y > bfs.playerPosition.y)
+            if (entity.currentGridPosition.y < bfs.playerPosition.y || entity.currentGridPosition.y > bfs.playerPosition.y)
             {
                 float _randomVal = Random.value;
                 Debug.Log(_randomVal);
                 if (_randomVal > 0.5f)
                 {
-                    if (enemy.TileCheck(1, 0))
+                    /*if (entity.TileCheck(1, 0))
                     {
                         processing = true;
-                        enemy.SetTileInfo(1, 0);
-                        enemy.GetComponent<IEnemyCombatMove>().Move();
+                        //entity.SetTileInfo(1, 0);
+                        //entity.GetComponent<ICombatMove>().Move();
 
                     }
-                    else if(enemy.TileCheck(-1, 0))
+                    else if(entity.TileCheck(-1, 0))
                     {
                         processing = true;
-                        enemy.SetTileInfo(-1, 0);
-                        enemy.GetComponent<IEnemyCombatMove>().Move();
+                        //entity.SetTileInfo(-1, 0);
+                        //entity.GetComponent<ICombatMove>().Move();
 
                     }
                     else
                     {
                         Cooldown();
-                    }
+                    }*/
 
                 }
                 else
                 { 
-                    if (enemy.TileCheck(-1, 0))
+                    /*if (entity.TileCheck(-1, 0))
                     {
                         processing = true;
-                        enemy.SetTileInfo(-1, 0);
-                        enemy.GetComponent<IEnemyCombatMove>().Move();
+                        //entity.SetTileInfo(-1, 0);
+                        //entity.GetComponent<IEnemyCombatMove>().Move();
 
                     }
-                    else if(enemy.TileCheck(1, 0))
+                    else if(entity.TileCheck(1, 0))
                     {
                         processing = true;
-                        enemy.SetTileInfo(1, 0);
-                        enemy.GetComponent<IEnemyCombatMove>().Move();
+                        //entity.SetTileInfo(1, 0);
+                        //entity.GetComponent<IEnemyCombatMove>().Move();
 
                     }
                     else
                     {
                         Cooldown();
-                    }
+                    }*/
                 }
                 
             }

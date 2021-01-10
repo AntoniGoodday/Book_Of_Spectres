@@ -8,6 +8,8 @@ public class PlayerAttributes : MonoBehaviour
     public int startingColourlessMana;
     public int maxMana;
     public int manaRegen;
+    public int maxHp;
+    public int currentHp;
     public static PlayerAttributes Instance;
 
     private void Awake()

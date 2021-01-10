@@ -5,7 +5,7 @@ using UnityEngine;
 public class Idle : StateMachineBehaviour
 {
     PlayerScript playerScript;
-    EnemyScript enemyScript;
+    EntityScript enemyScript;
     BattlefieldScript bfs;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -13,7 +13,7 @@ public class Idle : StateMachineBehaviour
     {
         bfs = BattlefieldScript.Instance;
         playerScript = PlayerScript.Instance;
-        enemyScript = animator.GetComponent<EnemyScript>();
+        enemyScript = animator.GetComponent<EntityScript>();
 
         animator.SetBool("isMoving", true);
 

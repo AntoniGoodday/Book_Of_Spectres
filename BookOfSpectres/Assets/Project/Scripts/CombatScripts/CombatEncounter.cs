@@ -8,5 +8,7 @@ public class CombatEncounter : ScriptableObject
     [SerializeField]
     public List<EnemyWave> enemyWaves = new List<EnemyWave>();
     [SerializeField]
+    GameObject playerAvatar;
+    [SerializeField]
     public string flavourText = "";
 }

@@ -16,9 +16,9 @@ public class CounterState : State
         ai.isInCounterState = true;
 
         anim.Play("DefaultState", 1);
-        enemy.CanBeCountered = false;
+        entity.CanBeCountered = false;
 
-        enemy.CounterFlashes();
+        entity.CounterFlashes();
         base.Enter();
     }
 

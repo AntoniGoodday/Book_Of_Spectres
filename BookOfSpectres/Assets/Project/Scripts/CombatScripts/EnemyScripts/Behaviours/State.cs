@@ -12,7 +12,7 @@ public class State : MonoBehaviour, IState
     };
 
     public EVENT stage;
-    protected EnemyScript enemy;
+    protected EntityScript entity;
     protected PlayerScript player;
     protected BattlefieldScript bfs;
     protected Animator anim;
@@ -35,7 +35,7 @@ public class State : MonoBehaviour, IState
     {
         if (ai != null)
         {
-            enemy = ai.enemy;
+            entity = ai.enemy;
             bfs = ai.bfs;
             stage = EVENT.ENTER;
             player = ai.player;
@@ -84,7 +84,7 @@ public class State : MonoBehaviour, IState
 
     public bool IsOnSameRow()
     {
-        if(bfs.playerPosition.y == enemy.currentGridPosition.y)
+        if(bfs.playerPosition.y == entity.currentGridPosition.y)
         {
             return true;
         }

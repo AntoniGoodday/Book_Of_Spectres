@@ -45,6 +45,10 @@ public class EntityStatus : MonoBehaviour
     bool isPaused = false;
     [SerializeField]
     bool isDying = false;
+    [SerializeField]
+    bool canBeCountered = false;
+    [SerializeField]
+    bool isInterrupted = false;
 
 
 
@@ -54,6 +58,8 @@ public class EntityStatus : MonoBehaviour
 
     public bool IsDying { get => isDying; set => isDying = value; }
     public bool IsPaused { get => isPaused; set => isPaused = value; }
+    public bool CanBeCountered { get => canBeCountered; set => canBeCountered = value; }
+    public bool IsInterrupted { get => isInterrupted; set => isInterrupted = value; }
 
     public virtual void OnEnable()
     {
@@ -142,6 +148,28 @@ public class EntityStatus : MonoBehaviour
     public virtual void UpdateUI()
     {
 
+    }
+
+    public virtual void SetHP(int _maxHP, int _hp = 0, bool _equalToMax = true)
+    {
+        
+        if(_equalToMax == true)
+        {
+            maxHp = _maxHP;
+            hp = _maxHP;
+        }
+        else
+        {
+            maxHp = _maxHP;
+            if(_hp < 1)
+            {
+                hp = 1;
+            }
+            else
+            {
+                hp = _hp;
+            }
+        }
     }
 
     public virtual void ProgressWave()

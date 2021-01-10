@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
-public class AxolotlCombat : EnemyScript, IEnemyCombatMove
+public class AxolotlCombat : EntityScript
 {
-    [SerializeField]
-    int movementRange = 1;
-    [SerializeField]
-    float movementSpeed = 0.16f;
+    //[SerializeField]
+    //int movementRange = 1;
+    //[SerializeField]
+    //float movementSpeed = 0.16f;
     [SerializeField]
     float heightAboveGround = -1.4f;
 
@@ -15,13 +15,20 @@ public class AxolotlCombat : EnemyScript, IEnemyCombatMove
 
 
 
-    public int MovementRange { get => movementRange; set => movementRange = value; }
-    public float MovementSpeed { get => movementSpeed; set => movementSpeed = value; }
+   // public int MovementRange { get => movementRange; set => movementRange = value; }
+    //public float MovementSpeed { get => movementSpeed; set => movementSpeed = value; }
     public float HeightAboveGround { get => heightAboveGround; set => heightAboveGround = value; }
 
+    public override void Awake()
+    {
+        base.Awake();
+    }
 
-
-    public void Move()
+    void Update()
+    {
+        
+    }
+    /*public void Move()
     {
         float _time = movementSpeed;
 
@@ -33,9 +40,9 @@ public class AxolotlCombat : EnemyScript, IEnemyCombatMove
 
         moveTween = DOTween.To(() => transform.position, x => transform.position = x, cT, _time)
             .SetEase(Ease.OutBack)
-            //.OnStart(() => playerScript.IsLerping = true)
-            .OnComplete(() => { IsMoving = false; });
-    }
+            .OnStart(() => MoveStarted())
+            .OnComplete(() =>  MoveEnded());
+    }*/
 
-    
+
 }

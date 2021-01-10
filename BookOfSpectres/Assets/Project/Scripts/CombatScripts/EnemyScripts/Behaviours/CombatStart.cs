@@ -39,7 +39,7 @@ public class CombatStart : State
     public override void Exit()
     {
         anim.SetTrigger("CombatStarted");
-        Debug.Log("CombatStart Exited");
+        //Debug.Log("CombatStart Exited");
         base.Exit();
     }
 }

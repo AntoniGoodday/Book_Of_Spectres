@@ -41,7 +41,7 @@ public class PlayerSpell : MonoBehaviour, ICombatSpell
             {
                 if (cardHolder.spellMiniatures.Count > 0)
                 {
-                    cardHolder.UseSpell(gameObject, playerScript.status, playerScript.spellOrigin[0].transform);
+                    cardHolder.UseSpell(gameObject, playerScript.Status, playerScript.spellOrigin[0].transform);
                     playerScript.anim.Play("Spell");
                     playerScript.spellParticles.Play();
                     chargeAmount = 0;

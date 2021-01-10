@@ -11,15 +11,34 @@ public class MoveVertical : Move
 
     public override void Tick()
     {
-        if (enemy.IsMoving == true && processing == false)
+        if (entity.IsMoving == true)
         {
-            if(ai.entityInput.moveUp)
+            if (processing == false)
             {
-                if(enemy.TileCheck(0, 1))
+                Debug.Log(_movementX + " and " + _movementY);
+                if (entity.TileCheck(_movementX, _movementY))
+                {
+                    
+                    //Debug.Log(_movementX + " and " + _movementY);
+                    //Vector2 _moveVec = new Vector2(_movementX, _movementY);
+                    processing = true;
+                    entity.move.Move(_movementX, _movementY);
+
+                }
+                else
+                {
+                    Cooldown();
+                }
+            }
+
+            /*if(ai.entityInput.moveUp)
+            {
+                if(entity.TileCheck(0, 1))
                 {
                     processing = true;
-                    enemy.SetTileInfo(0, 1);
-                    enemy.GetComponent<IEnemyCombatMove>().Move();
+                    //entity.SetTileInfo(0, 1);
+                    Debug.Log("go up");
+                    entity.GetComponent<ICombatMove>().Move();
 
                 }
                 else
@@ -29,17 +48,18 @@ public class MoveVertical : Move
             }
             else if(ai.entityInput.moveDown)
             {
-                if (enemy.TileCheck(0, -1))
+                if (entity.TileCheck(0, -1))
                 {
                     processing = true;
-                    enemy.SetTileInfo(0, -1);
-                    enemy.GetComponent<IEnemyCombatMove>().Move();
+                    //entity.SetTileInfo(0, -1);
+                    Debug.Log("go down");
+                    entity.GetComponent<ICombatMove>().Move();
                 }
                 else
                 {
                     Cooldown();
                 }
-            }
+            }*/
         }
         else
         {

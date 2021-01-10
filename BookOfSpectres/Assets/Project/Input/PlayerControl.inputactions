@@ -2,7 +2,7 @@
     "name": "PlayerControl",
     "maps": [
         {
-            "name": "DefaultControls",
+            "name": "Combat",
             "id": "67d2ffa2-3fd1-47ff-b8f9-077871ea8a7a",
             "actions": [
                 {
